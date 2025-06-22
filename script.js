@@ -45,7 +45,41 @@ function renderSynagogueGrid() {
     const div = document.createElement('div');
     div.className = 'synagogue';
     div.innerHTML = `<div class='synagogue-icon'>${shul.icon}</div><div>${shul.name}</div>`;
-    div.addEventListener('click', () => openModal(idx));
+    
+    // משתנים לזיהוי swipe
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let touchEndX = 0;
+    let touchEndY = 0;
+    
+    // אירועי מגע למובייל
+    div.addEventListener('touchstart', (e) => {
+      touchStartX = e.touches[0].clientX;
+      touchStartY = e.touches[0].clientY;
+    }, { passive: true });
+    
+    div.addEventListener('touchend', (e) => {
+      touchEndX = e.changedTouches[0].clientX;
+      touchEndY = e.changedTouches[0].clientY;
+      
+      // חשב את המרחק שהאצבע זזה
+      const deltaX = Math.abs(touchEndX - touchStartX);
+      const deltaY = Math.abs(touchEndY - touchStartY);
+      
+      // אם המרחק קטן מ-10 פיקסלים, זה נחשב כקליק
+      if (deltaX < 10 && deltaY < 10) {
+        openModal(idx);
+      }
+    }, { passive: true });
+    
+    // אירוע קליק למחשב
+    div.addEventListener('click', (e) => {
+      // רק אם זה לא מכשיר מגע
+      if (!('ontouchstart' in window)) {
+        openModal(idx);
+      }
+    });
+    
     grid.appendChild(div);
   });
 }
