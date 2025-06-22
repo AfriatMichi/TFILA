@@ -54,8 +54,6 @@ function initializeAppLogic() {
     const defaultOption = document.createElement('option');
     defaultOption.value = '';
     defaultOption.textContent = 'בחר בית כנסת';
-    defaultOption.disabled = true;
-    defaultOption.selected = true;
     select.appendChild(defaultOption);
     
     synagogues.forEach((shul, idx) => {
@@ -64,6 +62,10 @@ function initializeAppLogic() {
       option.textContent = shul.name;
       select.appendChild(option);
     });
+    
+    // הגדר את האופציה הראשונה כנבחרת
+    select.value = '';
+    
     select.onchange = () => {
       if (select.value !== '') {
         currentShul = synagogues[select.value];
@@ -77,6 +79,7 @@ function initializeAppLogic() {
     };
     // אין ברירת מחדל - המשתמש צריך לבחור
     currentShul = null;
+    renderPrayerLists(); // נקה את הרשימות בהתחלה
   }
 
   function renderPrayerLists() {
