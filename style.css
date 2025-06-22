@@ -6,6 +6,9 @@ body {
   direction: rtl;
   min-height: 100vh;
 }
+.clock {
+  display: none;
+}
 h1 {
   text-align: center;
   margin-top: 36px;
