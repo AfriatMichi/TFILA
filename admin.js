@@ -66,30 +66,73 @@ function initializeAppLogic() {
   }
 
   function renderPrayerLists() {
-    renderPrayerList('weekday-list', currentShul.prayers || [], false);
-    renderPrayerList('shabbat-list', currentShul.shabbatPrayers || [], true);
+    renderPrayerList('weekday-list', currentShul.prayers || []);
+    renderPrayerList('shabbat-list', currentShul.shabbatPrayers || []);
   }
 
-  function renderPrayerList(elementId, prayers, isShabbat) {
+  function renderPrayerList(elementId, prayers) {
     const list = document.getElementById(elementId);
     list.innerHTML = '';
-    prayers.forEach((prayer, idx) => {
+    (prayers || []).forEach((prayer, idx) => {
       const row = document.createElement('div');
       row.className = 'prayer-row';
+      row.setAttribute('draggable', 'true');
+      row.dataset.index = idx;
       row.innerHTML = `
         <input class="admin-input" type="text" placeholder="שם תפילה" value="${prayer.name}">
         <input class="admin-input" type="time" value="${prayer.time}">
         <button class="remove-btn">✖</button>
       `;
-      // מחיקה
       row.querySelector('.remove-btn').onclick = () => {
         prayers.splice(idx, 1);
         renderPrayerLists();
       };
-      // עריכה
       row.querySelectorAll('input')[0].oninput = e => { prayer.name = e.target.value; };
       row.querySelectorAll('input')[1].oninput = e => { prayer.time = e.target.value; };
       list.appendChild(row);
+    });
+  }
+
+  function setupDragAndDropListeners() {
+    const lists = [
+      { el: document.getElementById('weekday-list'), key: 'prayers' },
+      { el: document.getElementById('shabbat-list'), key: 'shabbatPrayers' }
+    ];
+
+    lists.forEach(listConfig => {
+      const listElement = listConfig.el;
+      const prayerArrayKey = listConfig.key;
+      let dragStartIndex;
+
+      listElement.addEventListener('dragstart', e => {
+        if (e.target.classList.contains('prayer-row')) {
+          dragStartIndex = parseInt(e.target.dataset.index, 10);
+          setTimeout(() => e.target.classList.add('dragging'), 0);
+        }
+      });
+
+      listElement.addEventListener('dragend', e => {
+        if (e.target.classList.contains('prayer-row')) {
+          e.target.classList.remove('dragging');
+        }
+      });
+
+      listElement.addEventListener('dragover', e => e.preventDefault());
+
+      listElement.addEventListener('drop', e => {
+        e.preventDefault();
+        const dropTarget = e.target.closest('.prayer-row');
+        if (!dropTarget) return;
+
+        const dragEndIndex = parseInt(dropTarget.dataset.index, 10);
+        if (dragStartIndex === undefined) return;
+
+        const prayerArray = currentShul[prayerArrayKey];
+        const [removedItem] = prayerArray.splice(dragStartIndex, 1);
+        prayerArray.splice(dragEndIndex, 0, removedItem);
+
+        renderPrayerLists();
+      });
     });
   }
 
@@ -126,9 +169,9 @@ function initializeAppLogic() {
     }
   };
 
-  // טען הכל בהתחלה
   (async function() {
     await loadSynagoguesFromDB();
     renderShulSelect();
+    setupDragAndDropListeners();
   })();
 } 
