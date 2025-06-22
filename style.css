@@ -5,6 +5,8 @@ body {
   padding: 0;
   direction: rtl;
   min-height: 100vh;
+  touch-action: pan-y;
+  -webkit-overflow-scrolling: touch;
 }
 
 h1 {
@@ -34,6 +36,13 @@ h1 {
   border: 2px solid #90caf9;
   position: relative;
   overflow: hidden;
+  touch-action: manipulation;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
 }
 .synagogue:hover {
   box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 2px 12px #64b5f6;
@@ -62,6 +71,8 @@ h1 {
   justify-content: center;
   z-index: 1000;
   animation: fadeIn 0.3s;
+  touch-action: none;
+  -webkit-overflow-scrolling: touch;
 }
 @keyframes fadeIn {
   from { opacity: 0; }

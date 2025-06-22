@@ -49,26 +49,45 @@ function renderSynagogueGrid() {
     // משתנים לזיהוי swipe
     let touchStartX = 0;
     let touchStartY = 0;
-    let touchEndX = 0;
-    let touchEndY = 0;
+    let touchStartTime = 0;
+    let isScrolling = false;
+    
+    // מניעת קליקים לא רצויים
+    let clickTimeout = null;
     
     // אירועי מגע למובייל
     div.addEventListener('touchstart', (e) => {
       touchStartX = e.touches[0].clientX;
       touchStartY = e.touches[0].clientY;
+      touchStartTime = Date.now();
+      isScrolling = false;
+      
+      // בטל קליקים קודמים
+      if (clickTimeout) {
+        clearTimeout(clickTimeout);
+        clickTimeout = null;
+      }
+    }, { passive: true });
+    
+    div.addEventListener('touchmove', (e) => {
+      const deltaX = Math.abs(e.touches[0].clientX - touchStartX);
+      const deltaY = Math.abs(e.touches[0].clientY - touchStartY);
+      
+      // אם יש תזוזה משמעותית, זה scroll
+      if (deltaX > 5 || deltaY > 5) {
+        isScrolling = true;
+      }
     }, { passive: true });
     
     div.addEventListener('touchend', (e) => {
-      touchEndX = e.changedTouches[0].clientX;
-      touchEndY = e.changedTouches[0].clientY;
+      const touchEndTime = Date.now();
+      const touchDuration = touchEndTime - touchStartTime;
       
-      // חשב את המרחק שהאצבע זזה
-      const deltaX = Math.abs(touchEndX - touchStartX);
-      const deltaY = Math.abs(touchEndY - touchStartY);
-      
-      // אם המרחק קטן מ-10 פיקסלים, זה נחשב כקליק
-      if (deltaX < 10 && deltaY < 10) {
-        openModal(idx);
+      // רק אם זה לא scroll והמגע היה קצר
+      if (!isScrolling && touchDuration < 300) {
+        clickTimeout = setTimeout(() => {
+          openModal(idx);
+        }, 50);
       }
     }, { passive: true });
     
@@ -114,15 +133,22 @@ function openModal(idx) {
   }, 0);
   renderTab('weekday');
   document.getElementById('modal').classList.remove('hidden');
+  
+  // מניעת scroll על הגוף כשהמודל פתוח
+  document.body.style.overflow = 'hidden';
 }
 
-document.getElementById('close-modal').onclick = function() {
+function closeModal() {
   document.getElementById('modal').classList.add('hidden');
-};
+  // החזרת scroll לגוף
+  document.body.style.overflow = '';
+}
+
+document.getElementById('close-modal').onclick = closeModal;
 
 document.getElementById('modal').onclick = function(e) {
   if (e.target === this) {
-    document.getElementById('modal').classList.add('hidden');
+    closeModal();
   }
 };
 
