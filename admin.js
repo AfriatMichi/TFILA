@@ -49,6 +49,15 @@ function initializeAppLogic() {
   function renderShulSelect() {
     const select = document.getElementById('shul-select');
     select.innerHTML = '';
+    
+    // הוסף אופציה "בחר בית כנסת"
+    const defaultOption = document.createElement('option');
+    defaultOption.value = '';
+    defaultOption.textContent = 'בחר בית כנסת';
+    defaultOption.disabled = true;
+    defaultOption.selected = true;
+    select.appendChild(defaultOption);
+    
     synagogues.forEach((shul, idx) => {
       const option = document.createElement('option');
       option.value = idx;
@@ -56,16 +65,27 @@ function initializeAppLogic() {
       select.appendChild(option);
     });
     select.onchange = () => {
-      currentShul = synagogues[select.value];
-      renderPrayerLists();
+      if (select.value !== '') {
+        currentShul = synagogues[select.value];
+        renderPrayerLists();
+      } else {
+        currentShul = null;
+        // נקה את הרשימות
+        document.getElementById('weekday-list').innerHTML = '';
+        document.getElementById('shabbat-list').innerHTML = '';
+      }
     };
-    // ברירת מחדל: הראשון
-    select.value = 0;
-    currentShul = synagogues[0];
-    renderPrayerLists();
+    // אין ברירת מחדל - המשתמש צריך לבחור
+    currentShul = null;
   }
 
   function renderPrayerLists() {
+    if (!currentShul) {
+      // אם אין בית כנסת נבחר, נקה את הרשימות
+      document.getElementById('weekday-list').innerHTML = '';
+      document.getElementById('shabbat-list').innerHTML = '';
+      return;
+    }
     renderPrayerList('weekday-list', currentShul.prayers || []);
     renderPrayerList('shabbat-list', currentShul.shabbatPrayers || []);
   }
@@ -138,17 +158,29 @@ function initializeAppLogic() {
   }
 
   document.getElementById('add-weekday').onclick = () => {
+    if (!currentShul) {
+      alert('אנא בחר בית כנסת תחילה');
+      return;
+    }
     currentShul.prayers = currentShul.prayers || [];
     currentShul.prayers.push({ name: '', time: '' });
     renderPrayerLists();
   };
   document.getElementById('add-shabbat').onclick = () => {
+    if (!currentShul) {
+      alert('אנא בחר בית כנסת תחילה');
+      return;
+    }
     currentShul.shabbatPrayers = currentShul.shabbatPrayers || [];
     currentShul.shabbatPrayers.push({ name: '', time: '' });
     renderPrayerLists();
   };
 
   document.getElementById('save-btn').onclick = async () => {
+    if (!currentShul) {
+      alert('אנא בחר בית כנסת תחילה');
+      return;
+    }
     const status = document.getElementById('status-msg');
     status.textContent = 'שומר...';
     try {
