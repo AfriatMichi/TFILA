@@ -1,0 +1,199 @@
+body {
+  font-family: 'Segoe UI', 'Arial', sans-serif;
+  background: linear-gradient(135deg, #f8fafc 0%, #c7e9fb 100%);
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+  min-height: 100vh;
+}
+h1 {
+  text-align: center;
+  margin-top: 36px;
+  font-size: 2.5rem;
+  color: #1a237e;
+  letter-spacing: 1px;
+  text-shadow: 0 2px 8px #b3e5fc44;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 32px;
+  max-width: 1000px;
+  margin: 48px auto;
+  padding: 0 20px;
+}
+.synagogue {
+  background: linear-gradient(120deg, #fff 60%, #e3f2fd 100%);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(33, 150, 243, 0.10), 0 1.5px 6px #90caf9;
+  padding: 38px 14px 22px 14px;
+  text-align: center;
+  cursor: pointer;
+  transition: box-shadow 0.25s, transform 0.18s, background 0.18s;
+  border: 2px solid #90caf9;
+  position: relative;
+  overflow: hidden;
+}
+.synagogue:hover {
+  box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 2px 12px #64b5f6;
+  transform: translateY(-6px) scale(1.03);
+  background: linear-gradient(120deg, #e3f2fd 60%, #fff 100%);
+  border-color: #1976d2;
+}
+.synagogue-icon {
+  font-size: 56px;
+  margin-bottom: 16px;
+  color: #1976d2;
+  filter: drop-shadow(0 2px 6px #90caf9aa);
+}
+.synagogue div:last-child {
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: #0d47a1;
+  letter-spacing: 0.5px;
+}
+.modal {
+  position: fixed;
+  top: 0; right: 0; bottom: 0; left: 0;
+  background: rgba(33, 150, 243, 0.18);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s;
+}
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+.modal.hidden {
+  display: none;
+}
+.modal-content {
+  background: linear-gradient(120deg, #fff 70%, #e3f2fd 100%);
+  border-radius: 16px;
+  padding: 38px 30px 28px 30px;
+  min-width: 320px;
+  max-width: 95vw;
+  box-shadow: 0 4px 32px #1976d244, 0 2px 8px #90caf9;
+  position: relative;
+  border: 2px solid #90caf9;
+  animation: popIn 0.25s;
+}
+@keyframes popIn {
+  from { transform: scale(0.95); opacity: 0.7; }
+  to { transform: scale(1); opacity: 1; }
+}
+.close {
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  font-size: 32px;
+  cursor: pointer;
+  color: #1976d2;
+  transition: color 0.18s;
+}
+.close:hover {
+  color: #d32f2f;
+}
+#modal-title {
+  color: #1565c0;
+  font-size: 1.5rem;
+  margin-bottom: 18px;
+  text-align: center;
+  letter-spacing: 0.5px;
+}
+#prayer-times {
+  margin-top: 18px;
+  text-align: right;
+  font-size: 1.1rem;
+}
+#prayer-times div {
+  margin-bottom: 8px;
+  padding: 6px 0;
+  border-bottom: 1px dashed #90caf9;
+}
+#prayer-times div:last-child {
+  border-bottom: none;
+}
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 12px;
+  margin-bottom: 18px;
+}
+.tab-btn {
+  background: #e3f2fd;
+  color: #1976d2;
+  border: none;
+  border-radius: 8px 8px 0 0;
+  padding: 8px 22px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.18s, color 0.18s;
+  outline: none;
+  box-shadow: 0 2px 6px #90caf933;
+}
+.tab-btn.active, .tab-btn:hover {
+  background: #1976d2;
+  color: #fff;
+}
+.clock {
+  width: 100%;
+  text-align: center;
+  font-size: 2rem;
+  font-weight: 700;
+  color: #1976d2;
+  letter-spacing: 2px;
+  margin-top: 22px;
+  margin-bottom: 0;
+  font-family: 'Segoe UI Mono', 'Consolas', monospace;
+  text-shadow: 0 2px 8px #b3e5fc44;
+}
+.upcoming-prayers {
+  max-width: 600px;
+  margin: 24px auto 0 auto;
+  background: #e3f2fd;
+  border-radius: 12px;
+  box-shadow: 0 2px 12px #90caf933;
+  padding: 18px 24px 12px 24px;
+  font-size: 1.08rem;
+  color: #0d47a1;
+  direction: rtl;
+}
+.upcoming-prayers-title {
+  font-size: 1.18rem;
+  font-weight: 700;
+  color: #1976d2;
+  margin-bottom: 10px;
+  text-align: center;
+}
+.upcoming-prayer-item {
+  display: grid;
+  grid-template-columns: 1.2fr 1fr 1fr;
+  align-items: center;
+  padding: 7px 0;
+  border-bottom: 1px dashed #90caf9;
+  gap: 10px;
+  text-align: center;
+}
+.upcoming-prayer-item:last-child {
+  border-bottom: none;
+}
+.upcoming-prayer-shul {
+  font-weight: 600;
+  color: #1976d2;
+  text-align: center;
+}
+.upcoming-prayer-type {
+  font-weight: 500;
+  color: #388e3c;
+  text-align: center;
+}
+.upcoming-prayer-time {
+  font-family: 'Segoe UI Mono', 'Consolas', monospace;
+  color: #0d47a1;
+  font-size: 1.05em;
+  text-align: center;
+} 
