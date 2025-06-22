@@ -79,6 +79,7 @@ function initializeAppLogic() {
       row.setAttribute('draggable', 'true');
       row.dataset.index = idx;
       row.innerHTML = `
+        <span class="drag-handle">☰</span>
         <input class="admin-input" type="text" placeholder="שם תפילה" value="${prayer.name}">
         <input class="admin-input" type="time" value="${prayer.time}">
         <button class="remove-btn">✖</button>
