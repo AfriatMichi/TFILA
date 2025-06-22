@@ -65,7 +65,9 @@ function renderPrayerList(elementId, prayers, isShabbat) {
     row.innerHTML = `
       <input class="admin-input" type="text" placeholder="שם תפילה" value="${prayer.name}">
       <input class="admin-input" type="time" value="${prayer.time}">
-      <button class="remove-btn">✖</button>
+      <button class="move-btn" title="העבר למעלה">▲</button>
+      <button class="move-btn" title="העבר למטה">▼</button>
+      <button class="remove-btn" title="מחק">✖</button>
     `;
     // מחיקה
     row.querySelector('.remove-btn').onclick = () => {
@@ -75,6 +77,20 @@ function renderPrayerList(elementId, prayers, isShabbat) {
     // עריכה
     row.querySelectorAll('input')[0].oninput = e => { prayer.name = e.target.value; };
     row.querySelectorAll('input')[1].oninput = e => { prayer.time = e.target.value; };
+    // העברה למעלה
+    row.querySelectorAll('.move-btn')[0].onclick = () => {
+      if (idx > 0) {
+        [prayers[idx - 1], prayers[idx]] = [prayers[idx], prayers[idx - 1]];
+        renderPrayerLists();
+      }
+    };
+    // העברה למטה
+    row.querySelectorAll('.move-btn')[1].onclick = () => {
+      if (idx < prayers.length - 1) {
+        [prayers[idx + 1], prayers[idx]] = [prayers[idx], prayers[idx + 1]];
+        renderPrayerLists();
+      }
+    };
     list.appendChild(row);
   });
 }
