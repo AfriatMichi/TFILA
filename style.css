@@ -196,4 +196,11 @@ h1 {
   color: #0d47a1;
   font-size: 1.05em;
   text-align: center;
+}
+.footer {
+  text-align: center;
+  color: #888;
+  font-size: 1rem;
+  margin: 36px 0 18px 0;
+  letter-spacing: 1px;
 } 
