@@ -22,22 +22,26 @@
   </style>
 </head>
 <body>
-  <div class="admin-container">
-    <div class="admin-title">ניהול זמני תפילות</div>
-    <label class="admin-label" for="shul-select">בחר בית כנסת:</label>
-    <select id="shul-select" class="admin-select"></select>
+  <div id="admin-content" style="display: none;">
+    <div class="admin-container">
+      <div class="admin-title">ניהול זמני תפילות</div>
+      <label class="admin-label" for="shul-select">בחר בית כנסת:</label>
+      <select id="shul-select" class="admin-select"></select>
 
-    <div class="section-title">זמני יום חול</div>
-    <div id="weekday-list" class="prayer-list"></div>
-    <button id="add-weekday" class="add-btn">הוסף תפילה ליום חול</button>
+      <div class="section-title">זמני יום חול</div>
+      <div id="weekday-list" class="prayer-list"></div>
+      <button id="add-weekday" class="add-btn">הוסף תפילה ליום חול</button>
 
-    <div class="section-title">זמני שבת</div>
-    <div id="shabbat-list" class="prayer-list"></div>
-    <button id="add-shabbat" class="add-btn">הוסף תפילה לשבת</button>
+      <div class="section-title">זמני שבת</div>
+      <div id="shabbat-list" class="prayer-list"></div>
+      <button id="add-shabbat" class="add-btn">הוסף תפילה לשבת</button>
 
-    <button id="save-btn" class="save-btn">שמור שינויים</button>
-    <div id="status-msg" class="status-msg"></div>
+      <button id="save-btn" class="save-btn">שמור שינויים</button>
+      <div id="status-msg" class="status-msg"></div>
+    </div>
   </div>
+  <div id="loading-msg" style="text-align: center; margin-top: 50px; font-size: 1.5rem;">טוען, אנא המתן...</div>
+
   <footer class="footer">כל הזכויות שמורות למיכאל אפריאט</footer>
   <script type="module" src="admin.js"></script>
 </body>

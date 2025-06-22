@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>כניסת גבאים</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { direction: rtl; }
+    .login-container { max-width: 400px; margin: 80px auto; background: #fff; border-radius: 14px; box-shadow: 0 2px 16px rgba(0,0,0,0.1); padding: 32px 24px; }
+    .login-title { text-align: center; color: #1976d2; font-size: 2rem; margin-bottom: 24px; }
+    .login-label { font-weight: 600; margin-top: 18px; display: block; color: #0d47a1; }
+    .login-input { width: 100%; padding: 8px; margin-top: 6px; border-radius: 6px; border: 1px solid #90caf9; font-size: 1rem; box-sizing: border-box; }
+    .login-btn { background: #388e3c; color: #fff; border: none; border-radius: 6px; padding: 10px 28px; font-size: 1.1em; margin-top: 24px; cursor: pointer; display: block; width: 100%; }
+    .error-msg { color: #d32f2f; text-align: center; margin-top: 16px; min-height: 1.2em; }
+  </style>
+</head>
+<body>
+  <div class="login-container">
+    <div class="login-title">כניסת גבאים</div>
+    <form id="login-form">
+      <label for="email" class="login-label">אימייל:</label>
+      <input type="email" id="email" class="login-input" required>
+      <label for="password" class="login-label">סיסמה:</label>
+      <input type="password" id="password" class="login-input" required>
+      <button type="submit" class="login-btn">כניסה</button>
+      <div id="error-msg" class="error-msg"></div>
+    </form>
+  </div>
+  <script type="module" src="login.js"></script>
+</body>
+</html> 
