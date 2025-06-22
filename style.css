@@ -55,6 +55,8 @@ body.high-contrast .upcoming-prayers {
   gap: 8px;
   box-shadow: 0 2px 8px rgba(0,0,0,0.2);
   font-weight: 600;
+  min-height: 44px; /* גודל מינימלי למובייל */
+  touch-action: manipulation; /* שיפור ביצועים במובייל */
 }
 
 .accessibility-btn:hover {
@@ -63,12 +65,55 @@ body.high-contrast .upcoming-prayers {
   box-shadow: 0 4px 12px rgba(0,0,0,0.3);
 }
 
+.accessibility-btn:active {
+  background: #0d47a1;
+  transform: translateY(0);
+}
+
 .accessibility-btn.active {
   background: #388e3c;
 }
 
 .accessibility-icon {
   font-size: 16px;
+  pointer-events: none; /* מונע בעיות במובייל */
+}
+
+/* התאמות למובייל */
+@media (max-width: 768px) {
+  .accessibility-controls {
+    top: 10px;
+    left: 10px;
+    gap: 8px;
+  }
+  
+  .accessibility-btn {
+    padding: 16px 20px;
+    font-size: 16px;
+    min-height: 48px;
+    min-width: 48px;
+    border-radius: 12px;
+  }
+  
+  .accessibility-btn span:not(.accessibility-icon) {
+    display: none; /* מסתיר טקסט במובייל, רק אייקונים */
+  }
+  
+  .accessibility-btn {
+    justify-content: center;
+  }
+  
+  .accessibility-icon {
+    font-size: 20px;
+  }
+  
+  /* הודעות נגישות במובייל */
+  .accessibility-notification {
+    width: 90%;
+    max-width: 300px;
+    font-size: 16px;
+    padding: 16px;
+  }
 }
 
 /* מצב טקסט מוגדל */

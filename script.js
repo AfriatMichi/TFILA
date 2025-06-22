@@ -17,58 +17,82 @@ let synagogues = [];
 // פונקציות נגישות
 function initializeAccessibility() {
   // ניגודיות גבוהה
-  document.getElementById('high-contrast-btn').addEventListener('click', () => {
-    document.body.classList.toggle('high-contrast');
-    const btn = document.getElementById('high-contrast-btn');
-    btn.classList.toggle('active');
-    showNotification(btn.classList.contains('active') ? 'ניגודיות גבוהה מופעלת' : 'ניגודיות גבוהה כבויה');
-  });
-
+  const highContrastBtn = document.getElementById('high-contrast-btn');
+  highContrastBtn.addEventListener('click', handleHighContrast);
+  highContrastBtn.addEventListener('touchend', handleHighContrast);
+  
   // גודל טקסט
-  document.getElementById('font-size-btn').addEventListener('click', () => {
-    document.body.classList.toggle('large-text');
-    const btn = document.getElementById('font-size-btn');
-    btn.classList.toggle('active');
-    showNotification(btn.classList.contains('active') ? 'טקסט מוגדל מופעל' : 'גודל טקסט רגיל');
-  });
-
+  const fontSizeBtn = document.getElementById('font-size-btn');
+  fontSizeBtn.addEventListener('click', handleFontSize);
+  fontSizeBtn.addEventListener('touchend', handleFontSize);
+  
   // ניווט מקלדת
-  document.getElementById('keyboard-nav-btn').addEventListener('click', () => {
-    document.body.classList.toggle('keyboard-nav');
-    const btn = document.getElementById('keyboard-nav-btn');
-    btn.classList.toggle('active');
-    showNotification(btn.classList.contains('active') ? 'ניווט מקלדת מופעל' : 'ניווט מקלדת כבוי');
-  });
-
+  const keyboardNavBtn = document.getElementById('keyboard-nav-btn');
+  keyboardNavBtn.addEventListener('click', handleKeyboardNav);
+  keyboardNavBtn.addEventListener('touchend', handleKeyboardNav);
+  
   // ניווט מקלדת
-  document.addEventListener('keydown', (e) => {
-    if (document.body.classList.contains('keyboard-nav')) {
-      const synagogues = document.querySelectorAll('.synagogue');
-      const currentIndex = Array.from(synagogues).findIndex(el => el === document.activeElement);
-      
-      switch(e.key) {
-        case 'ArrowRight':
-        case 'ArrowDown':
-          e.preventDefault();
-          const nextIndex = (currentIndex + 1) % synagogues.length;
-          synagogues[nextIndex].focus();
-          break;
-        case 'ArrowLeft':
-        case 'ArrowUp':
-          e.preventDefault();
-          const prevIndex = currentIndex <= 0 ? synagogues.length - 1 : currentIndex - 1;
-          synagogues[prevIndex].focus();
-          break;
-        case 'Enter':
-        case ' ':
-          if (document.activeElement.classList.contains('synagogue')) {
-            e.preventDefault();
-            document.activeElement.click();
-          }
-          break;
-      }
+  document.addEventListener('keydown', handleKeyboardNavigation);
+  
+  // מניעת zoom במובייל
+  document.addEventListener('touchstart', function(event) {
+    if (event.touches.length > 1) {
+      event.preventDefault();
     }
-  });
+  }, { passive: false });
+}
+
+function handleHighContrast(e) {
+  e.preventDefault();
+  document.body.classList.toggle('high-contrast');
+  const btn = document.getElementById('high-contrast-btn');
+  btn.classList.toggle('active');
+  showNotification(btn.classList.contains('active') ? 'ניגודיות גבוהה מופעלת' : 'ניגודיות גבוהה כבויה');
+}
+
+function handleFontSize(e) {
+  e.preventDefault();
+  document.body.classList.toggle('large-text');
+  const btn = document.getElementById('font-size-btn');
+  btn.classList.toggle('active');
+  showNotification(btn.classList.contains('active') ? 'טקסט מוגדל מופעל' : 'גודל טקסט רגיל');
+}
+
+function handleKeyboardNav(e) {
+  e.preventDefault();
+  document.body.classList.toggle('keyboard-nav');
+  const btn = document.getElementById('keyboard-nav-btn');
+  btn.classList.toggle('active');
+  showNotification(btn.classList.contains('active') ? 'ניווט מקלדת מופעל' : 'ניווט מקלדת כבוי');
+}
+
+function handleKeyboardNavigation(e) {
+  if (document.body.classList.contains('keyboard-nav')) {
+    const synagogues = document.querySelectorAll('.synagogue');
+    const currentIndex = Array.from(synagogues).findIndex(el => el === document.activeElement);
+    
+    switch(e.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        e.preventDefault();
+        const nextIndex = (currentIndex + 1) % synagogues.length;
+        synagogues[nextIndex].focus();
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        e.preventDefault();
+        const prevIndex = currentIndex <= 0 ? synagogues.length - 1 : currentIndex - 1;
+        synagogues[prevIndex].focus();
+        break;
+      case 'Enter':
+      case ' ':
+        if (document.activeElement.classList.contains('synagogue')) {
+          e.preventDefault();
+          document.activeElement.click();
+        }
+        break;
+    }
+  }
 }
 
 function showNotification(message) {
@@ -117,13 +141,20 @@ function renderSynagogueGrid() {
     div.setAttribute('role', 'button');
     div.setAttribute('aria-label', `בית כנסת ${shul.name}, לחץ לפתיחת זמני תפילות`);
     div.innerHTML = `<div class='synagogue-icon'>${shul.icon}</div><div>${shul.name}</div>`;
+    
     div.addEventListener('click', () => openModal(idx));
+    div.addEventListener('touchend', (e) => {
+      e.preventDefault();
+      openModal(idx);
+    });
+    
     div.addEventListener('keydown', (e) => {
       if (e.key === 'Enter' || e.key === ' ') {
         e.preventDefault();
         openModal(idx);
       }
     });
+    
     grid.appendChild(div);
   });
 }
