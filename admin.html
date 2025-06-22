@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ניהול זמני תפילות - גבאים</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { direction: rtl; }
+    .admin-container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 14px; box-shadow: 0 2px 16px #90caf933; padding: 32px 24px; }
+    .admin-title { text-align: center; color: #1976d2; font-size: 2rem; margin-bottom: 24px; }
+    .admin-label { font-weight: 600; margin-top: 18px; display: block; color: #0d47a1; }
+    .admin-select, .admin-input { width: 100%; padding: 8px; margin-top: 6px; border-radius: 6px; border: 1px solid #90caf9; font-size: 1rem; }
+    .prayer-list { margin: 18px 0 10px 0; }
+    .prayer-row { display: flex; gap: 10px; align-items: center; margin-bottom: 8px; }
+    .prayer-row input { width: 40%; padding: 6px; border-radius: 5px; border: 1px solid #90caf9; }
+    .prayer-row .remove-btn { background: #d32f2f; color: #fff; border: none; border-radius: 5px; padding: 4px 10px; cursor: pointer; font-size: 1em; }
+    .add-btn { background: #1976d2; color: #fff; border: none; border-radius: 6px; padding: 7px 18px; font-size: 1em; margin-top: 10px; cursor: pointer; }
+    .save-btn { background: #388e3c; color: #fff; border: none; border-radius: 6px; padding: 10px 28px; font-size: 1.1em; margin-top: 24px; cursor: pointer; display: block; width: 100%; }
+    .section-title { color: #1565c0; font-size: 1.1em; margin: 18px 0 8px 0; font-weight: 700; }
+    .status-msg { text-align: center; margin-top: 18px; font-size: 1.1em; }
+  </style>
+</head>
+<body>
+  <div class="admin-container">
+    <div class="admin-title">ניהול זמני תפילות</div>
+    <label class="admin-label" for="shul-select">בחר בית כנסת:</label>
+    <select id="shul-select" class="admin-select"></select>
+
+    <div class="section-title">זמני יום חול</div>
+    <div id="weekday-list" class="prayer-list"></div>
+    <button id="add-weekday" class="add-btn">הוסף תפילה ליום חול</button>
+
+    <div class="section-title">זמני שבת</div>
+    <div id="shabbat-list" class="prayer-list"></div>
+    <button id="add-shabbat" class="add-btn">הוסף תפילה לשבת</button>
+
+    <button id="save-btn" class="save-btn">שמור שינויים</button>
+    <div id="status-msg" class="status-msg"></div>
+  </div>
+  <script type="module" src="admin.js"></script>
+</body>
+</html> 
