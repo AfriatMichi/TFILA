@@ -17,6 +17,24 @@ let deferredPrompt;
 const addBtn = document.getElementById('add-to-home');
 if (addBtn) addBtn.style.display = 'none';
 
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (addBtn) addBtn.style.display = 'flex';
+});
+
+if (addBtn) {
+  addBtn.addEventListener('click', () => {
+    addBtn.style.display = 'none';
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+      });
+    }
+  });
+}
+
 async function loadSynagoguesFromDB() {
   const prayersSnap = await getDocs(collection(db, "prayers"));
   const temp = {};
