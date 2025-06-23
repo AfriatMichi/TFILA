@@ -197,24 +197,6 @@ main();
 renderUpcomingPrayers();
 setInterval(renderUpcomingPrayers, 60000);
 
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  deferredPrompt = e;
-  if (addBtn) addBtn.style.display = 'flex';
-});
-
-if (addBtn) {
-  addBtn.addEventListener('click', () => {
-    addBtn.style.display = 'none';
-    if (deferredPrompt) {
-      deferredPrompt.prompt();
-      deferredPrompt.userChoice.then(() => {
-        deferredPrompt = null;
-      });
-    }
-  });
-}
-
 if ('serviceWorker' in navigator) {
   window.addEventListener('load', () => {
     navigator.serviceWorker.register('sw.js');
