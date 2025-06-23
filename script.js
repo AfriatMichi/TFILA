@@ -13,6 +13,9 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 let synagogues = [];
+let deferredPrompt;
+const addBtn = document.getElementById('add-to-home');
+if (addBtn) addBtn.style.display = 'none';
 
 async function loadSynagoguesFromDB() {
   const prayersSnap = await getDocs(collection(db, "prayers"));
@@ -192,4 +195,22 @@ main();
 
 // Update on load and every minute
 renderUpcomingPrayers();
-setInterval(renderUpcomingPrayers, 60000); 
+setInterval(renderUpcomingPrayers, 60000);
+
+window.addEventListener('beforeinstallprompt', (e) => {
+  e.preventDefault();
+  deferredPrompt = e;
+  if (addBtn) addBtn.style.display = 'flex';
+});
+
+if (addBtn) {
+  addBtn.addEventListener('click', () => {
+    addBtn.style.display = 'none';
+    if (deferredPrompt) {
+      deferredPrompt.prompt();
+      deferredPrompt.userChoice.then(() => {
+        deferredPrompt = null;
+      });
+    }
+  });
+} 
