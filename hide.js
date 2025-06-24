@@ -1,5 +1,6 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import { getFirestore, collection, getDocs, setDoc, doc, updateDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, updateDoc, doc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
 const firebaseConfig = {
   apiKey: "AIzaSyA_4RAbPHGRut7kLK5TorqBkGbUIg1qfiI",
@@ -11,6 +12,18 @@ const firebaseConfig = {
 };
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
+const auth = getAuth(app);
+const GABBAI_UID = 'ifLRL99dWkY9TWKK434YbUijo8J2';
+
+onAuthStateChanged(auth, (user) => {
+  if (user && user.uid === GABBAI_UID) {
+    document.getElementById('loading-msg').style.display = 'none';
+    document.getElementById('hide-content').style.display = 'block';
+    loadSynagogues();
+  } else {
+    window.location.replace('login.html');
+  }
+});
 
 const statusMsg = document.getElementById('status-msg');
 const tbody = document.getElementById('shul-tbody');
@@ -54,7 +67,6 @@ function renderTable(shuls) {
 async function toggleShulHidden(shul) {
   statusMsg.textContent = 'מעדכן...';
   try {
-    // עדכן את כל המסמכים של בית הכנסת (יום חול/שבת)
     await Promise.all(shul.docIds.map(docId =>
       updateDoc(doc(db, "prayers", docId), { hidden: !shul.hidden })
     ));

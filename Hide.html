@@ -18,20 +18,23 @@
   </style>
 </head>
 <body>
-  <div class="hide-container">
-    <div class="hide-title">ניהול הצגת/הסתרת בתי כנסת</div>
-    <table id="shul-table">
-      <thead>
-        <tr>
-          <th>שם בית כנסת</th>
-          <th>סטטוס</th>
-          <th>הצג/הסתר</th>
-        </tr>
-      </thead>
-      <tbody id="shul-tbody"></tbody>
-    </table>
-    <div id="status-msg" class="status-msg"></div>
+  <div id="hide-content" style="display: none;">
+    <div class="hide-container">
+      <div class="hide-title">ניהול הצגת/הסתרת בתי כנסת</div>
+      <table id="shul-table">
+        <thead>
+          <tr>
+            <th>שם בית כנסת</th>
+            <th>סטטוס</th>
+            <th>הצג/הסתר</th>
+          </tr>
+        </thead>
+        <tbody id="shul-tbody"></tbody>
+      </table>
+      <div id="status-msg" class="status-msg"></div>
+    </div>
   </div>
+  <div id="loading-msg" style="text-align: center; margin-top: 50px; font-size: 1.5rem;">טוען, אנא המתן...</div>
   <footer class="footer">נבנה ע"י מיכאל אפריאט ©</footer>
   <script type="module" src="hide.js"></script>
 </body>
