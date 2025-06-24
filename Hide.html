@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ניהול הצגת בתי כנסת</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { direction: rtl; background: #f5f7fa; }
+    .hide-container { max-width: 600px; margin: 40px auto; background: #fff; border-radius: 14px; box-shadow: 0 2px 16px #90caf933; padding: 32px 24px; }
+    .hide-title { text-align: center; color: #1976d2; font-size: 2rem; margin-bottom: 24px; }
+    table { width: 100%; border-collapse: collapse; margin-top: 20px; }
+    th, td { padding: 12px 8px; text-align: center; border-bottom: 1px solid #e3e3e3; }
+    th { background: #e3f2fd; color: #1565c0; }
+    .toggle-btn { cursor: pointer; background: #1976d2; color: #fff; border: none; border-radius: 6px; padding: 6px 16px; font-size: 1em; transition: background 0.2s; }
+    .toggle-btn.hidden { background: #d32f2f; }
+    .status-msg { text-align: center; margin-top: 18px; font-size: 1.1em; }
+  </style>
+</head>
+<body>
+  <div class="hide-container">
+    <div class="hide-title">ניהול הצגת/הסתרת בתי כנסת</div>
+    <table id="shul-table">
+      <thead>
+        <tr>
+          <th>שם בית כנסת</th>
+          <th>סטטוס</th>
+          <th>הצג/הסתר</th>
+        </tr>
+      </thead>
+      <tbody id="shul-tbody"></tbody>
+    </table>
+    <div id="status-msg" class="status-msg"></div>
+  </div>
+  <footer class="footer">נבנה ע"י מיכאל אפריאט ©</footer>
+  <script type="module" src="hide.js"></script>
+</body>
+</html> 
