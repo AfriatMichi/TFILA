@@ -16,9 +16,40 @@
     הוסף למסך הבית
   </button>
   <h1>בתי הכנסת בניצן</h1>
-  <div id="alert-bar" class="alert-bar">
-    עקב הנחיות פיקוד העורף לא מתקיימות תפילות בבתי הכנסת
-  </div>
+  <style>
+  .alert-bar {
+    position: relative;
+    background-color: #ffe0e0;
+    color: #900;
+    padding: 10px 40px 10px 10px;
+    border: 1px solid #f5c2c2;
+    border-radius: 5px;
+    font-weight: bold;
+    margin-bottom: 10px;
+  }
+
+  .close-button {
+    position: absolute;
+    top: 5px;
+    right: 10px;
+    background: transparent;
+    border: none;
+    font-size: 18px;
+    color: #900;
+    cursor: pointer;
+  }
+
+  .close-button:hover {
+    color: #600;
+  }
+</style>
+
+<div id="alert-bar" class="alert-bar">
+  עקב הנחיות פיקוד העורף לא מתקיימות תפילות בבתי הכנסת
+  <button class="close-button" onclick="document.getElementById('alert-bar').style.display='none';">&times;</button>
+</div>
+
+<div id="synagogue-grid" class="grid"></div>
   <div id="synagogue-grid" class="grid"></div>
   <div id="upcoming-prayers" class="upcoming-prayers"></div>
   
