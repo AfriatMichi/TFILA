@@ -55,8 +55,13 @@ async function loadSynagoguesFromDB() {
     } else if (data.type === "shabbat") {
       temp[data.synagogue].shabbatPrayers = data.prayers;
     }
+    // שמור את ערך hidden אם קיים
+    if (typeof data.hidden !== 'undefined') {
+      temp[data.synagogue].hidden = data.hidden;
+    }
   });
-  synagogues = Object.values(temp);
+  // סנן בתי כנסת מוסתרים
+  synagogues = Object.values(temp).filter(shul => !shul.hidden);
 }
 
 async function main() {
