@@ -14,20 +14,39 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const GABBAI_UID = 'ifLRL99dWkY9TWKK434YbUijo8J2';
+const ADMIN_UID = "TXVzrFp1XATThDohNTJuhaF8Gpq1";
+
+// === BEGIN: User to Synagogue Mapping ===
+const USER_SHUL_MAP = {
+  "ifLRL99dWkY9TWKK434YbUijo8J2": "בית כנסת מקדש מעט",
+  "RgBK2SasA5PkQzcCiU4prLlUcuq2": "בית כנסת מרכזי",
+  "pDcahFE9xIVmdtLUDB4paTQ62Jg1": "בית כנסת נווה רחמים",
+  "ATNGUgYA7FXTel4A6wEJ3YfR1053": "בית כנסת ניסנית",
+  "zjl2Q0EqwESmq1b5xfwmjy1M0YI2": "בית כנסת כלל ישראל",
+  "gjVVlyz37fdM8vyvs767Yej1olx1": "בית כנסת נווה שלום",
+  "nVtB2g34QyOSsX77OL4TsRJ8gqN2": "בית הכנסת הכורכרי",
+  "NRr2yeX1SKdLa8WJBq8usgjhUlZ2": "בית הכנסת היכלא דרבנו יורם"
+};
+// === END: User to Synagogue Mapping ===
 
 onAuthStateChanged(auth, (user) => {
-  if (user && user.uid === GABBAI_UID) {
+  if (user && (USER_SHUL_MAP[user.uid] || user.uid === ADMIN_UID)) {
     document.getElementById('loading-msg').style.display = 'none';
     document.getElementById('admin-content').style.display = 'block';
-    initializeAppLogic();
+    initializeAppLogic(user.uid);
   } else {
-    window.location.replace('login.html');
+    document.getElementById('loading-msg').style.display = 'none';
+    document.getElementById('admin-content').style.display = 'none';
+    alert('אין לך הרשאה לערוך בית כנסת. פנה למנהל המערכת.');
+    setTimeout(() => window.location.replace('login.html'), 2000);
   }
 });
 
-function initializeAppLogic() {
+function initializeAppLogic(userUid) {
   let synagogues = [];
   let currentShul = null;
+  let userShulName = USER_SHUL_MAP[userUid];
+  const isAdmin = userUid === ADMIN_UID;
 
   async function loadSynagoguesFromDB() {
     const prayersSnap = await getDocs(collection(db, "prayers"));
@@ -47,39 +66,51 @@ function initializeAppLogic() {
   }
 
   function renderShulSelect() {
-    const select = document.getElementById('shul-select');
-    select.innerHTML = '';
-    
-    // הוסף אופציה "בחר בית כנסת"
-    const defaultOption = document.createElement('option');
-    defaultOption.value = '';
-    defaultOption.textContent = 'בחר בית כנסת';
-    select.appendChild(defaultOption);
-    
-    synagogues.forEach((shul, idx) => {
-      const option = document.createElement('option');
-      option.value = idx;
-      option.textContent = shul.name;
-      select.appendChild(option);
-    });
-    
-    // הגדר את האופציה הראשונה כנבחרת
-    select.value = '';
-    
-    select.onchange = () => {
-      if (select.value !== '') {
-        currentShul = synagogues[select.value];
-        renderPrayerLists();
-      } else {
-        currentShul = null;
-        // נקה את הרשימות
-        document.getElementById('weekday-list').innerHTML = '';
-        document.getElementById('shabbat-list').innerHTML = '';
-      }
-    };
-    // אין ברירת מחדל - המשתמש צריך לבחור
-    currentShul = null;
-    renderPrayerLists(); // נקה את הרשימות בהתחלה
+    if (isAdmin) {
+      // הצג את תיבת הבחירה הרגילה
+      const select = document.getElementById('shul-select');
+      select.innerHTML = '';
+      const defaultOption = document.createElement('option');
+      defaultOption.value = '';
+      defaultOption.textContent = 'בחר בית כנסת';
+      select.appendChild(defaultOption);
+      synagogues.forEach((shul, idx) => {
+        const option = document.createElement('option');
+        option.value = idx;
+        option.textContent = shul.name;
+        select.appendChild(option);
+      });
+      select.value = '';
+      select.onchange = () => {
+        if (select.value !== '') {
+          currentShul = synagogues[select.value];
+          renderPrayerLists();
+        } else {
+          currentShul = null;
+          document.getElementById('weekday-list').innerHTML = '';
+          document.getElementById('shabbat-list').innerHTML = '';
+        }
+      };
+      // הצג את תיבת הבחירה
+      select.style.display = '';
+      document.querySelector('label[for="shul-select"]').style.display = '';
+      currentShul = null;
+      renderPrayerLists();
+      return;
+    }
+    // מצא את בית הכנסת של המשתמש
+    const userShul = synagogues.find(s => s.name === userShulName);
+    if (!userShul) {
+      document.getElementById('admin-content').style.display = 'none';
+      alert('לא נמצא בית הכנסת שלך במערכת. פנה למנהל.');
+      setTimeout(() => window.location.replace('login.html'), 2000);
+      return;
+    }
+    currentShul = userShul;
+    // הסתר את תיבת הבחירה
+    document.getElementById('shul-select').style.display = 'none';
+    document.querySelector('label[for="shul-select"]').style.display = 'none';
+    renderPrayerLists();
   }
 
   function renderPrayerLists() {
