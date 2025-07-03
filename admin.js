@@ -18,7 +18,7 @@ const ADMIN_UID = "TXVzrFp1XATThDohNTJuhaF8Gpq1";
 
 // === BEGIN: User to Synagogue Mapping ===
 const USER_SHUL_MAP = {
-  "ifLRL99dWkY9TWKK434YbUijo8J2": "בית כנסת מקדש מעט",
+  "8dXkthaPyqMe0IPoGd79KRUATlx2": "בית כנסת מקדש מעט",
   "RgBK2SasA5PkQzcCiU4prLlUcuq2": "בית כנסת מרכזי",
   "pDcahFE9xIVmdtLUDB4paTQ62Jg1": "בית כנסת נווה רחמים",
   "ATNGUgYA7FXTel4A6wEJ3YfR1053": "בית כנסת ניסנית",
@@ -82,12 +82,12 @@ function initializeAppLogic(userUid) {
         if (select.value !== '') {
           currentShul = synagogues[select.value];
           renderPrayerLists();
-          document.getElementById('shul-name-display').textContent = currentShul.name;
+          setShulNameDisplay(currentShul.name);
         } else {
           currentShul = null;
           document.getElementById('weekday-list').innerHTML = '';
           document.getElementById('shabbat-list').innerHTML = '';
-          document.getElementById('shul-name-display').textContent = '';
+          setShulNameDisplay('');
         }
       };
       // הצג את תיבת הבחירה
@@ -95,7 +95,7 @@ function initializeAppLogic(userUid) {
       document.querySelector('label[for="shul-select"]').style.display = '';
       currentShul = null;
       renderPrayerLists();
-      document.getElementById('shul-name-display').textContent = '';
+      setShulNameDisplay('');
       return;
     }
     // מצא את בית הכנסת של המשתמש
@@ -110,7 +110,7 @@ function initializeAppLogic(userUid) {
     document.getElementById('shul-select').style.display = 'none';
     document.querySelector('label[for="shul-select"]').style.display = 'none';
     renderPrayerLists();
-    document.getElementById('shul-name-display').textContent = currentShul.name;
+    setShulNameDisplay(currentShul.name);
   }
 
   function renderPrayerLists() {
@@ -241,6 +241,16 @@ function initializeAppLogic(userUid) {
     renderShulSelect();
     setupDragAndDropListeners();
   })();
+}
+
+// Helper to safely set the synagogue name display
+function setShulNameDisplay(name) {
+  const el = document.getElementById('shul-name-display');
+  if (el) {
+    el.textContent = name || '';
+  } else {
+    setTimeout(() => setShulNameDisplay(name), 50);
+  }
 }
 
 document.addEventListener('DOMContentLoaded', () => {
