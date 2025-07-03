@@ -14,7 +14,7 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
 const GABBAI_UID = 'ifLRL99dWkY9TWKK434YbUijo8J2';
-const ADMIN_UID = "TXVzrFp1XATThDohNTJuhaF8Gpq1";
+const ADMIN_UID = "XhSmPkUQwyYydmArBW3h9b0IvzB3";
 
 // === BEGIN: User to Synagogue Mapping ===
 const USER_SHUL_MAP = {
