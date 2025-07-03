@@ -241,4 +241,14 @@ function initializeAppLogic(userUid) {
     renderShulSelect();
     setupDragAndDropListeners();
   })();
-} 
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  const logoutBtn = document.getElementById('logout-btn');
+  if (logoutBtn) {
+    logoutBtn.onclick = async () => {
+      await auth.signOut();
+      window.location.replace('login.html');
+    };
+  }
+}); 
