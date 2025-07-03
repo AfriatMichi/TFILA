@@ -35,10 +35,7 @@ onAuthStateChanged(auth, (user) => {
     document.getElementById('admin-content').style.display = 'block';
     initializeAppLogic(user.uid);
   } else {
-    document.getElementById('loading-msg').style.display = 'none';
-    document.getElementById('admin-content').style.display = 'none';
-    alert('אין לך הרשאה לערוך בית כנסת. פנה למנהל המערכת.');
-    setTimeout(() => window.location.replace('login.html'), 2000);
+    window.location.replace('login.html');
   }
 });
 
