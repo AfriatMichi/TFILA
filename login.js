@@ -25,14 +25,8 @@ loginForm.addEventListener('submit', async (e) => {
 
     try {
         const userCredential = await signInWithEmailAndPassword(auth, email, password);
-        const user = userCredential.user;
-
-        if (user.uid === GABBAI_UID) {
-            window.location.href = 'admin.html';
-        } else {
-            errorMsg.textContent = 'אינך מורשה לגשת לדף הניהול.';
-            await auth.signOut();
-        }
+        // כל משתמש עובר ל-admin.html, שם תתבצע בדיקת הרשאות
+        window.location.href = 'admin.html';
     } catch (error) {
         console.error('Login Error:', error);
         errorMsg.textContent = 'שם משתמש או סיסמה שגויים.';
