@@ -1,0 +1,46 @@
+# COPYRIGHT NOTICE
+
+## Prayer Times Publishing Web Application
+
+**Copyright © 2025 Michael Afriat. All Rights Reserved.**
+
+---
+
+### PROPRIETARY SOFTWARE NOTICE
+
+This software and all associated documentation, code, design elements, and materials (collectively, the "Software") are the exclusive property of Michael Afriat and are protected by copyright laws and international treaty provisions.
+
+### RESTRICTIONS ON USE
+
+**NO PERMISSION IS GRANTED** for any use, reproduction, distribution, or modification of this Software without explicit written authorization from the copyright holder.
+
+Specifically, you may NOT:
+- Copy, reproduce, or distribute the Software in any form
+- Modify, adapt, or create derivative works based on the Software  
+- Use the Software for commercial or non-commercial purposes
+- Reverse engineer, decompile, or disassemble the Software
+- Remove or alter any copyright notices or proprietary markings
+
+### LEGAL NOTICE
+
+**Unauthorized use of this Software is strictly prohibited and may result in severe civil and criminal penalties.**
+
+Any person or entity found to be using this Software without proper authorization will be subject to legal action to the fullest extent of the law, including but not limited to claims for copyright infringement, breach of contract, and monetary damages.
+
+### CONTACT FOR LICENSING
+
+For licensing inquiries or permission requests, please contact:
+
+**Michael Afriat**  
+Email: [your-email@example.com]  
+GitHub: [your-github-username]
+
+---
+
+### DISCLAIMER
+
+This Software is provided "AS IS" without warranty of any kind. The copyright holder disclaims all warranties, whether express or implied, including but not limited to warranties of merchantability, fitness for a particular purpose, and non-infringement.
+
+---
+
+**This notice must remain intact in all copies or substantial portions of the Software.**
