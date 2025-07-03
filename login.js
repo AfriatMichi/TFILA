@@ -1,5 +1,5 @@
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import { getAuth, signInWithEmailAndPassword } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
 const firebaseConfig = {
     apiKey: "AIzaSyA_4RAbPHGRut7kLK5TorqBkGbUIg1qfiI",
@@ -43,9 +43,10 @@ if (forgotPasswordLink) {
       return;
     }
     try {
-      await auth.sendPasswordResetEmail(email);
+      await sendPasswordResetEmail(auth, email);
       errorMsg.textContent = 'קישור לאיפוס סיסמה נשלח לאימייל.';
     } catch (error) {
+      console.error('Password reset error:', error);
       errorMsg.textContent = 'אירעה שגיאה בשליחת קישור איפוס. ודא שהאימייל נכון.';
     }
   };
