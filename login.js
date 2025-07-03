@@ -31,4 +31,22 @@ loginForm.addEventListener('submit', async (e) => {
         console.error('Login Error:', error);
         errorMsg.textContent = 'שם משתמש או סיסמה שגויים.';
     }
-}); 
+});
+
+const forgotPasswordLink = document.getElementById('forgot-password-link');
+if (forgotPasswordLink) {
+  forgotPasswordLink.onclick = async (e) => {
+    e.preventDefault();
+    const email = document.getElementById('email').value.trim();
+    if (!email) {
+      errorMsg.textContent = 'אנא הזן כתובת אימייל בשדה המתאים ולאחר מכן לחץ שוב.';
+      return;
+    }
+    try {
+      await auth.sendPasswordResetEmail(email);
+      errorMsg.textContent = 'קישור לאיפוס סיסמה נשלח לאימייל.';
+    } catch (error) {
+      errorMsg.textContent = 'אירעה שגיאה בשליחת קישור איפוס. ודא שהאימייל נכון.';
+    }
+  };
+} 
