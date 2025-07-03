@@ -18,7 +18,7 @@ const addBtn = document.getElementById('add-to-home');
 if (addBtn) addBtn.style.display = 'none';
 
 // שליטה על הצגת הודעת האזהרה בראש הדף
-const SHOW_ALERT_BAR = true; // שנה ל-false כדי להסתיר את ההודעה
+const SHOW_ALERT_BAR = false; // שנה ל-false כדי להסתיר את ההודעה
 if (!SHOW_ALERT_BAR) {
   const alertBar = document.getElementById('alert-bar');
   if (alertBar) alertBar.style.display = 'none';
