@@ -82,10 +82,12 @@ function initializeAppLogic(userUid) {
         if (select.value !== '') {
           currentShul = synagogues[select.value];
           renderPrayerLists();
+          document.getElementById('shul-name-display').textContent = currentShul.name;
         } else {
           currentShul = null;
           document.getElementById('weekday-list').innerHTML = '';
           document.getElementById('shabbat-list').innerHTML = '';
+          document.getElementById('shul-name-display').textContent = '';
         }
       };
       // הצג את תיבת הבחירה
@@ -93,14 +95,14 @@ function initializeAppLogic(userUid) {
       document.querySelector('label[for="shul-select"]').style.display = '';
       currentShul = null;
       renderPrayerLists();
+      document.getElementById('shul-name-display').textContent = '';
       return;
     }
     // מצא את בית הכנסת של המשתמש
     const userShul = synagogues.find(s => s.name === userShulName);
     if (!userShul) {
       document.getElementById('admin-content').style.display = 'none';
-      alert('לא נמצא בית הכנסת שלך במערכת. פנה למנהל.');
-      setTimeout(() => window.location.replace('login.html'), 2000);
+      window.location.replace('login.html');
       return;
     }
     currentShul = userShul;
@@ -108,6 +110,7 @@ function initializeAppLogic(userUid) {
     document.getElementById('shul-select').style.display = 'none';
     document.querySelector('label[for="shul-select"]').style.display = 'none';
     renderPrayerLists();
+    document.getElementById('shul-name-display').textContent = currentShul.name;
   }
 
   function renderPrayerLists() {
