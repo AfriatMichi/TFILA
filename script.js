@@ -190,18 +190,51 @@ function getUpcomingPrayers() {
   const now = new Date();
   const nowMinutes = now.getHours() * 60 + now.getMinutes();
   let allPrayers = [];
+  const isFriday = now.getDay() === 5;
   synagogues.forEach(shul => {
-    (shul.prayers || []).forEach(prayer => {
-      const [h, m] = prayer.time.split(":").map(Number);
-      const prayerMinutes = h * 60 + m;
-      if (prayerMinutes >= nowMinutes) {
-        allPrayers.push({
-          shul: shul.name,
-          type: prayer.name,
-          time: prayer.time
-        });
-      }
-    });
+    if (isFriday) {
+      // שחרית מהחול
+      (shul.prayers || []).forEach(prayer => {
+        if (prayer.name.includes("שחרית")) {
+          const [h, m] = prayer.time.split(":").map(Number);
+          const prayerMinutes = h * 60 + m;
+          if (prayerMinutes >= nowMinutes) {
+            allPrayers.push({
+              shul: shul.name,
+              type: prayer.name,
+              time: prayer.time
+            });
+          }
+        }
+      });
+      // שאר התפילות מהשבת (לא כולל שחרית שבת)
+      (shul.shabbatPrayers || []).forEach(prayer => {
+        if (!prayer.name.includes("שחרית")) {
+          const [h, m] = prayer.time.split(":").map(Number);
+          const prayerMinutes = h * 60 + m;
+          if (prayerMinutes >= nowMinutes) {
+            allPrayers.push({
+              shul: shul.name,
+              type: prayer.name,
+              time: prayer.time
+            });
+          }
+        }
+      });
+    } else {
+      // כל התפילות מהחול
+      (shul.prayers || []).forEach(prayer => {
+        const [h, m] = prayer.time.split(":").map(Number);
+        const prayerMinutes = h * 60 + m;
+        if (prayerMinutes >= nowMinutes) {
+          allPrayers.push({
+            shul: shul.name,
+            type: prayer.name,
+            time: prayer.time
+          });
+        }
+      });
+    }
   });
   allPrayers.sort((a, b) => a.time.localeCompare(b.time));
   return allPrayers.slice(0, 4);
