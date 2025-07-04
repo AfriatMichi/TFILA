@@ -210,7 +210,7 @@ function getUpcomingPrayers() {
 function renderUpcomingPrayers() {
   const container = document.getElementById('upcoming-prayers');
   const prayers = getUpcomingPrayers();
-  let html = '<div class="upcoming-prayers-title">התפילות הקרובות הבאות</div>';
+  let html = '<div class="upcoming-prayers-title">התפילות הקרובות הבאות א-ה</div>';
   if (prayers.length === 0) {
     html += '<div>אין תפילות קרובות להיום.</div>';
   } else {
