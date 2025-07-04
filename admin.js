@@ -23,7 +23,7 @@ const USER_SHUL_MAP = {
   "pDcahFE9xIVmdtLUDB4paTQ62Jg1": "בית כנסת נווה רחמים",
   "ATNGUgYA7FXTel4A6wEJ3YfR1053": "בית כנסת ניסנית",
   "zjl2Q0EqwESmq1b5xfwmjy1M0YI2": "בית כנסת כלל ישראל",
-  "gjVVlyz37fdM8vyvs767Yej1olx1": "בית כנסת נווה שלום",
+  "O8szfuDZcDdbk9ihKFPvHofIfYc2": "בית כנסת נווה שלום",
   "nVtB2g34QyOSsX77OL4TsRJ8gqN2": "בית הכנסת הכורכרי",
   "NRr2yeX1SKdLa8WJBq8usgjhUlZ2": "בית הכנסת היכלא דרבנו יורם"
 };
