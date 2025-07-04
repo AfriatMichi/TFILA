@@ -190,8 +190,20 @@ function getUpcomingPrayers() {
   const now = new Date();
   const nowMinutes = now.getHours() * 60 + now.getMinutes();
   let allPrayers = [];
+  const isFriday = now.getDay() === 5;
+
   synagogues.forEach(shul => {
-    (shul.prayers || []).forEach(prayer => {
+    let prayersToShow = [];
+    if (isFriday && shul.shabbatPrayers) {
+      // עד (ולא כולל) שחרית שבת
+      for (const prayer of shul.shabbatPrayers) {
+        if (prayer.name.includes("שחרית")) break;
+        prayersToShow.push(prayer);
+      }
+    } else {
+      prayersToShow = shul.prayers || [];
+    }
+    prayersToShow.forEach(prayer => {
       const [h, m] = prayer.time.split(":").map(Number);
       const prayerMinutes = h * 60 + m;
       if (prayerMinutes >= nowMinutes) {
