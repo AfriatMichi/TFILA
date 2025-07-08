@@ -469,8 +469,10 @@ function renderGrid() {
   ];
   grid.innerHTML = '';
   days.forEach((day) => {
-    const lessonsArr = Array.isArray(lessons[day.key]) ? lessons[day.key] : lessons[day.key] ? [lessons[day.key]] : [];
+    let lessonsArr = Array.isArray(lessons[day.key]) ? lessons[day.key] : lessons[day.key] ? [lessons[day.key]] : [];
     if (lessonsArr.length === 0) return;
+    // Sort by time (HH:MM)
+    lessonsArr = lessonsArr.slice().sort((a, b) => (a.time || '').localeCompare(b.time || ''));
     const div = document.createElement('div');
     div.className = 'day-card';
     div.setAttribute('data-day', day.key);
