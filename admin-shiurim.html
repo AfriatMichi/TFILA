@@ -132,7 +132,7 @@
   <footer class="footer">נבנה ע"י מיכאל אפריאט ©</footer>
   <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
-import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc, addDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
 import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
 
 const firebaseConfig = {
@@ -241,7 +241,7 @@ document.getElementById('add-shiur-form').onsubmit = async (e) => {
     return;
   }
   statusMsg.textContent = 'מוסיף...';
-  await setDoc(doc(db, 'Shiurim', day), { day, title, time, shulName, content });
+  await addDoc(collection(db, 'Shiurim'), { day, title, time, shulName, content });
   statusMsg.textContent = 'השיעור נוסף!';
   setTimeout(() => statusMsg.textContent = '', 1200);
   document.getElementById('add-shiur-form').reset();
