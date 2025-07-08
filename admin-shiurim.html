@@ -21,6 +21,71 @@
     .status-msg { text-align: center; margin-top: 18px; font-size: 1.1em; }
     .footer { text-align: center; color: #888; font-size: 1rem; margin: 36px 0 18px 0; letter-spacing: 1px; }
     .hidden { display: none; }
+
+    /* --- רספונסיביות למובייל --- */
+    @media (max-width: 700px) {
+      .admin-container {
+        padding: 12px 2vw;
+        max-width: 100vw;
+        min-width: 0;
+      }
+      .admin-title {
+        font-size: 1.3rem;
+        margin-bottom: 16px;
+      }
+      .admin-label {
+        font-size: 0.98em;
+        margin-top: 10px;
+      }
+      .admin-input, .admin-select, .admin-textarea {
+        font-size: 0.98em;
+        padding: 7px;
+      }
+      .add-btn, .save-btn, .delete-btn {
+        font-size: 0.98em;
+        padding: 7px 10px;
+      }
+      .shiur-table, .shiur-table thead, .shiur-table tbody, .shiur-table tr {
+        display: block;
+        width: 100%;
+      }
+      .shiur-table thead {
+        display: none;
+      }
+      .shiur-table tr {
+        margin-bottom: 18px;
+        background: #f7fbff;
+        border-radius: 10px;
+        box-shadow: 0 1px 6px #90caf922;
+        padding: 8px 0;
+      }
+      .shiur-table td {
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        padding: 7px 4px;
+        border: none;
+        font-size: 0.98em;
+        word-break: break-word;
+      }
+      .shiur-table td:before {
+        content: attr(data-label);
+        flex: 0 0 90px;
+        color: #1976d2;
+        font-weight: 600;
+        margin-left: 8px;
+        font-size: 0.97em;
+      }
+      .shiur-table td:last-child {
+        flex-direction: row;
+        justify-content: flex-end;
+      }
+      .shiur-table input, .shiur-table textarea {
+        font-size: 0.97em;
+        width: 100%;
+        min-width: 0;
+      }
+    }
   </style>
 </head>
 <body>
@@ -117,12 +182,12 @@ function renderTable(shiurim) {
   shiurim.forEach(shiur => {
     const tr = document.createElement('tr');
     tr.innerHTML = `
-      <td>${dayLabel(shiur.day)}</td>
-      <td><input value="${shiur.title}" class="admin-input" data-field="title"></td>
-      <td><input value="${shiur.time}" class="admin-input" type="time" data-field="time"></td>
-      <td><input value="${shiur.shulName || ''}" class="admin-input" data-field="shulName"></td>
-      <td><textarea class="admin-textarea" data-field="content">${shiur.content}</textarea></td>
-      <td>
+      <td data-label="יום">${dayLabel(shiur.day)}</td>
+      <td data-label="כותרת"><input value="${shiur.title}" class="admin-input" data-field="title"></td>
+      <td data-label="שעה"><input value="${shiur.time}" class="admin-input" type="time" data-field="time"></td>
+      <td data-label="שם בית כנסת"><input value="${shiur.shulName || ''}" class="admin-input" data-field="shulName"></td>
+      <td data-label="תוכן"><textarea class="admin-textarea" data-field="content">${shiur.content}</textarea></td>
+      <td data-label="פעולות">
         <button class="save-btn">שמור</button>
         <button class="delete-btn">מחק</button>
       </td>
