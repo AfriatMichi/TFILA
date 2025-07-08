@@ -322,181 +322,91 @@
   
   <footer class="footer">מיכאל אפריאט ©</footer>
 
-<script>
-const lessons = {
-  sunday: {
-    title: "יום ראשון - פרשת השבוع",
-    time: "20:00",
-    teacher: "הרב כהן",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: פרשת השבוע</h3>
-        <p><strong>זמן:</strong> 20:00</p>
-        <p><strong>מרצה:</strong> הרב כהן</p>
-        <p><strong>מיקום:</strong> בית הכנסת המרכזי</p>
-      </div>
-      <div class="lesson-content">
-        <p>בשיעור זה נלמד את פרשת השבוע בעומק, נבין את הפסוקים המרכזיים ונקשר אותם לחיי היומיום.</p>
-        <p>השיעור מתאים לכל הרמות - מתחילים ומתקדמים כאחד.</p>
-        <p>בכל שיעור נעבור על:</p>
-        <ul>
-          <li>עיקרי הפרשה</li>
-          <li>פירוש רש"י</li>
-          <li>מסרים לחיי היומיום</li>
-        </ul>
-      </div>
-    `
-  },
-  monday: {
-    title: "יום שני - גמרא בבא קמא",
-    time: "19:30",
-    teacher: "הרב לוי",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: גמרא בבא קמא</h3>
-        <p><strong>זמן:</strong> 19:30</p>
-        <p><strong>מרצה:</strong> הרב לוי</p>
-        <p><strong>מיקום:</strong> בית מדרש אור התורה</p>
-      </div>
-      <div class="lesson-content">
-        <p>שיעור גמרא מתקדם במסכת בבא קמא. נעמיק בסוגיות הנזיקין ונבין את ההלכות הרלוונטיות.</p>
-        <p>השיעור מתאים לבעלי ידע קודם בלימוד גמרא.</p>
-        <p>בשיעור נעסוק ב:</p>
-        <ul>
-          <li>ניתוח הסוגיה</li>
-          <li>מחלוקות הראשונים</li>
-          <li>הלכה למעשה</li>
-        </ul>
-      </div>
-    `
-  },
-  tuesday: {
-    title: "יום שלישי - הלכות שבת",
-    time: "20:15",
-    teacher: "הרב אברהם",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: הלכות שבת</h3>
-        <p><strong>זמן:</strong> 20:15</p>
-        <p><strong>מרצה:</strong> הרב אברהם</p>
-        <p><strong>מיקום:</strong> בית הכנסת שלום</p>
-      </div>
-      <div class="lesson-content">
-        <p>שיעור מעשי בהלכות שבת. נלמד את הדינים החיוניים לשמירת שבת כהלכה.</p>
-        <p>השיעור כולל דוגמאות מעשיות ותשובות לשאלות יומיומיות.</p>
-        <p>נושאים מרכזיים:</p>
-        <ul>
-          <li>39 מלאכות אבות</li>
-          <li>דיני מוקצה</li>
-          <li>הדלקת נרות</li>
-          <li>עירוב תחומין</li>
-        </ul>
-      </div>
-    `
-  },
-  wednesday: {
-    title: "יום רביעי - פרקי אבות",
-    time: "19:45",
-    teacher: "הרב יצחק",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: פרקי אבות</h3>
-        <p><strong>זמן:</strong> 19:45</p>
-        <p><strong>מרצה:</strong> הרב יצחק</p>
-        <p><strong>מיקום:</strong> בית הכנסת אהבת שלום</p>
-      </div>
-      <div class="lesson-content">
-        <p>שיעור במסכת אבות - חכמת החיים והמוסר היהודי.</p>
-        <p>נלמד את דברי חז"ל ונקשר אותם לחיי היומיום המודרניים.</p>
-        <p>בשיעור נעסוק ב:</p>
-        <ul>
-          <li>אמרות חכמים</li>
-          <li>מידות טובות</li>
-          <li>יחסים בין אדם לחברו</li>
-          <li>דרך ארץ</li>
-        </ul>
-      </div>
-    `
-  },
-  thursday: {
-    title: "יום חמישי - קבלת שבת",
-    time: "20:00",
-    teacher: "הרב משה",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: קבלת שבת</h3>
-        <p><strong>זמן:</strong> 20:00</p>
-        <p><strong>מרצה:</strong> הרב משה</p>
-        <p><strong>מיקום:</strong> בית הכנסת נר תמיד</p>
-      </div>
-      <div class="lesson-content">
-        <p>שיעור בעומק התפילות וההכנות לשבת קודש.</p>
-        <p>נלמד את משמעות הפיוטים ואת הרוחניות של כניסת השבת.</p>
-        <p>נושאים בשיעור:</p>
-        <ul>
-          <li>תפילות קבלת שבת</li>
-          <li>משמעות הפיוטים</li>
-          <li>הכנות רוחניות</li>
-          <li>מנהגי קבלת שבת</li>
-        </ul>
-      </div>
-    `
-  },
-  friday: {
-    title: "יום שישי - הכנות לשבת",
-    time: "10:00",
-    teacher: "הרב דוד",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: הכנות לשבת</h3>
-        <p><strong>זמן:</strong> 10:00</p>
-        <p><strong>מרצה:</strong> הרב דוד</p>
-        <p><strong>מיקום:</strong> בית הכנסת חסדי דוד</p>
-      </div>
-      <div class="lesson-content">
-        <p>שיעור מעשי בהכנות לשבת - הלכות ומנהגים.</p>
-        <p>נלמד איך להתכונן לשבת מבחינה הלכתית ורוחנית.</p>
-        <p>נושאים מרכזיים:</p>
-        <ul>
-          <li>הכנות האוכל</li>
-          <li>הדלקת נרות</li>
-          <li>הכנות הבית</li>
-          <li>רוחניות יום שישי</li>
-        </ul>
-      </div>
-    `
-  },
-  saturday: {
-    title: "יום שבת - שיעור אחר התפילה",
-    time: "10:30",
-    teacher: "הרב שלמה",
-    content: `
-      <div class="lesson-details">
-        <h3>נושא השיעור: שיעור אחר התפילה</h3>
-        <p><strong>זמן:</strong> 10:30 (לאחר תפילת שחרית)</p>
-        <p><strong>מרצה:</strong> הרב שלמה</p>
-        <p><strong>מיקום:</strong> בית הכנסת הגדול</p>
-      </div>
-      <div class="lesson-content">
-        <p>שיעור בשבת קודש לאחר תפילת שחרית.</p>
-        <p>הנושא משתנה כל שבת - תורה, הלכה, או מוסר.</p>
-        <p>נושאים אפשריים:</p>
-        <ul>
-          <li>דברי תורה על הפרשה</li>
-          <li>הלכות שבת</li>
-          <li>מוסר ויראת שמים</li>
-          <li>רבנו בחי"י</li>
-        </ul>
-      </div>
-    `
-  }
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA_4RAbPHGRut7kLK5TorqBkGbUIg1qfiI",
+  authDomain: "tfila-772ad.firebaseapp.com",
+  projectId: "tfila-772ad",
+  storageBucket: "tfila-772ad.firebasestorage.app",
+  messagingSenderId: "1041334561919",
+  appId: "1:1041334561919:web:c5222a28a5de705439a34a"
 };
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+
+let lessons = {};
+let isLoading = true;
+let isError = false;
+
+async function loadLessonsFromDB() {
+  try {
+    const lessonsSnap = await getDocs(collection(db, "Shiurim"));
+    lessons = {};
+    lessonsSnap.forEach(doc => {
+      const data = doc.data();
+      lessons[data.day] = {
+        title: data.title,
+        time: data.time,
+        teacher: data.teacher,
+        content: data.content
+      };
+    });
+    isLoading = false;
+    isError = false;
+    renderGrid();
+    highlightCurrentDay();
+  } catch (e) {
+    isLoading = false;
+    isError = true;
+    renderGrid();
+  }
+}
+
+function renderGrid() {
+  const grid = document.querySelector('.grid');
+  if (isLoading) {
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; font-size:1.3em; color:#1976d2;">טוען שיעורים...</div>';
+    return;
+  }
+  if (isError) {
+    grid.innerHTML = '<div style="grid-column: 1/-1; text-align:center; color:#d32f2f; font-size:1.2em;">שגיאה בטעינת נתוני שיעורים</div>';
+    return;
+  }
+  const days = [
+    { key: 'sunday', label: 'יום ראשון', icon: '📚' },
+    { key: 'monday', label: 'יום שני', icon: '📖' },
+    { key: 'tuesday', label: 'יום שלישי', icon: '✨' },
+    { key: 'wednesday', label: 'יום רביעי', icon: '🕯️' },
+    { key: 'thursday', label: 'יום חמישי', icon: '⭐' },
+    { key: 'friday', label: 'יום שישי', icon: '🕯️' },
+    { key: 'saturday', label: 'יום שבת', icon: '👑' }
+  ];
+  grid.innerHTML = '';
+  days.forEach(day => {
+    const lesson = lessons[day.key];
+    if (!lesson) return;
+    const div = document.createElement('div');
+    div.className = 'day-card';
+    div.setAttribute('data-day', day.key);
+    div.onclick = () => openModal(day.key);
+    div.innerHTML = `
+      <div class="day-icon">${day.icon}</div>
+      <div class="day-name">${day.label}</div>
+      <div class="lesson-preview">${lesson.title || ''}</div>
+      <div class="lesson-time">${lesson.time || ''}</div>
+      <div class="lesson-teacher">${lesson.teacher || ''}</div>
+    `;
+    grid.appendChild(div);
+  });
+}
 
 function openModal(day) {
   const modal = document.getElementById('modal');
   const title = document.getElementById('modal-title');
   const content = document.getElementById('lesson-content');
-  
   const lesson = lessons[day];
   if (lesson) {
     title.textContent = lesson.title;
@@ -510,7 +420,6 @@ function closeModal() {
   modal.classList.add('hidden');
 }
 
-// Event listeners
 document.getElementById('close-modal').addEventListener('click', closeModal);
 document.getElementById('modal').addEventListener('click', function(e) {
   if (e.target === this) {
@@ -518,26 +427,21 @@ document.getElementById('modal').addEventListener('click', function(e) {
   }
 });
 
-// Highlight current day
 function highlightCurrentDay() {
   const today = new Date().getDay(); // 0 = Sunday, 1 = Monday, etc.
   const days = ['sunday', 'monday', 'tuesday', 'wednesday', 'thursday', 'friday', 'saturday'];
   const currentDay = days[today];
-  
-  // Remove existing highlights
   document.querySelectorAll('.day-card').forEach(card => {
     card.classList.remove('current-day');
   });
-  
-  // Add highlight to current day
-  const currentDayCard = document.querySelector(`[onclick="openModal('${currentDay}')"]`);
+  const currentDayCard = document.querySelector(`.day-card[data-day="${currentDay}"]`);
   if (currentDayCard) {
     currentDayCard.classList.add('current-day');
   }
 }
 
-// Initialize
-highlightCurrentDay();
+// אתחול ראשוני
+loadLessonsFromDB();
 </script>
 </body>
   </html>
