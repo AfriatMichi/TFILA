@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ניהול שיעורי תורה</title>
+  <link rel="stylesheet" href="style.css">
+  <style>
+    body { direction: rtl; background: #f5f7fa; }
+    .admin-container { max-width: 900px; margin: 40px auto; background: #fff; border-radius: 14px; box-shadow: 0 2px 16px #90caf933; padding: 32px 24px; }
+    .admin-title { text-align: center; color: #1976d2; font-size: 2rem; margin-bottom: 24px; }
+    .admin-label { font-weight: 600; margin-top: 18px; display: block; color: #0d47a1; }
+    .admin-input, .admin-select, .admin-textarea { width: 100%; padding: 8px; margin-top: 6px; border-radius: 6px; border: 1px solid #90caf9; font-size: 1rem; box-sizing: border-box; }
+    .admin-textarea { min-height: 80px; font-family: inherit; }
+    .add-btn, .save-btn, .delete-btn { background: #1976d2; color: #fff; border: none; border-radius: 6px; padding: 7px 18px; font-size: 1em; margin-top: 10px; cursor: pointer; }
+    .save-btn { background: #388e3c; }
+    .delete-btn { background: #d32f2f; }
+    .shiur-table { width: 100%; border-collapse: collapse; margin-top: 30px; }
+    .shiur-table th, .shiur-table td { padding: 10px 8px; border-bottom: 1px solid #e3e3e3; text-align: center; }
+    .shiur-table th { background: #e3f2fd; color: #1565c0; }
+    .status-msg { text-align: center; margin-top: 18px; font-size: 1.1em; }
+    .footer { text-align: center; color: #888; font-size: 1rem; margin: 36px 0 18px 0; letter-spacing: 1px; }
+    .hidden { display: none; }
+  </style>
+</head>
+<body>
+  <div id="admin-content" class="admin-container hidden">
+    <div class="admin-title">ניהול שיעורי תורה</div>
+    <form id="add-shiur-form">
+      <label class="admin-label" for="day">יום בשבוע:</label>
+      <select id="day" class="admin-select" required>
+        <option value="">בחר יום</option>
+        <option value="sunday">יום ראשון</option>
+        <option value="monday">יום שני</option>
+        <option value="tuesday">יום שלישי</option>
+        <option value="wednesday">יום רביעי</option>
+        <option value="thursday">יום חמישי</option>
+        <option value="friday">יום שישי</option>
+        <option value="saturday">יום שבת</option>
+      </select>
+      <label class="admin-label" for="title">כותרת השיעור:</label>
+      <input id="title" class="admin-input" required>
+      <label class="admin-label" for="time">שעה:</label>
+      <input id="time" class="admin-input" type="time" required>
+      <label class="admin-label" for="teacher">מרצה:</label>
+      <input id="teacher" class="admin-input" required>
+      <label class="admin-label" for="content">תוכן (HTML):</label>
+      <textarea id="content" class="admin-textarea" required></textarea>
+      <button type="submit" class="add-btn">הוסף שיעור</button>
+    </form>
+    <div id="status-msg" class="status-msg"></div>
+    <table class="shiur-table" id="shiurim-table">
+      <thead>
+        <tr>
+          <th>יום</th>
+          <th>כותרת</th>
+          <th>שעה</th>
+          <th>מרצה</th>
+          <th>תוכן</th>
+          <th>פעולות</th>
+        </tr>
+      </thead>
+      <tbody id="shiurim-tbody"></tbody>
+    </table>
+  </div>
+  <div id="loading-msg" style="text-align: center; margin-top: 50px; font-size: 1.5rem;">טוען, אנא המתן...</div>
+  <footer class="footer">נבנה ע"י מיכאל אפריאט ©</footer>
+  <script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+import { getFirestore, collection, getDocs, setDoc, doc, deleteDoc } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-auth.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyA_4RAbPHGRut7kLK5TorqBkGbUIg1qfiI",
+  authDomain: "tfila-772ad.firebaseapp.com",
+  projectId: "tfila-772ad",
+  storageBucket: "tfila-772ad.firebasestorage.app",
+  messagingSenderId: "1041334561919",
+  appId: "1:1041334561919:web:c5222a28a5de705439a34a"
+};
+const app = initializeApp(firebaseConfig);
+const db = getFirestore(app);
+const auth = getAuth(app);
+const ADMIN_UID = "XhSmPkUQwyYydmArBW3h9b0IvzB3";
+
+onAuthStateChanged(auth, (user) => {
+  if (user && user.uid === ADMIN_UID) {
+    document.getElementById('loading-msg').classList.add('hidden');
+    document.getElementById('admin-content').classList.remove('hidden');
+    loadShiurim();
+  } else {
+    window.location.replace('login.html');
+  }
+});
+
+const statusMsg = document.getElementById('status-msg');
+const tbody = document.getElementById('shiurim-tbody');
+
+async function loadShiurim() {
+  tbody.innerHTML = '<tr><td colspan="6">טוען...</td></tr>';
+  const shiurimSnap = await getDocs(collection(db, "Shiurim"));
+  const shiurim = [];
+  shiurimSnap.forEach(docSnap => {
+    const data = docSnap.data();
+    shiurim.push({ id: docSnap.id, ...data });
+  });
+  renderTable(shiurim);
+}
+
+function renderTable(shiurim) {
+  tbody.innerHTML = '';
+  if (shiurim.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="6">אין שיעורים</td></tr>';
+    return;
+  }
+  shiurim.sort((a, b) => dayOrder(a.day) - dayOrder(b.day));
+  shiurim.forEach(shiur => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td>${dayLabel(shiur.day)}</td>
+      <td><input value="${shiur.title}" class="admin-input" data-field="title"></td>
+      <td><input value="${shiur.time}" class="admin-input" type="time" data-field="time"></td>
+      <td><input value="${shiur.teacher}" class="admin-input" data-field="teacher"></td>
+      <td><textarea class="admin-textarea" data-field="content">${shiur.content}</textarea></td>
+      <td>
+        <button class="save-btn">שמור</button>
+        <button class="delete-btn">מחק</button>
+      </td>
+    `;
+    // שמירה
+    tr.querySelector('.save-btn').onclick = async () => {
+      statusMsg.textContent = 'שומר...';
+      await setDoc(doc(db, 'Shiurim', shiur.id), {
+        day: shiur.day,
+        title: tr.querySelector('[data-field="title"]').value,
+        time: tr.querySelector('[data-field="time"]').value,
+        teacher: tr.querySelector('[data-field="teacher"]').value,
+        content: tr.querySelector('[data-field="content"]').value
+      });
+      statusMsg.textContent = 'השיעור נשמר!';
+      setTimeout(() => statusMsg.textContent = '', 1200);
+      loadShiurim();
+    };
+    // מחיקה
+    tr.querySelector('.delete-btn').onclick = async () => {
+      if (!confirm('למחוק את השיעור?')) return;
+      statusMsg.textContent = 'מוחק...';
+      await deleteDoc(doc(db, 'Shiurim', shiur.id));
+      statusMsg.textContent = 'נמחק.';
+      setTimeout(() => statusMsg.textContent = '', 1200);
+      loadShiurim();
+    };
+    tbody.appendChild(tr);
+  });
+}
+
+function dayOrder(day) {
+  const days = ['sunday','monday','tuesday','wednesday','thursday','friday','saturday'];
+  return days.indexOf(day);
+}
+function dayLabel(day) {
+  return {
+    sunday: 'יום ראשון', monday: 'יום שני', tuesday: 'יום שלישי', wednesday: 'יום רביעי', thursday: 'יום חמישי', friday: 'יום שישי', saturday: 'יום שבת'
+  }[day] || day;
+}
+
+document.getElementById('add-shiur-form').onsubmit = async (e) => {
+  e.preventDefault();
+  const day = document.getElementById('day').value;
+  const title = document.getElementById('title').value.trim();
+  const time = document.getElementById('time').value;
+  const teacher = document.getElementById('teacher').value.trim();
+  const content = document.getElementById('content').value.trim();
+  if (!day || !title || !time || !teacher || !content) {
+    statusMsg.textContent = 'יש למלא את כל השדות';
+    return;
+  }
+  statusMsg.textContent = 'מוסיף...';
+  await setDoc(doc(db, 'Shiurim', day), { day, title, time, teacher, content });
+  statusMsg.textContent = 'השיעור נוסף!';
+  setTimeout(() => statusMsg.textContent = '', 1200);
+  document.getElementById('add-shiur-form').reset();
+  loadShiurim();
+};
+  </script>
+</body>
+</html> 
