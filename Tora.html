@@ -247,56 +247,13 @@
   
   <h1>ברוכים הבאים לאתר השיעורים של הרב אפרים עבדיאן שליט"א</h1>
   
-  // === <div class="grid"> === //
-    <div class="day-card" onclick="openModal('sunday')">
-      <div class="day-name">יום ראשון</div>
-      <div class="lesson-preview">פרשת השבוע</div>
-      <div class="lesson-time">20:00</div>
-      <div class="lesson-shul">הרב כהן</div>
-    </div>
-    
-    <div class="day-card" onclick="openModal('monday')">
-      <div class="day-name">יום שני</div>
-      <div class="lesson-preview">גמרא בבא קמא</div>
-      <div class="lesson-time">19:30</div>
-      <div class="lesson-shul">הרב לוי</div>
-    </div>
-    
-    <div class="day-card" onclick="openModal('tuesday')">
-      <div class="day-name">יום שלישי</div>
-      <div class="lesson-preview">הלכות שבת</div>
-      <div class="lesson-time">20:15</div>
-      <div class="lesson-shul">הרב אברהם</div>
-    </div>
-    
-    <div class="day-card" onclick="openModal('wednesday')">
-      <div class="day-name">יום רביעי</div>
-      <div class="lesson-preview">פרקי אבות</div>
-      <div class="lesson-time">19:45</div>
-      <div class="lesson-shul">הרב יצחק</div>
-    </div>
-    
-    <div class="day-card" onclick="openModal('thursday')">
-      <div class="day-name">יום חמישי</div>
-      <div class="lesson-preview">קבלת שבת</div>
-      <div class="lesson-time">20:00</div>
-      <div class="lesson-shul">הרב משה</div>
-    </div>
-    
-    <div class="day-card" onclick="openModal('friday')">
-      <div class="day-name">יום שישי</div>
-      <div class="lesson-preview">הכנות לשבת</div>
-      <div class="lesson-time">10:00</div>
-      <div class="lesson-shul">הרב דוד</div>
-    </div>
-    
-    <div class="day-card" onclick="openModal('saturday')">
-      <div class="day-name">יום שבת</div>
-      <div class="lesson-preview">שיעור אחר התפילה</div>
-      <div class="lesson-time">10:30</div>
-      <div class="lesson-shul">הרב שלמה</div>
-    </div>
-  </div>
+  
+ <!-- 
+ הקוד הזה (הרשימה הסטטית של שיעורים) אינו נחוץ אם אתה טוען את השיעורים מה-DB ומרנדר אותם דינאמית ב-JS (כמו שמופיע בסקריפט למטה).
+ אם אתה משתמש ב-renderGrid() כדי להציג את השיעורים מה-DB, אפשר למחוק את הקטע הזה.
+ השאר כאן div ריק עבור הגריד, לדוג' כך:
+-->
+ <div class="grid" id="lessons-grid"></div>
   
   <div id="modal" class="modal hidden">
     <div class="modal-content">
