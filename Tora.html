@@ -429,12 +429,13 @@ async function loadLessonsFromDB() {
     lessons = {};
     lessonsSnap.forEach(doc => {
       const data = doc.data();
-      lessons[data.day] = {
+      if (!lessons[data.day]) lessons[data.day] = [];
+      lessons[data.day].push({
         title: data.title,
         time: data.time,
         shulName: data.shulName,
         content: data.content
-      };
+      });
     });
     isLoading = false;
     isError = false;
