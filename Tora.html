@@ -36,74 +36,67 @@
   }
   
   .grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: 32px;
-    max-width: 1200px;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    max-width: 700px;
     margin: 48px auto;
-    padding: 0 20px;
+    padding: 0 10px;
   }
   
   .day-card {
     background: linear-gradient(120deg, #fff 60%, #e3f2fd 100%);
     border-radius: 18px;
     box-shadow: 0 4px 24px rgba(33, 150, 243, 0.10), 0 1.5px 6px #90caf9;
-    padding: 28px 20px 22px 20px;
-    text-align: center;
+    padding: 32px 24px 28px 24px;
+    text-align: right;
     cursor: pointer;
     transition: box-shadow 0.25s, transform 0.18s, background 0.18s;
     border: 2px solid #90caf9;
     position: relative;
     overflow: hidden;
-    touch-action: manipulation;
-    -webkit-touch-callout: none;
-    -webkit-user-select: none;
-    -khtml-user-select: none;
-    -moz-user-select: none;
-    -ms-user-select: none;
-    user-select: none;
+    width: 100%;
+    font-size: 1.25rem;
+    min-height: 70px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 8px;
   }
   
   .day-card:hover {
     box-shadow: 0 8px 32px rgba(33, 150, 243, 0.18), 0 2px 12px #64b5f6;
-    transform: translateY(-6px) scale(1.03);
+    transform: translateY(-4px) scale(1.01);
     background: linear-gradient(120deg, #e3f2fd 60%, #fff 100%);
     border-color: #1976d2;
   }
   
-  .day-icon {
-    font-size: 56px;
-    margin-bottom: 16px;
-    color: #1976d2;
-    filter: drop-shadow(0 2px 6px #90caf9aa);
-  }
-  
   .day-name {
-    font-size: 1.4rem;
+    font-size: 1.35em;
     font-weight: 700;
     color: #0d47a1;
-    letter-spacing: 0.5px;
-    margin-bottom: 12px;
+    margin-bottom: 2px;
   }
   
   .lesson-preview {
-    font-size: 1.1rem;
+    font-size: 1.15em;
     color: #1565c0;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
     line-height: 1.4;
   }
   
   .lesson-time {
-    font-size: 1rem;
+    font-size: 1.1em;
     color: #388e3c;
     font-weight: 600;
-    margin-bottom: 8px;
+    margin-bottom: 2px;
   }
   
-  .lesson-teacher {
-    font-size: 0.95rem;
-    color: #666;
-    font-style: italic;
+  .lesson-shul {
+    font-size: 1.05em;
+    color: #1976d2;
+    font-weight: 500;
+    margin-bottom: 2px;
   }
   
   .modal {
@@ -254,61 +247,54 @@
   
   <h1>ברוכים הבאים לאתר השיעורים של הרב אפרים עבדיאן שליט"א</h1>
   
-  <div class="grid">
+  // === <div class="grid"> === //
     <div class="day-card" onclick="openModal('sunday')">
-      <div class="day-icon">📚</div>
       <div class="day-name">יום ראשון</div>
       <div class="lesson-preview">פרשת השבוע</div>
       <div class="lesson-time">20:00</div>
-      <div class="lesson-teacher">הרב כהן</div>
+      <div class="lesson-shul">הרב כהן</div>
     </div>
     
     <div class="day-card" onclick="openModal('monday')">
-      <div class="day-icon">📖</div>
       <div class="day-name">יום שני</div>
       <div class="lesson-preview">גמרא בבא קמא</div>
       <div class="lesson-time">19:30</div>
-      <div class="lesson-teacher">הרב לוי</div>
+      <div class="lesson-shul">הרב לוי</div>
     </div>
     
     <div class="day-card" onclick="openModal('tuesday')">
-      <div class="day-icon">✨</div>
       <div class="day-name">יום שלישי</div>
       <div class="lesson-preview">הלכות שבת</div>
       <div class="lesson-time">20:15</div>
-      <div class="lesson-teacher">הרב אברהם</div>
+      <div class="lesson-shul">הרב אברהם</div>
     </div>
     
     <div class="day-card" onclick="openModal('wednesday')">
-      <div class="day-icon">🕯️</div>
       <div class="day-name">יום רביעי</div>
       <div class="lesson-preview">פרקי אבות</div>
       <div class="lesson-time">19:45</div>
-      <div class="lesson-teacher">הרב יצחק</div>
+      <div class="lesson-shul">הרב יצחק</div>
     </div>
     
     <div class="day-card" onclick="openModal('thursday')">
-      <div class="day-icon">⭐</div>
       <div class="day-name">יום חמישי</div>
       <div class="lesson-preview">קבלת שבת</div>
       <div class="lesson-time">20:00</div>
-      <div class="lesson-teacher">הרב משה</div>
+      <div class="lesson-shul">הרב משה</div>
     </div>
     
     <div class="day-card" onclick="openModal('friday')">
-      <div class="day-icon">🕯️</div>
       <div class="day-name">יום שישי</div>
       <div class="lesson-preview">הכנות לשבת</div>
       <div class="lesson-time">10:00</div>
-      <div class="lesson-teacher">הרב דוד</div>
+      <div class="lesson-shul">הרב דוד</div>
     </div>
     
     <div class="day-card" onclick="openModal('saturday')">
-      <div class="day-icon">👑</div>
       <div class="day-name">יום שבת</div>
       <div class="lesson-preview">שיעור אחר התפילה</div>
       <div class="lesson-time">10:30</div>
-      <div class="lesson-teacher">הרב שלמה</div>
+      <div class="lesson-shul">הרב שלמה</div>
     </div>
   </div>
   
@@ -376,13 +362,13 @@ function renderGrid() {
     return;
   }
   const days = [
-    { key: 'sunday', label: 'יום ראשון', icon: '📚' },
-    { key: 'monday', label: 'יום שני', icon: '📖' },
-    { key: 'tuesday', label: 'יום שלישי', icon: '✨' },
-    { key: 'wednesday', label: 'יום רביעי', icon: '🕯️' },
-    { key: 'thursday', label: 'יום חמישי', icon: '⭐' },
-    { key: 'friday', label: 'יום שישי', icon: '🕯️' },
-    { key: 'saturday', label: 'יום שבת', icon: '👑' }
+    { key: 'sunday', label: 'יום ראשון' },
+    { key: 'monday', label: 'יום שני' },
+    { key: 'tuesday', label: 'יום שלישי' },
+    { key: 'wednesday', label: 'יום רביעי' },
+    { key: 'thursday', label: 'יום חמישי' },
+    { key: 'friday', label: 'יום שישי' },
+    { key: 'saturday', label: 'יום שבת' }
   ];
   grid.innerHTML = '';
   days.forEach(day => {
@@ -393,7 +379,6 @@ function renderGrid() {
     div.setAttribute('data-day', day.key);
     div.onclick = () => openModal(day.key);
     div.innerHTML = `
-      <div class="day-icon">${day.icon}</div>
       <div class="day-name">${day.label}</div>
       <div class="lesson-preview">${lesson.title || ''}</div>
       <div class="lesson-time">${lesson.time || ''}</div>
