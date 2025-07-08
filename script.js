@@ -166,7 +166,26 @@ function openModal(idx) {
   }, 0);
   renderTab('weekday');
   document.getElementById('modal').classList.remove('hidden');
-  
+
+  // Remove previous WhatsApp button if exists
+  const oldBtn = document.getElementById('whatsapp-share-btn');
+  if (oldBtn) oldBtn.remove();
+
+  // Create WhatsApp button
+  const btn = document.createElement('button');
+  btn.className = 'whatsapp-btn';
+  btn.id = 'whatsapp-share-btn';
+  btn.title = 'שלח את כל הזמנים בוואטסאפ';
+  btn.innerHTML = `
+    <svg viewBox="0 0 32 32"><path d="M16 3C9.373 3 4 8.373 4 15c0 2.385.832 4.584 2.236 6.37L4 29l7.824-2.05A12.94 12.94 0 0 0 16 27c6.627 0 12-5.373 12-12S22.627 3 16 3zm0 22c-1.97 0-3.85-.51-5.48-1.48l-.39-.23-4.65 1.22 1.24-4.53-.25-.4A9.93 9.93 0 0 1 6 15c0-5.514 4.486-10 10-10s10 4.486 10 10-4.486 10-10 10zm5.29-7.71c-.29-.15-1.71-.84-1.97-.93-.26-.1-.45-.15-.64.15-.19.29-.74.93-.91 1.12-.17.19-.34.21-.63.07-.29-.15-1.22-.45-2.33-1.43-.86-.77-1.44-1.72-1.61-2.01-.17-.29-.02-.45.13-.6.13-.13.29-.34.43-.51.14-.17.19-.29.29-.48.1-.19.05-.36-.02-.51-.07-.15-.64-1.54-.88-2.11-.23-.56-.47-.48-.64-.49-.16-.01-.36-.01-.56-.01-.19 0-.5.07-.76.36-.26.29-1 1-.99 2.43.01 1.43 1.03 2.81 1.18 3.01.15.19 2.03 3.1 4.93 4.23.69.3 1.23.48 1.65.61.69.22 1.32.19 1.82.12.56-.08 1.71-.7 1.95-1.38.24-.68.24-1.26.17-1.38-.07-.12-.26-.19-.55-.34z"/></svg>
+  `;
+  btn.onclick = function() {
+    const text = formatWhatsappText(shul);
+    const url = `https://wa.me/?text=${encodeURIComponent(text)}`;
+    window.open(url, '_blank');
+  };
+  document.querySelector('.modal-content').appendChild(btn);
+
   // מניעת scroll על הגוף כשהמודל פתוח
   document.body.style.overflow = 'hidden';
 }
@@ -184,6 +203,25 @@ document.getElementById('modal').onclick = function(e) {
     closeModal();
   }
 };
+
+function formatWhatsappText(shul) {
+  let text = `📍 ${shul.name}\n\n`;
+  if (shul.prayers && shul.prayers.length) {
+    text += '🗓️ זמני יום חול:\n';
+    shul.prayers.forEach(p => {
+      text += `• ${p.name}: ${p.time}\n`;
+    });
+    text += '\n';
+  }
+  if (shul.shabbatPrayers && shul.shabbatPrayers.length) {
+    text += '🕍 זמני שבת:\n';
+    shul.shabbatPrayers.forEach(p => {
+      text += `• ${p.name}: ${p.time}\n`;
+    });
+  }
+  text += '\nנשלח מאתר בתי הכנסת בניצן';
+  return text;
+}
 
 // --- Upcoming Prayers Logic ---
 function getUpcomingPrayers() {
