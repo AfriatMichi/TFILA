@@ -219,7 +219,7 @@ function formatWhatsappText(shul) {
       text += `• ${p.name}: ${p.time}\n`;
     });
   }
-  text += '\nנשלח מאתר בתי הכנסת בניצן';
+  text += '\nנשלח מאתר בתי הכנסת בניצן\nhttps://tfila.zivart.xyz/';
   return text;
 }
 
