@@ -43,7 +43,6 @@
     margin: 48px auto;
     padding: 0 10px;
   }
-  
   .day-card {
     background: linear-gradient(120deg, #fff 60%, #e3f2fd 100%);
     border-radius: 18px;
@@ -62,6 +61,33 @@
     flex-direction: column;
     justify-content: center;
     gap: 8px;
+    word-break: break-word;
+  }
+  @media (max-width: 600px) {
+    .grid {
+      max-width: 100vw;
+      padding: 0 2vw;
+      gap: 14px;
+    }
+    .day-card {
+      padding: 18px 7px 16px 7px;
+      font-size: 1.08rem;
+      min-height: 48px;
+      border-radius: 12px;
+      gap: 4px;
+    }
+    h1 {
+      font-size: 1.25rem;
+      margin-top: 18px;
+    }
+    .modal-content {
+      min-width: 0;
+      padding: 18px 7px 16px 7px;
+    }
+    .footer {
+      font-size: 0.95rem;
+      margin: 18px 0 10px 0;
+    }
   }
   
   .day-card:hover {
