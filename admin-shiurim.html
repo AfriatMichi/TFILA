@@ -42,8 +42,8 @@
       <input id="title" class="admin-input" required>
       <label class="admin-label" for="time">שעה:</label>
       <input id="time" class="admin-input" type="time" required>
-      <label class="admin-label" for="teacher">מרצה:</label>
-      <input id="teacher" class="admin-input" required>
+      <label class="admin-label" for="shulName">שם בית כנסת:</label>
+      <input id="shulName" class="admin-input" required>
       <label class="admin-label" for="content">תוכן (HTML):</label>
       <textarea id="content" class="admin-textarea" required></textarea>
       <button type="submit" class="add-btn">הוסף שיעור</button>
@@ -55,7 +55,7 @@
           <th>יום</th>
           <th>כותרת</th>
           <th>שעה</th>
-          <th>מרצה</th>
+          <th>שם בית כנסת</th>
           <th>תוכן</th>
           <th>פעולות</th>
         </tr>
@@ -120,7 +120,7 @@ function renderTable(shiurim) {
       <td>${dayLabel(shiur.day)}</td>
       <td><input value="${shiur.title}" class="admin-input" data-field="title"></td>
       <td><input value="${shiur.time}" class="admin-input" type="time" data-field="time"></td>
-      <td><input value="${shiur.teacher}" class="admin-input" data-field="teacher"></td>
+      <td><input value="${shiur.shulName || ''}" class="admin-input" data-field="shulName"></td>
       <td><textarea class="admin-textarea" data-field="content">${shiur.content}</textarea></td>
       <td>
         <button class="save-btn">שמור</button>
@@ -134,7 +134,7 @@ function renderTable(shiurim) {
         day: shiur.day,
         title: tr.querySelector('[data-field="title"]').value,
         time: tr.querySelector('[data-field="time"]').value,
-        teacher: tr.querySelector('[data-field="teacher"]').value,
+        shulName: tr.querySelector('[data-field="shulName"]').value,
         content: tr.querySelector('[data-field="content"]').value
       });
       statusMsg.textContent = 'השיעור נשמר!';
@@ -169,14 +169,14 @@ document.getElementById('add-shiur-form').onsubmit = async (e) => {
   const day = document.getElementById('day').value;
   const title = document.getElementById('title').value.trim();
   const time = document.getElementById('time').value;
-  const teacher = document.getElementById('teacher').value.trim();
+  const shulName = document.getElementById('shulName').value.trim();
   const content = document.getElementById('content').value.trim();
-  if (!day || !title || !time || !teacher || !content) {
+  if (!day || !title || !time || !shulName || !content) {
     statusMsg.textContent = 'יש למלא את כל השדות';
     return;
   }
   statusMsg.textContent = 'מוסיף...';
-  await setDoc(doc(db, 'Shiurim', day), { day, title, time, teacher, content });
+  await setDoc(doc(db, 'Shiurim', day), { day, title, time, shulName, content });
   statusMsg.textContent = 'השיעור נוסף!';
   setTimeout(() => statusMsg.textContent = '', 1200);
   document.getElementById('add-shiur-form').reset();
