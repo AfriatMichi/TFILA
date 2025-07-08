@@ -39,17 +39,42 @@
     color: #232a3b;
   }
   h1 {
+    display: none;
+  }
+  .hero-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+    margin-bottom: 30px;
     text-align: center;
-    margin-top: 36px;
-    font-size: 2.2rem;
-    color: #1a237e;
-    letter-spacing: 1px;
-    text-shadow: 0 2px 8px #b3e5fc44;
+  }
+  .hero-icon {
+    width: 70px;
+    height: 70px;
+    margin-bottom: 10px;
+  }
+  .hero-title {
+    font-size: 2.3rem;
     font-weight: 800;
-    background: linear-gradient(90deg, #1976d2 0%, #64b5f6 100%);
+    background: linear-gradient(90deg, #1976d2 0%, #64b5f6 60%, #7ec6ff 100%);
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent;
     background-clip: text;
+    margin-bottom: 0.2em;
+    letter-spacing: 1px;
+  }
+  .hero-sub {
+    font-size: 1.3rem;
+    color: #2196f3;
+    font-weight: 700;
+    margin-bottom: 0.5em;
+  }
+  .hero-desc {
+    font-size: 1.08rem;
+    color: #7b8ca6;
+    font-weight: 500;
+    margin-bottom: 0.2em;
   }
   .grid {
     display: flex;
@@ -287,6 +312,23 @@
       font-size: 0.92rem;
       margin: 10px 0 6px 0;
     }
+    .hero-header {
+      margin-top: 16px;
+      margin-bottom: 16px;
+    }
+    .hero-title {
+      font-size: 1.25rem;
+    }
+    .hero-sub {
+      font-size: 1.02rem;
+    }
+    .hero-desc {
+      font-size: 0.98rem;
+    }
+    .hero-icon {
+      width: 44px;
+      height: 44px;
+    }
   }
 </style>
 </head>
@@ -299,10 +341,26 @@
     🏠 בית
   </button>
   
-  <h1>ברוכים הבאים לאתר השיעורים של הרב אפרים עבדיאן שליט"א</h1>
+  <div class="hero-header">
+    <div class="hero-icon">
+      <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <defs>
+          <radialGradient id="g1" cx="50%" cy="50%" r="70%" fx="50%" fy="50%">
+            <stop offset="0%" stop-color="#fff"/>
+            <stop offset="60%" stop-color="#1976d2"/>
+            <stop offset="100%" stop-color="#ffeb3b"/>
+          </radialGradient>
+        </defs>
+        <circle cx="32" cy="32" r="32" fill="url(#g1)"/>
+        <path d="M20 44V24a4 4 0 0 1 4-4h16a4 4 0 0 1 4 4v20M32 44V24" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+    <div class="hero-title">הרב אפרים עבדיאן</div>
+    <div class="hero-sub">שליט"א</div>
+    <div class="hero-desc">ברוכים הבאים לאתר השיעורים של הרב אפרים עבדיאן שליט"א</div>
+  </div>
   
-  
- <!-- 
+  <!-- 
  הקוד הזה (הרשימה הסטטית של שיעורים) אינו נחוץ אם אתה טוען את השיעורים מה-DB ומרנדר אותם דינאמית ב-JS (כמו שמופיע בסקריפט למטה).
  אם אתה משתמש ב-renderGrid() כדי להציג את השיעורים מה-DB, אפשר למחוק את הקטע הזה.
  השאר כאן div ריק עבור הגריד, לדוג' כך:
