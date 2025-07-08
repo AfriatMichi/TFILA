@@ -207,7 +207,7 @@ document.getElementById('modal').onclick = function(e) {
 function formatWhatsappText(shul) {
   let text = `📍 ${shul.name}\n\n`;
   if (shul.prayers && shul.prayers.length) {
-    text += '🗓️ זמני יום חול:\n';
+    text += '📅 זמני יום חול:\n';
     shul.prayers.forEach(p => {
       text += `• ${p.name}: ${p.time}\n`;
     });
