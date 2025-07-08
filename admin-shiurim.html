@@ -45,7 +45,7 @@
       <label class="admin-label" for="shulName">שם בית כנסת:</label>
       <input id="shulName" class="admin-input" required>
       <label class="admin-label" for="content">תוכן (HTML):</label>
-      <textarea id="content" class="admin-textarea" required></textarea>
+      <textarea id="content" class="admin-textarea"></textarea>
       <button type="submit" class="add-btn">הוסף שיעור</button>
     </form>
     <div id="status-msg" class="status-msg"></div>
@@ -171,7 +171,7 @@ document.getElementById('add-shiur-form').onsubmit = async (e) => {
   const time = document.getElementById('time').value;
   const shulName = document.getElementById('shulName').value.trim();
   const content = document.getElementById('content').value.trim();
-  if (!day || !title || !time || !shulName || !content) {
+  if (!day || !title || !time || !shulName) {
     statusMsg.textContent = 'יש למלא את כל השדות';
     return;
   }

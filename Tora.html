@@ -350,7 +350,7 @@ async function loadLessonsFromDB() {
       lessons[data.day] = {
         title: data.title,
         time: data.time,
-        teacher: data.teacher,
+        shulName: data.shulName,
         content: data.content
       };
     });
@@ -397,7 +397,7 @@ function renderGrid() {
       <div class="day-name">${day.label}</div>
       <div class="lesson-preview">${lesson.title || ''}</div>
       <div class="lesson-time">${lesson.time || ''}</div>
-      <div class="lesson-teacher">${lesson.teacher || ''}</div>
+      <div class="lesson-shul">${lesson.shulName || ''}</div>
     `;
     grid.appendChild(div);
   });
