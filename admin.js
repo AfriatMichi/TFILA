@@ -21,7 +21,7 @@ const USER_SHUL_MAP = {
   "8dXkthaPyqMe0IPoGd79KRUATlx2": "בית כנסת מקדש מעט",
   "Lx0z97UXPWeK3pUKQZ5xpY8f0UB2": "בית כנסת מרכזי",
   "pDcahFE9xIVmdtLUDB4paTQ62Jg1": "בית כנסת נווה רחמים",
-  "ATNGUgYA7FXTel4A6wEJ3YfR1053": "בית כנסת ניסנית",
+  "J1R44J8l9WRpTanBmpviuBLw22u2": "בית כנסת ניסנית",
   "zjl2Q0EqwESmq1b5xfwmjy1M0YI2": "בית כנסת כלל ישראל",
   "O8szfuDZcDdbk9ihKFPvHofIfYc2": "בית כנסת נווה שלום",
   "nVtB2g34QyOSsX77OL4TsRJ8gqN2": "בית הכנסת הכורכרי",
