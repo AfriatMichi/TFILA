@@ -1,178 +1,166 @@
-import React, { useState, useEffect } from 'react';
-import { Clock, BookOpen, Plus, Settings } from 'lucide-react';
-
-export default function iPhoneHomeScreen() {
-  const [currentTime, setCurrentTime] = useState(new Date());
-  const [clickedApp, setClickedApp] = useState(null);
-
-  useEffect(() => {
-    const timer = setInterval(() => {
-      setCurrentTime(new Date());
-    }, 1000);
-    return () => clearInterval(timer);
-  }, []);
-
-  const handleAppClick = (appName) => {
-    setClickedApp(appName);
-    setTimeout(() => setClickedApp(null), 200);
-  };
-
-  const apps = [
-    {
-      id: 'prayer-times',
-      name: 'זמני תפילות',
-      icon: Clock,
-      gradient: 'from-blue-400 to-blue-600',
-      description: 'זמני תפילות יומיים'
-    },
-    {
-      id: 'torah-lessons',
-      name: 'שיעורי תורה',
-      icon: BookOpen,
-      gradient: 'from-amber-400 to-orange-500',
-      description: 'שיעורי תורה והלכה'
-    },
-    {
-      id: 'add-shortcut',
-      name: 'הוסף קיצור דרך',
-      icon: Plus,
-      gradient: 'from-green-400 to-green-600',
-      description: 'הוסף לדף הבית'
-    },
-    {
-      id: 'settings',
-      name: 'הגדרות',
-      icon: Settings,
-      gradient: 'from-gray-500 to-gray-700',
-      description: 'הגדרות האפליקציה'
-    }
-  ];
-
-  const formatTime = (date) => {
-    return date.toLocaleTimeString('he-IL', { 
-      hour: '2-digit', 
-      minute: '2-digit',
-      hour12: false
-    });
-  };
-
-  const getHebrewDate = (date) => {
-    // פונקציה פשוטה לחישוב תאריך עברי משוער
-    const hebrewMonths = [
-      'תשרי', 'חשון', 'כסלו', 'טבת', 'שבט', 'אדר',
-      'ניסן', 'אייר', 'סיון', 'תמוז', 'אב', 'אלול'
-    ];
-    
-    // המרה ליום עברי בגרש
-    const hebrewNumbers = {
-      1: 'א\'', 2: 'ב\'', 3: 'ג\'', 4: 'ד\'', 5: 'ה\'', 6: 'ו\'', 7: 'ז\'', 8: 'ח\'', 9: 'ט\'', 10: 'י\'',
-      11: 'י"א', 12: 'י"ב', 13: 'י"ג', 14: 'י"ד', 15: 'ט"ו', 16: 'ט"ז', 17: 'י"ז', 18: 'י"ח', 19: 'י"ט', 20: 'כ\'',
-      21: 'כ"א', 22: 'כ"ב', 23: 'כ"ג', 24: 'כ"ד', 25: 'כ"ה', 26: 'כ"ו', 27: 'כ"ז', 28: 'כ"ח', 29: 'כ"ט', 30: 'ל\''
-    };
-    
-    // חישוב משוער - במציאות יש צורך באלגוריתם מדויק יותר
-    const monthIndex = Math.floor((date.getMonth() + 3) % 12);
-    const day = Math.min(13 + Math.floor(date.getDate() % 17), 30); // יום משוער בין 13-30
-    
-    return `${hebrewNumbers[day]} ${hebrewMonths[monthIndex]}`;
-  };
-
-  return (
-    <div className="relative w-full max-w-sm mx-auto bg-black rounded-[3rem] p-2 shadow-2xl">
-      {/* iPhone Frame */}
-      <div className="relative h-[700px] bg-black rounded-[2.5rem] overflow-hidden">
-        
-        {/* Dynamic Island */}
-        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-800 bg-opacity-60 rounded-full z-20"></div>
-        
-        {/* Wallpaper Background */}
-        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
-          {/* Abstract background pattern */}
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full blur-xl animate-pulse"></div>
-            <div className="absolute top-40 right-8 w-24 h-24 bg-purple-500 rounded-full blur-xl animate-pulse delay-1000"></div>
-            <div className="absolute bottom-32 left-16 w-28 h-28 bg-pink-500 rounded-full blur-xl animate-pulse delay-2000"></div>
-          </div>
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <title>iPhone Home Screen</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <style>
+    body { background: #222; }
+    .app-pressed { transform: scale(0.95); }
+    .app-hovered .tooltip { opacity: 1 !important; }
+  </style>
+</head>
+<body>
+  <div class="relative w-full max-w-sm mx-auto bg-black rounded-[3rem] p-2 shadow-2xl mt-4">
+    <div class="relative h-[700px] bg-black rounded-[2.5rem] overflow-hidden">
+      <!-- Dynamic Island -->
+      <div class="absolute top-2 left-1/2 -translate-x-1/2 w-32 h-6 bg-gray-800 bg-opacity-60 rounded-full z-20"></div>
+      <!-- Wallpaper Background -->
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
+        <div class="absolute inset-0 opacity-20">
+          <div class="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full blur-xl animate-pulse"></div>
+          <div class="absolute top-40 right-8 w-24 h-24 bg-purple-500 rounded-full blur-xl animate-pulse" style="animation-delay:1s"></div>
+          <div class="absolute bottom-32 left-16 w-28 h-28 bg-pink-500 rounded-full blur-xl animate-pulse" style="animation-delay:2s"></div>
         </div>
-        
-        {/* Status Bar */}
-        <div className="relative z-10 flex justify-center items-center px-6 pt-4 pb-2">
-          <div className="text-white text-sm font-medium">
-            {formatTime(currentTime)}
-          </div>
-        </div>
-
-        {/* Main Content Area */}
-        <div className="relative z-10 flex flex-col items-center justify-center h-full px-8 pb-20">
-          
-          {/* Time Display */}
-          <div className="text-center mb-12">
-            <div className="text-white text-6xl font-light mb-2">
-              {formatTime(currentTime)}
-            </div>
-            <div className="text-white text-lg opacity-80 mb-2">
-              {currentTime.toLocaleDateString('he-IL', { 
-                weekday: 'long', 
-                year: 'numeric', 
-                month: 'long', 
-                day: 'numeric' 
-              })}
-            </div>
-            <div className="text-white text-base opacity-70">
-              {getHebrewDate(currentTime)}
-            </div>
-          </div>
-
-          {/* App Icons Grid */}
-          <div className="grid grid-cols-2 gap-6 mb-8">
-            {apps.map((app) => {
-              const IconComponent = app.icon;
-              return (
-                <div
-                  key={app.id}
-                  onClick={() => handleAppClick(app.name)}
-                  className={`
-                    relative group cursor-pointer transform transition-all duration-200 hover:scale-105
-                    ${clickedApp === app.name ? 'scale-95' : ''}
-                  `}
-                >
-                  {/* App Icon */}
-                  <div className={`
-                    w-20 h-20 rounded-2xl bg-gradient-to-br ${app.gradient} 
-                    flex items-center justify-center shadow-lg
-                    group-hover:shadow-xl transition-shadow duration-300
-                  `}>
-                    <IconComponent className="w-10 h-10 text-white" />
-                  </div>
-                  
-                  {/* App Name */}
-                  <div className="text-white text-sm text-center mt-2 font-medium">
-                    {app.name}
-                  </div>
-                  
-                  {/* Hover Tooltip */}
-                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    <div className="bg-black bg-opacity-80 text-white text-xs px-3 py-1 rounded-lg whitespace-nowrap">
-                      {app.description}
-                    </div>
-                  </div>
-                </div>
-              );
-            })}
-          </div>
-
-          {/* Page Indicator */}
-          <div className="flex space-x-2 mb-8">
-            <div className="w-2 h-2 bg-white rounded-full"></div>
-            <div className="w-2 h-2 bg-white bg-opacity-50 rounded-full"></div>
-            <div className="w-2 h-2 bg-white bg-opacity-50 rounded-full"></div>
-          </div>
-
-        </div>
-
-        {/* Home Indicator */}
-        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-60"></div>
       </div>
+      <!-- Status Bar -->
+      <div class="relative z-10 flex justify-center items-center px-6 pt-4 pb-2">
+        <div id="status-clock" class="text-white text-sm font-medium"></div>
+      </div>
+      <!-- Main Content Area -->
+      <div class="relative z-10 flex flex-col items-center justify-center h-full px-8 pb-20">
+        <!-- Time Display -->
+        <div class="text-center mb-12">
+          <div id="main-clock" class="text-white text-6xl font-light mb-2"></div>
+          <div id="gregorian-date" class="text-white text-lg opacity-80 mb-2"></div>
+          <div id="hebrew-date" class="text-white text-base opacity-70"></div>
+        </div>
+        <!-- App Icons Grid -->
+        <div id="apps-grid" class="grid grid-cols-2 gap-6 mb-8"></div>
+        <!-- Page Indicator -->
+        <div class="flex space-x-2 mb-8">
+          <div class="w-2 h-2 bg-white rounded-full"></div>
+          <div class="w-2 h-2 bg-white bg-opacity-50 rounded-full"></div>
+          <div class="w-2 h-2 bg-white bg-opacity-50 rounded-full"></div>
+        </div>
+      </div>
+      <!-- Home Indicator -->
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-60"></div>
     </div>
-  );
-}
+  </div>
+  <script>
+    // SVG Icons
+    const icons = {
+      clock: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
+      book: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 7v12a2 2 0 002 2h14"/><path d="M22 7V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12"/><path d="M16 3v4a2 2 0 002 2h4"/></svg>`,
+      plus: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>`,
+      settings: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09A1.65 1.65 0 008.91 3H9a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`
+    };
+
+    // Apps data
+    const apps = [
+      {
+        id: 'prayer-times',
+        name: 'זמני תפילות',
+        icon: icons.clock,
+        gradient: 'from-blue-400 to-blue-600',
+        description: 'זמני תפילות יומיים'
+      },
+      {
+        id: 'torah-lessons',
+        name: 'שיעורי תורה',
+        icon: icons.book,
+        gradient: 'from-amber-400 to-orange-500',
+        description: 'שיעורי תורה והלכה'
+      },
+      {
+        id: 'add-shortcut',
+        name: 'הוסף קיצור דרך',
+        icon: icons.plus,
+        gradient: 'from-green-400 to-green-600',
+        description: 'הוסף לדף הבית'
+      },
+      {
+        id: 'settings',
+        name: 'הגדרות',
+        icon: icons.settings,
+        gradient: 'from-gray-500 to-gray-700',
+        description: 'הגדרות האפליקציה'
+      }
+    ];
+
+    // Format time
+    function formatTime(date) {
+      return date.toLocaleTimeString('he-IL', {
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      });
+    }
+    // Get Hebrew date (rough)
+    function getHebrewDate(date) {
+      const hebrewMonths = [
+        'תשרי', 'חשון', 'כסלו', 'טבת', 'שבט', 'אדר',
+        'ניסן', 'אייר', 'סיון', 'תמוז', 'אב', 'אלול'
+      ];
+      const hebrewNumbers = {
+        1: 'א\'', 2: 'ב\'', 3: 'ג\'', 4: 'ד\'', 5: 'ה\'', 6: 'ו\'', 7: 'ז\'', 8: 'ח\'', 9: 'ט\'', 10: 'י\'',
+        11: 'י"א', 12: 'י"ב', 13: 'י"ג', 14: 'י"ד', 15: 'ט"ו', 16: 'ט"ז', 17: 'י"ז', 18: 'י"ח', 19: 'י"ט', 20: 'כ\'',
+        21: 'כ"א', 22: 'כ"ב', 23: 'כ"ג', 24: 'כ"ד', 25: 'כ"ה', 26: 'כ"ו', 27: 'כ"ז', 28: 'כ"ח', 29: 'כ"ט', 30: 'ל\''
+      };
+      const monthIndex = Math.floor((date.getMonth() + 3) % 12);
+      const day = Math.min(13 + Math.floor(date.getDate() % 17), 30);
+      return `${hebrewNumbers[day]} ${hebrewMonths[monthIndex]}`;
+    }
+
+    // Render apps grid
+    function renderAppsGrid() {
+      const grid = document.getElementById('apps-grid');
+      apps.forEach(app => {
+        const div = document.createElement('div');
+        div.className = `relative group cursor-pointer transform transition-all duration-200 hover:scale-105`;
+        div.innerHTML = `
+          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br ${app.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
+            ${app.icon}
+          </div>
+          <div class="text-white text-sm text-center mt-2 font-medium">${app.name}</div>
+          <div class="tooltip absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="pointer-events:none;">
+            <div class="bg-black bg-opacity-80 text-white text-xs px-3 py-1 rounded-lg whitespace-nowrap">${app.description}</div>
+          </div>
+        `;
+        // App click animation
+        div.addEventListener('mousedown', () => {
+          div.classList.add('app-pressed');
+        });
+        div.addEventListener('mouseup', () => {
+          div.classList.remove('app-pressed');
+        });
+        div.addEventListener('mouseleave', () => {
+          div.classList.remove('app-pressed');
+        });
+        grid.appendChild(div);
+      });
+    }
+
+    // Update clocks & dates
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('status-clock').textContent = formatTime(now);
+      document.getElementById('main-clock').textContent = formatTime(now);
+      document.getElementById('gregorian-date').textContent = now.toLocaleDateString('he-IL', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      document.getElementById('hebrew-date').textContent = getHebrewDate(now);
+    }
+
+    renderAppsGrid();
+    updateClocks();
+    setInterval(updateClocks, 1000);
+  </script>
+</body>
+</html>
