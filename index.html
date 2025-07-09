@@ -1,336 +1,81 @@
 <!DOCTYPE html>
-<html lang="he" dir="rtl">
+<html lang="he">
 <head>
+  <div id="bsd" dir="rtl">בס"ד</div>
+
+<style>
+  #bsd {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 9999;
+    pointer-events: none;
+    direction: rtl;
+  }
+  .lessons-nav-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    transition: background 0.3s, transform 0.18s;
+  }
+  .lessons-nav-btn:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+  }
+  @media (max-width: 500px) {
+    .lessons-nav-btn {
+      padding: 8px 12px;
+      font-size: 0.98rem;
+      top: 10px;
+      left: 10px;
+    }
+  }
+</style>
   <meta charset="UTF-8">
-  <title>פורטל ניצן</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <!-- Tailwind CSS CDN -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <style>
-    body { background: #222; }
-    .app-pressed { transform: scale(0.95); }
-    .app-hovered .tooltip { opacity: 1 !important; }
-  </style>
+  <title>בתי הכנסת בניצן</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
 </head>
 <body>
-  <div class="relative w-full max-w-sm mx-auto bg-black rounded-[3rem] p-2 shadow-2xl mt-4">
-    <div class="relative h-[700px] bg-black rounded-[2.5rem] overflow-hidden">
-      <!-- Wallpaper Background -->
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
-        <div class="absolute inset-0 opacity-20">
-          <div class="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full blur-xl animate-pulse"></div>
-          <div class="absolute top-40 right-8 w-24 h-24 bg-purple-500 rounded-full blur-xl animate-pulse" style="animation-delay:1s"></div>
-          <div class="absolute bottom-32 left-16 w-28 h-28 bg-pink-500 rounded-full blur-xl animate-pulse" style="animation-delay:2s"></div>
-        </div>
-      </div>
-      <!-- Main Content Area -->
-      <div class="relative z-10 flex flex-col items-center justify-center h-full px-8 pb-20">
-        <!-- Time Display -->
-        <div class="text-center mb-12">
-          <div id="main-clock" class="text-white text-6xl font-light mb-2"></div>
-          <div id="gregorian-date" class="text-white text-lg opacity-80 mb-2"></div>
-          <div id="hebrew-date" class="text-white text-base opacity-70"></div>
-        </div>
-        <!-- App Icons Grid -->
-        <div id="apps-grid" class="grid grid-cols-2 gap-6 mb-8"></div>
-      </div>
-      <!-- Home Indicator -->
-      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-60"></div>
+  <button class="lessons-nav-btn" onclick="window.location.href='Tora.html'">
+    📖 שיעורי תורה
+  </button>
+  <div class="clock">
+    <iframe src="https://free.timeanddate.com/clock/i9y6fsju/n110/ftb/ts1" frameborder="0" width="76" height="18"></iframe>
+  </div>
+  <button id="add-to-home" class="add-to-home" style="display:none">
+    <img src="icon-192.png" alt="הוסף למסך הבית" style="width:24px;height:24px;vertical-align:middle;">
+    הוסף למסך הבית
+  </button>
+  <h1>בתי הכנסת בניצן</h1>
+    
+
+<div id="synagogue-grid" class="grid"></div>
+
+<div id="synagogue-grid" class="grid"></div>
+  <div id="synagogue-grid" class="grid"></div>
+  <div id="upcoming-prayers" class="upcoming-prayers"></div>
+  
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <div id="prayer-times"></div>
     </div>
   </div>
-  <script>
-    // SVG Icons
-    const icons = {
-      clock: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/></svg>`,
-      book: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M2 7v12a2 2 0 002 2h14"/><path d="M22 7V5a2 2 0 00-2-2H6a2 2 0 00-2 2v12"/><path d="M16 3v4a2 2 0 002 2h4"/></svg>`,
-      plus: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></svg>`,
-      settings: `<svg class="w-10 h-10 text-white" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="3"/><path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 01-2.83 2.83l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09a1.65 1.65 0 00-1-1.51 1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06a1.65 1.65 0 00.33-1.82 1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09a1.65 1.65 0 001.51-1 1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06a1.65 1.65 0 001.82.33h.09A1.65 1.65 0 008.91 3H9a2 2 0 014 0v.09a1.65 1.65 0 001 1.51h.09a1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06a1.65 1.65 0 00-.33 1.82v.09a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/></svg>`
-    };
-
-    // Apps data
-    const apps = [
-      {
-        id: 'prayer-times',
-        name: 'זמני תפילות',
-        icon: icons.clock,
-        gradient: 'from-blue-400 to-blue-600',
-        description: 'זמני תפילות יומיים'
-      },
-      {
-        id: 'torah-lessons',
-        name: 'שיעורי הרב אפרים', // changed name
-        icon: icons.book,
-        gradient: 'from-amber-400 to-orange-500',
-        description: 'שיעורי תורה והלכה'
-      },
-      {
-        id: 'add-shortcut',
-        name: 'הוסף קיצור דרך',
-        icon: icons.plus,
-        gradient: 'from-green-400 to-green-600',
-        description: 'הוסף לדף הבית'
-      },
-      {
-        id: 'settings',
-        name: 'זמני היום',
-        icon: icons.clock,
-        gradient: 'from-gray-500 to-gray-700',
-        description: 'זמני היום לפי ישיבה'
-      }
-    ];
-
-    // Format time
-    function formatTime(date) {
-      return date.toLocaleTimeString('he-IL', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      });
-    }
-    // Get accurate Hebrew date using Intl.DateTimeFormat
-    function getHebrewDate(date) {
-      return new Intl.DateTimeFormat('he-IL-u-ca-hebrew', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      }).format(date);
-    }
-
-    // Add to Home Screen (A2HS) prompt logic
-    let deferredPrompt = null;
-    window.addEventListener('beforeinstallprompt', (e) => {
-      e.preventDefault();
-      deferredPrompt = e;
-    });
-
-    function showA2HSDialog() {
-      // Check if PWA install prompt is available
-      if (deferredPrompt) {
-        deferredPrompt.prompt();
-        deferredPrompt.userChoice.then((choiceResult) => {
-          if (choiceResult.outcome === 'accepted') {
-            alert('היישום נוסף לדף הבית!');
-          }
-          deferredPrompt = null;
-        });
-        return;
-      }
-
-      // Fallback: Show instructions modal
-      showInstallInstructions();
-    }
-
-    function showInstallInstructions() {
-      const modal = document.createElement('div');
-      modal.style.cssText = `
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100vw;
-        height: 100vh;
-        background: rgba(0,0,0,0.8);
-        z-index: 10000;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        backdrop-filter: blur(5px);
-      `;
-
-      const content = document.createElement('div');
-      content.style.cssText = `
-        background: white;
-        border-radius: 1.5rem;
-        padding: 2rem;
-        max-width: 90vw;
-        max-height: 80vh;
-        overflow-y: auto;
-        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
-        text-align: center;
-        direction: rtl;
-      `;
-
-      const userAgent = navigator.userAgent;
-      const isAndroid = /Android/i.test(userAgent);
-      const isChrome = /Chrome/i.test(userAgent);
-      const isFirefox = /Firefox/i.test(userAgent);
-      const isSamsung = /SamsungBrowser/i.test(userAgent);
-
-      let instructions = '';
-      
-      if (isAndroid) {
-        if (isChrome) {
-          instructions = `
-            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית - Chrome</h3>
-            <div style="text-align: right; line-height: 1.6; color: #666;">
-              <p>1. לחץ על שלוש הנקודות ⋮ בפינה העליונה</p>
-              <p>2. בחר "הוסף לדף הבית" או "Add to Home screen"</p>
-              <p>3. לחץ "הוסף" כדי לאשר</p>
-              <p style="margin-top: 1rem; font-size: 0.9em; color: #888;">
-                האפליקציה תופיע בדף הבית שלך כמו אפליקציה רגילה
-              </p>
-            </div>
-          `;
-        } else if (isSamsung) {
-          instructions = `
-            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית - Samsung Internet</h3>
-            <div style="text-align: right; line-height: 1.6; color: #666;">
-              <p>1. לחץ על שלוש הקווים ≡ בתחתית</p>
-              <p>2. בחר "הוסף לדף הבית"</p>
-              <p>3. לחץ "הוסף" כדי לאשר</p>
-            </div>
-          `;
-        } else if (isFirefox) {
-          instructions = `
-            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית - Firefox</h3>
-            <div style="text-align: right; line-height: 1.6; color: #666;">
-              <p>1. לחץ על שלוש הנקודות ⋮ בפינה העליונה</p>
-              <p>2. בחר "הוסף לדף הבית"</p>
-              <p>3. לחץ "הוסף" כדי לאשר</p>
-            </div>
-          `;
-        } else {
-          instructions = `
-            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית</h3>
-            <div style="text-align: right; line-height: 1.6; color: #666;">
-              <p>1. חפש בתפריט הדפדפן "הוסף לדף הבית"</p>
-              <p>2. או "Add to Home screen"</p>
-              <p>3. לחץ "הוסף" כדי לאשר</p>
-            </div>
-          `;
-        }
-      } else {
-        instructions = `
-          <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית</h3>
-          <div style="text-align: right; line-height: 1.6; color: #666;">
-            <p>כדי להוסיף את האפליקציה לדף הבית:</p>
-            <p>1. חפש בתפריט הדפדפן "הוסף לדף הבית"</p>
-            <p>2. או "Add to Home screen"</p>
-            <p>3. לחץ "הוסף" כדי לאשר</p>
-          </div>
-        `;
-      }
-
-      content.innerHTML = `
-        ${instructions}
-        <button id="close-install-modal" style="
-          background: #4F46E5;
-          color: white;
-          border: none;
-          padding: 0.8rem 2rem;
-          border-radius: 0.5rem;
-          margin-top: 1.5rem;
-          cursor: pointer;
-          font-size: 1rem;
-        ">סגור</button>
-      `;
-
-      modal.appendChild(content);
-      document.body.appendChild(modal);
-
-      // Close modal events
-      document.getElementById('close-install-modal').addEventListener('click', () => {
-        document.body.removeChild(modal);
-      });
-
-      modal.addEventListener('click', (e) => {
-        if (e.target === modal) {
-          document.body.removeChild(modal);
-        }
-      });
-    }
-
-    // Render apps grid
-    function renderAppsGrid() {
-      const grid = document.getElementById('apps-grid');
-      apps.forEach(app => {
-        const div = document.createElement('div');
-        div.className = `relative group cursor-pointer transform transition-all duration-200 hover:scale-105`;
-        div.innerHTML = `
-          <div class="w-20 h-20 rounded-2xl bg-gradient-to-br ${app.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
-            ${app.icon}
-          </div>
-          <div class="text-white text-sm text-center mt-2 font-medium">${app.name}</div>
-          <div class="tooltip absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="pointer-events:none;">
-            <div class="bg-black bg-opacity-80 text-white text-xs px-3 py-1 rounded-lg whitespace-nowrap">${app.description}</div>
-          </div>
-        `;
-        // App click animation
-        div.addEventListener('mousedown', () => {
-          div.classList.add('app-pressed');
-        });
-        div.addEventListener('mouseup', () => {
-          div.classList.remove('app-pressed');
-        });
-        div.addEventListener('mouseleave', () => {
-          div.classList.remove('app-pressed');
-        });
-        // Add click handler for add-shortcut
-        if (app.id === 'add-shortcut') {
-          div.addEventListener('click', showA2HSDialog);
-        }
-        // Add click handler for prayer-times
-        if (app.id === 'prayer-times') {
-          div.addEventListener('click', () => {
-            window.location.href = 'main.html';
-          });
-        }
-        // Add click handler for torah-lessons
-        if (app.id === 'torah-lessons') {
-          div.addEventListener('click', () => {
-            window.location.href = 'Tora.html';
-          });
-        }
-        // Add click handler for settings to show modal
-        if (app.id === 'settings') {
-          div.addEventListener('click', () => {
-            window.location.href = 'ZMAN.html';
-          });
-        }
-        grid.appendChild(div);
-      });
-    }
-
-    // Update clocks & dates
-    function updateClocks() {
-      const now = new Date();
-      document.getElementById('main-clock').textContent = formatTime(now);
-      document.getElementById('gregorian-date').textContent = now.toLocaleDateString('he-IL', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-      document.getElementById('hebrew-date').textContent = getHebrewDate(now);
-    }
-
-    renderAppsGrid();
-    updateClocks();
-    setInterval(updateClocks, 1000);
-  </script>
-  <!-- Modal for settings (prayer times) -->
-  <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
-    <div style="background:#EDEDED; border-radius:1.5rem; padding:1.5rem; max-width:95vw; max-height:90vh; position:relative; box-shadow:0 8px 32px #0002; display:flex; flex-direction:column; align-items:center;">
-      <button id="close-settings-modal" style="position:absolute; top:10px; left:10px; background:none; border:none; font-size:2rem; color:#888; cursor:pointer;">&times;</button>
-      <iframe src="https://www.yeshiva.org.il/generalpages/yeshivatimes?bgcolor=EDEDED&place=134" width="250" height="320" SCROLLING="no" frameborder="0" style="border-radius:1rem; border:none;"></iframe>
-    </div>
-  </div>
-  <!-- Modal close logic (ensure runs after modal exists) -->
-  (function() {
-    const modal = document.getElementById('settings-modal');
-    const closeBtn = document.getElementById('close-settings-modal');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-    }
-    // Optional: close modal when clicking outside the content
-    if (modal) {
-      modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
-          modal.style.display = 'none';
-        }
-      });
-    }
-  })();
+  <footer class="footer"> מיכאל אפריאט ©</footer>
+  <script type="module" src="script.js"></script>
 </body>
-</html>
+</html> 
