@@ -84,10 +84,10 @@
       },
       {
         id: 'settings',
-        name: 'הגדרות',
-        icon: icons.settings,
+        name: 'זמני היום',
+        icon: icons.clock,
         gradient: 'from-gray-500 to-gray-700',
-        description: 'הגדרות האפליקציה'
+        description: 'זמני היום לפי ישיבה'
       }
     ];
 
@@ -207,5 +207,23 @@
       <iframe src="https://www.yeshiva.org.il/generalpages/yeshivatimes?bgcolor=EDEDED&place=134" width="250" height="320" SCROLLING="no" frameborder="0" style="border-radius:1rem; border:none;"></iframe>
     </div>
   </div>
+  <!-- Modal close logic (ensure runs after modal exists) -->
+  (function() {
+    const modal = document.getElementById('settings-modal');
+    const closeBtn = document.getElementById('close-settings-modal');
+    if (closeBtn) {
+      closeBtn.addEventListener('click', function() {
+        modal.style.display = 'none';
+      });
+    }
+    // Optional: close modal when clicking outside the content
+    if (modal) {
+      modal.addEventListener('click', function(e) {
+        if (e.target === modal) {
+          modal.style.display = 'none';
+        }
+      });
+    }
+  })();
 </body>
 </html>
