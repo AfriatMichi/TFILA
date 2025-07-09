@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="he">
+<head>
+  <div id="bsd" dir="rtl">בס"ד</div>
+
+<style>
+  #bsd {
+    position: fixed;
+    top: 10px;
+    right: 10px;
+    font-weight: bold;
+    font-size: 18px;
+    z-index: 9999;
+    pointer-events: none;
+    direction: rtl;
+  }
+  .lessons-nav-btn {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    z-index: 1001;
+    background: #1976d2;
+    color: #fff;
+    border: none;
+    border-radius: 12px;
+    padding: 12px 18px;
+    font-size: 1rem;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
+    transition: background 0.3s, transform 0.18s;
+  }
+  .lessons-nav-btn:hover {
+    background: #1565c0;
+    transform: translateY(-2px);
+  }
+  @media (max-width: 500px) {
+    .lessons-nav-btn {
+      padding: 8px 12px;
+      font-size: 0.98rem;
+      top: 10px;
+      left: 10px;
+    }
+  }
+</style>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>בתי הכנסת בניצן</title>
+  <link rel="stylesheet" href="style.css">
+  <link rel="manifest" href="manifest.json">
+</head>
+<body>
+  <button class="lessons-nav-btn" onclick="window.location.href='Tora.html'">
+    📖 שיעורי תורה
+  </button>
+  <div class="clock">
+    <iframe src="https://free.timeanddate.com/clock/i9y6fsju/n110/ftb/ts1" frameborder="0" width="76" height="18"></iframe>
+  </div>
+  <button id="add-to-home" class="add-to-home" style="display:none">
+    <img src="icon-192.png" alt="הוסף למסך הבית" style="width:24px;height:24px;vertical-align:middle;">
+    הוסף למסך הבית
+  </button>
+  <h1>בתי הכנסת בניצן</h1>
+    
+
+<div id="synagogue-grid" class="grid"></div>
+
+<div id="synagogue-grid" class="grid"></div>
+  <div id="synagogue-grid" class="grid"></div>
+  <div id="upcoming-prayers" class="upcoming-prayers"></div>
+  
+  <div id="modal" class="modal hidden">
+    <div class="modal-content">
+      <span id="close-modal" class="close">&times;</span>
+      <h2 id="modal-title"></h2>
+      <div id="prayer-times"></div>
+    </div>
+  </div>
+  <footer class="footer"> מיכאל אפריאט ©</footer>
+  <script type="module" src="script.js"></script>
+</body>
+</html> 
