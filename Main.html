@@ -1,0 +1,178 @@
+import React, { useState, useEffect } from 'react';
+import { Clock, BookOpen, Plus, Settings } from 'lucide-react';
+
+export default function iPhoneHomeScreen() {
+  const [currentTime, setCurrentTime] = useState(new Date());
+  const [clickedApp, setClickedApp] = useState(null);
+
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentTime(new Date());
+    }, 1000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const handleAppClick = (appName) => {
+    setClickedApp(appName);
+    setTimeout(() => setClickedApp(null), 200);
+  };
+
+  const apps = [
+    {
+      id: 'prayer-times',
+      name: 'זמני תפילות',
+      icon: Clock,
+      gradient: 'from-blue-400 to-blue-600',
+      description: 'זמני תפילות יומיים'
+    },
+    {
+      id: 'torah-lessons',
+      name: 'שיעורי תורה',
+      icon: BookOpen,
+      gradient: 'from-amber-400 to-orange-500',
+      description: 'שיעורי תורה והלכה'
+    },
+    {
+      id: 'add-shortcut',
+      name: 'הוסף קיצור דרך',
+      icon: Plus,
+      gradient: 'from-green-400 to-green-600',
+      description: 'הוסף לדף הבית'
+    },
+    {
+      id: 'settings',
+      name: 'הגדרות',
+      icon: Settings,
+      gradient: 'from-gray-500 to-gray-700',
+      description: 'הגדרות האפליקציה'
+    }
+  ];
+
+  const formatTime = (date) => {
+    return date.toLocaleTimeString('he-IL', { 
+      hour: '2-digit', 
+      minute: '2-digit',
+      hour12: false
+    });
+  };
+
+  const getHebrewDate = (date) => {
+    // פונקציה פשוטה לחישוב תאריך עברי משוער
+    const hebrewMonths = [
+      'תשרי', 'חשון', 'כסלו', 'טבת', 'שבט', 'אדר',
+      'ניסן', 'אייר', 'סיון', 'תמוז', 'אב', 'אלול'
+    ];
+    
+    // המרה ליום עברי בגרש
+    const hebrewNumbers = {
+      1: 'א\'', 2: 'ב\'', 3: 'ג\'', 4: 'ד\'', 5: 'ה\'', 6: 'ו\'', 7: 'ז\'', 8: 'ח\'', 9: 'ט\'', 10: 'י\'',
+      11: 'י"א', 12: 'י"ב', 13: 'י"ג', 14: 'י"ד', 15: 'ט"ו', 16: 'ט"ז', 17: 'י"ז', 18: 'י"ח', 19: 'י"ט', 20: 'כ\'',
+      21: 'כ"א', 22: 'כ"ב', 23: 'כ"ג', 24: 'כ"ד', 25: 'כ"ה', 26: 'כ"ו', 27: 'כ"ז', 28: 'כ"ח', 29: 'כ"ט', 30: 'ל\''
+    };
+    
+    // חישוב משוער - במציאות יש צורך באלגוריתם מדויק יותר
+    const monthIndex = Math.floor((date.getMonth() + 3) % 12);
+    const day = Math.min(13 + Math.floor(date.getDate() % 17), 30); // יום משוער בין 13-30
+    
+    return `${hebrewNumbers[day]} ${hebrewMonths[monthIndex]}`;
+  };
+
+  return (
+    <div className="relative w-full max-w-sm mx-auto bg-black rounded-[3rem] p-2 shadow-2xl">
+      {/* iPhone Frame */}
+      <div className="relative h-[700px] bg-black rounded-[2.5rem] overflow-hidden">
+        
+        {/* Dynamic Island */}
+        <div className="absolute top-2 left-1/2 transform -translate-x-1/2 w-32 h-6 bg-gray-800 bg-opacity-60 rounded-full z-20"></div>
+        
+        {/* Wallpaper Background */}
+        <div className="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
+          {/* Abstract background pattern */}
+          <div className="absolute inset-0 opacity-20">
+            <div className="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full blur-xl animate-pulse"></div>
+            <div className="absolute top-40 right-8 w-24 h-24 bg-purple-500 rounded-full blur-xl animate-pulse delay-1000"></div>
+            <div className="absolute bottom-32 left-16 w-28 h-28 bg-pink-500 rounded-full blur-xl animate-pulse delay-2000"></div>
+          </div>
+        </div>
+        
+        {/* Status Bar */}
+        <div className="relative z-10 flex justify-center items-center px-6 pt-4 pb-2">
+          <div className="text-white text-sm font-medium">
+            {formatTime(currentTime)}
+          </div>
+        </div>
+
+        {/* Main Content Area */}
+        <div className="relative z-10 flex flex-col items-center justify-center h-full px-8 pb-20">
+          
+          {/* Time Display */}
+          <div className="text-center mb-12">
+            <div className="text-white text-6xl font-light mb-2">
+              {formatTime(currentTime)}
+            </div>
+            <div className="text-white text-lg opacity-80 mb-2">
+              {currentTime.toLocaleDateString('he-IL', { 
+                weekday: 'long', 
+                year: 'numeric', 
+                month: 'long', 
+                day: 'numeric' 
+              })}
+            </div>
+            <div className="text-white text-base opacity-70">
+              {getHebrewDate(currentTime)}
+            </div>
+          </div>
+
+          {/* App Icons Grid */}
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            {apps.map((app) => {
+              const IconComponent = app.icon;
+              return (
+                <div
+                  key={app.id}
+                  onClick={() => handleAppClick(app.name)}
+                  className={`
+                    relative group cursor-pointer transform transition-all duration-200 hover:scale-105
+                    ${clickedApp === app.name ? 'scale-95' : ''}
+                  `}
+                >
+                  {/* App Icon */}
+                  <div className={`
+                    w-20 h-20 rounded-2xl bg-gradient-to-br ${app.gradient} 
+                    flex items-center justify-center shadow-lg
+                    group-hover:shadow-xl transition-shadow duration-300
+                  `}>
+                    <IconComponent className="w-10 h-10 text-white" />
+                  </div>
+                  
+                  {/* App Name */}
+                  <div className="text-white text-sm text-center mt-2 font-medium">
+                    {app.name}
+                  </div>
+                  
+                  {/* Hover Tooltip */}
+                  <div className="absolute -top-12 left-1/2 transform -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                    <div className="bg-black bg-opacity-80 text-white text-xs px-3 py-1 rounded-lg whitespace-nowrap">
+                      {app.description}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+
+          {/* Page Indicator */}
+          <div className="flex space-x-2 mb-8">
+            <div className="w-2 h-2 bg-white rounded-full"></div>
+            <div className="w-2 h-2 bg-white bg-opacity-50 rounded-full"></div>
+            <div className="w-2 h-2 bg-white bg-opacity-50 rounded-full"></div>
+          </div>
+
+        </div>
+
+        {/* Home Indicator */}
+        <div className="absolute bottom-2 left-1/2 transform -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-60"></div>
+      </div>
+    </div>
+  );
+}
