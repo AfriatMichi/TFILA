@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>תנאי שימוש - אפליקציה ואתר פורטל ניצן</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 40px;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #667eea;
+        }
+
+        .header h1 {
+            color: #667eea;
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .header .subtitle {
+            color: #666;
+            font-size: 1.2em;
+            font-weight: 300;
+        }
+
+        .intro {
+            background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            box-shadow: 0 10px 20px rgba(240, 147, 251, 0.3);
+        }
+
+        .intro h2 {
+            margin-bottom: 15px;
+            font-size: 1.5em;
+        }
+
+        .section {
+            margin-bottom: 35px;
+            padding: 25px;
+            background: rgba(102, 126, 234, 0.05);
+            border-radius: 15px;
+            border-right: 5px solid #667eea;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.2);
+        }
+
+        .section h3 {
+            color: #667eea;
+            font-size: 1.4em;
+            margin-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .section-number {
+            background: #667eea;
+            color: white;
+            width: 30px;
+            height: 30px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: bold;
+            font-size: 0.9em;
+        }
+
+        .section p {
+            margin-bottom: 15px;
+            text-align: justify;
+        }
+
+        .section ul {
+            padding-right: 20px;
+            margin-bottom: 15px;
+        }
+
+        .section li {
+            margin-bottom: 8px;
+            position: relative;
+        }
+
+        .section li::before {
+            content: "•";
+            color: #667eea;
+            font-weight: bold;
+            position: absolute;
+            right: -15px;
+        }
+
+        .highlight {
+            background: linear-gradient(120deg, #a8edea 0%, #fed6e3 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-right: 4px solid #667eea;
+        }
+
+        .warning {
+            background: linear-gradient(120deg, #ffeaa7 0%, #fab1a0 100%);
+            padding: 15px;
+            border-radius: 10px;
+            margin: 15px 0;
+            border-right: 4px solid #e17055;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 2px solid #667eea;
+            color: #666;
+        }
+
+        .footer-icon {
+            font-size: 2em;
+            margin-bottom: 10px;
+            color: #667eea;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+                margin: 10px;
+            }
+
+            .header h1 {
+                font-size: 2em;
+            }
+
+            .section {
+                padding: 20px;
+            }
+        }
+
+        .scroll-indicator {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transform-origin: left;
+            transform: scaleX(0);
+            z-index: 1000;
+            transition: transform 0.1s ease;
+        }
+    </style>
+</head>
+<body>
+    <div class="scroll-indicator"></div>
+    
+    <div class="container">
+        <div class="header">
+            <h1>תנאי שימוש</h1>
+            <div class="subtitle">אפליקציה ואתר ניצן</div>
+        </div>
+
+        <div class="intro">
+            <h2>מבוא</h2>
+            <p>ברוכים הבאים לאפליקציה ולאתר ניצן (להלן: "השירות"). השירות מספק מידע על זמני תפילות, זמני שיעורים וזמני היום בהלכה עבור תושבי ניצן. תנאי שימוש אלה (להלן: "התנאים") מסדירים את השימוש שלך בשירות. אנא קרא את התנאים בעיון לפני השימוש בשירות. השימוש בשירות מהווה הסכמה מצדך לתנאים אלה. אם אינך מסכים לתנאים, אנא הימנע משימוש בשירות.</p>
+        </div>
+
+        <div class="section">
+            <h3><span class="section-number">1</span>הסכמה לתנאים</h3>
+            <p>בכניסה לשירות או בשימוש בו, אתה מצהיר כי אתה מעל גיל 18, או שקיבלת הסכמה מהורה או אפוטרופוס חוקי, וכי יש לך את היכולת המשפטית להתחייב לתנאים אלה. השירות מיועד לשימוש תושבי ניצן בלבד, אלא אם צוין אחרת.</p>
+        </div>
+
+        <div class="section">
+            <h3><span class="section-number">2</span>מטרת השירות</h3>
+            <p>השירות מספק מידע על זמני תפילות, שיעורים וזמני היום בהלכה, כפי שמתעדכנים מעת לעת. המידע מוצג כשירות לקהילה ואינו מהווה ייעוץ הלכתי, דתי או מקצועי. אנו שואפים לספק מידע מדויק ועדכני, אך אין אנו מתחייבים לדיוק, שלמות או עדכניות המידע.</p>
+            <div class="highlight">
+                <strong>חשוב לדעת:</strong> המידע מוצג כשירות לקהילה ואינו מהווה ייעוץ הלכתי רשמי.
+            </div>
+        </div>
+
+        <div class="section">
+            <h3><span class="section-number">3</span>שימוש מותר</h3>
+            <p>השימוש בשירות מותר למטרות אישיות ובלתי מסחריות בלבד. אינך רשאי:</p>
+            <ul>
+                <li>להשתמש בשירות למטרות בלתי חוקיות או בניגוד לתנאים אלה</li>
+                <li>להפיץ, לשכפל, לשנות או ליצור יצירות נגזרות מתוכן השירות ללא אישור מפורש</li>
+                <li>לנסות לפגוע בתשתית השירות, כולל באמצעות וירוסים, התקפות סייבר או כל פעולה זדונית אחרת</li>
+                <li>להשתמש בשירות כדי להפיץ תוכן פוגעני, מטעה או מפר זכויות של צד שלישי</li>
+            </ul>
+        </div>
+
+        <div class="section">
+            <h3><span class="section-number">4</span>מגבלת אחריות</h3>
+            <div class="warning">
+                <strong>אין אחריות על המידע:</strong> המידע בשירות מסופק "כמות שהוא" (AS IS), ללא כל התחייבות או מצג, מפורש או משתמע, לגבי דיוק, שלמות או התאמה למטרה מסוימת.
+            </div>
+            <p><strong>שימוש על אחריותך הבלעדית:</strong> השימוש בשירות הוא על אחריותך הבלעדית. אנו לא נהיה אחראים לכל נזק, הפסד או תוצאה הנובעים משימוש בשירות, לרבות טעויות בזמני תפילות או שיעורים, או כל פעולה שננקטה על בסיס המידע בשירות.</p>
+            <p><strong>זמינות השירות:</strong> אנו לא מתחייבים שהשירות יהיה זמין בכל עת או ללא הפרעות. אנו רשאים להשעות, לשנות או להפסיק את השירות בכל עת ללא הודעה מוקדמת.</p>
+            <p><strong>אחריות המשתמש:</strong> האחריות לשימוש בשירות מוטלת על המשתמשים בלבד, לרבות כל נזק שעלול להיגרם למכשירי טלפון, מחשבים או כל מכשיר אלקטרוני אחר. אנו לא נהיה אחראים לכל נזק, תקלה או בעיה שתיגרם כתוצאה משימוש באתר או באפליקציה, לרבות נזקים לחומרה, תוכנה, אובדן נתונים או כל השפעה שלילית אחרת על המכשיר.</p>
+        </div>
+
+        <div class="section">
+            <h3><span class="section-number">5</span>קניין רוחני</h3>
+            <p>כל התוכן בשירות, לרבות טקסטים, עיצובים, לוגואים וקוד, הינו בבעלותנו או מורשה לנו, ומוגן על ידי חוקי קניין רוחני. אין לך זכות לשכפל, להפיץ או להשתמש בתוכן זה ללא הסכמה מפורשת בכתב.</p>
+        </div>
+
+        <div class="footer">
+            <div class="footer-icon">🕊️</div>
+            <p>תנאי שימוש אלה עודכנו לאחרונה: יולי 2025</p>
+            <p>אפליקציה ואתר ניצן - שירות לקהילה</p>
+        </div>
+    </div>
+
+    <script>
+        // Scroll indicator
+        window.addEventListener('scroll', () => {
+            const scrolled = (window.pageYOffset / (document.documentElement.scrollHeight - window.innerHeight)) * 100;
+            document.querySelector('.scroll-indicator').style.transform = `scaleX(${scrolled / 100})`;
+        });
+
+        // Smooth scrolling for better UX
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                document.querySelector(this.getAttribute('href')).scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+        });
+
+        // Add some interactive hover effects
+        document.querySelectorAll('.section').forEach(section => {
+            section.addEventListener('mouseenter', function() {
+                this.style.transform = 'translateY(-5px)';
+            });
+            
+            section.addEventListener('mouseleave', function() {
+                this.style.transform = 'translateY(0)';
+            });
+        });
+    </script>
+</body>
+</html>
