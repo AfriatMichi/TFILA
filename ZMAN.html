@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>זמני היום</title>
+  <style>
+    body {
+      background: #f5f5f5;
+      font-family: 'Segoe UI', Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: flex-start;
+    }
+    .back-btn {
+      margin: 24px 0 16px 0;
+      padding: 10px 22px;
+      font-size: 1.1rem;
+      background: #1976d2;
+      color: #fff;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      box-shadow: 0 2px 8px #1976d233;
+      transition: background 0.2s, transform 0.15s;
+    }
+    .back-btn:hover {
+      background: #1565c0;
+      transform: translateY(-2px);
+    }
+    .zman-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #1976d2;
+      margin-bottom: 18px;
+      margin-top: 0;
+      text-align: center;
+    }
+    .zman-iframe {
+      border-radius: 1rem;
+      border: none;
+      box-shadow: 0 2px 12px #1976d222;
+      background: #EDEDED;
+      margin-bottom: 32px;
+    }
+  </style>
+</head>
+<body>
+  <button class="back-btn" onclick="window.location.href='Main.html'">⬅ חזרה למסך הראשי</button>
+  <div class="zman-title">לוח זמני היום - ניצן</div>
+  <iframe class="zman-iframe" src="https://www.yeshiva.org.il/generalpages/yeshivatimes?bgcolor=EDEDED&place=134" width="250" height="320" SCROLLING="no" frameborder="0"></iframe>
+</body>
+</html> 
