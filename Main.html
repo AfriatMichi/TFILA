@@ -70,7 +70,7 @@
       },
       {
         id: 'torah-lessons',
-        name: 'שיעורי תורה',
+        name: 'שיעורי הרב אפרים', // changed name
         icon: icons.book,
         gradient: 'from-amber-400 to-orange-500',
         description: 'שיעורי תורה והלכה'
@@ -172,6 +172,12 @@
             window.location.href = 'Tora.html';
           });
         }
+        // Add click handler for settings to show modal
+        if (app.id === 'settings') {
+          div.addEventListener('click', () => {
+            document.getElementById('settings-modal').style.display = 'flex';
+          });
+        }
         grid.appendChild(div);
       });
     }
@@ -194,5 +200,12 @@
     updateClocks();
     setInterval(updateClocks, 1000);
   </script>
+  <!-- Modal for settings (prayer times) -->
+  <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
+    <div style="background:#EDEDED; border-radius:1.5rem; padding:1.5rem; max-width:95vw; max-height:90vh; position:relative; box-shadow:0 8px 32px #0002; display:flex; flex-direction:column; align-items:center;">
+      <button id="close-settings-modal" style="position:absolute; top:10px; left:10px; background:none; border:none; font-size:2rem; color:#888; cursor:pointer;">&times;</button>
+      <iframe src="https://www.yeshiva.org.il/generalpages/yeshivatimes?bgcolor=EDEDED&place=134" width="250" height="320" SCROLLING="no" frameborder="0" style="border-radius:1rem; border:none;"></iframe>
+    </div>
+  </div>
 </body>
 </html>
