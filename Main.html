@@ -115,6 +115,29 @@
       return `${hebrewNumbers[day]} ${hebrewMonths[monthIndex]}`;
     }
 
+    // Add to Home Screen (A2HS) prompt logic
+    let deferredPrompt = null;
+    window.addEventListener('beforeinstallprompt', (e) => {
+      e.preventDefault();
+      deferredPrompt = e;
+    });
+
+    function showA2HSDialog() {
+      if (deferredPrompt) {
+        deferredPrompt.prompt();
+        deferredPrompt.userChoice.then((choiceResult) => {
+          if (choiceResult.outcome === 'accepted') {
+            alert('היישום נוסף לדף הבית!');
+          } else {
+            alert('המשתמש ביטל את ההוספה לדף הבית.');
+          }
+          deferredPrompt = null;
+        });
+      } else {
+        alert('הוספה לדף הבית אינה נתמכת בדפדפן זה או שכבר הוצעה.');
+      }
+    }
+
     // Render apps grid
     function renderAppsGrid() {
       const grid = document.getElementById('apps-grid');
@@ -140,6 +163,22 @@
         div.addEventListener('mouseleave', () => {
           div.classList.remove('app-pressed');
         });
+        // Add click handler for add-shortcut
+        if (app.id === 'add-shortcut') {
+          div.addEventListener('click', showA2HSDialog);
+        }
+        // Add click handler for prayer-times
+        if (app.id === 'prayer-times') {
+          div.addEventListener('click', () => {
+            window.location.href = 'index.html';
+          });
+        }
+        // Add click handler for torah-lessons
+        if (app.id === 'torah-lessons') {
+          div.addEventListener('click', () => {
+            window.location.href = 'Tora.html';
+          });
+        }
         grid.appendChild(div);
       });
     }
