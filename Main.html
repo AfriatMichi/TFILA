@@ -99,20 +99,13 @@
         hour12: false
       });
     }
-    // Get Hebrew date (rough)
+    // Get accurate Hebrew date using Intl.DateTimeFormat
     function getHebrewDate(date) {
-      const hebrewMonths = [
-        'תשרי', 'חשון', 'כסלו', 'טבת', 'שבט', 'אדר',
-        'ניסן', 'אייר', 'סיון', 'תמוז', 'אב', 'אלול'
-      ];
-      const hebrewNumbers = {
-        1: 'א\'', 2: 'ב\'', 3: 'ג\'', 4: 'ד\'', 5: 'ה\'', 6: 'ו\'', 7: 'ז\'', 8: 'ח\'', 9: 'ט\'', 10: 'י\'',
-        11: 'י"א', 12: 'י"ב', 13: 'י"ג', 14: 'י"ד', 15: 'ט"ו', 16: 'ט"ז', 17: 'י"ז', 18: 'י"ח', 19: 'י"ט', 20: 'כ\'',
-        21: 'כ"א', 22: 'כ"ב', 23: 'כ"ג', 24: 'כ"ד', 25: 'כ"ה', 26: 'כ"ו', 27: 'כ"ז', 28: 'כ"ח', 29: 'כ"ט', 30: 'ל\''
-      };
-      const monthIndex = Math.floor((date.getMonth() + 3) % 12);
-      const day = Math.min(13 + Math.floor(date.getDate() % 17), 30);
-      return `${hebrewNumbers[day]} ${hebrewMonths[monthIndex]}`;
+      return new Intl.DateTimeFormat('he-IL-u-ca-hebrew', {
+        day: 'numeric',
+        month: 'long',
+        year: 'numeric'
+      }).format(date);
     }
 
     // Add to Home Screen (A2HS) prompt logic
