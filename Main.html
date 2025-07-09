@@ -114,19 +114,139 @@
     });
 
     function showA2HSDialog() {
+      // Check if PWA install prompt is available
       if (deferredPrompt) {
         deferredPrompt.prompt();
         deferredPrompt.userChoice.then((choiceResult) => {
           if (choiceResult.outcome === 'accepted') {
             alert('היישום נוסף לדף הבית!');
-          } else {
-            alert('המשתמש ביטל את ההוספה לדף הבית.');
           }
           deferredPrompt = null;
         });
-      } else {
-        alert('הוספה לדף הבית אינה נתמכת בדפדפן זה או שכבר הוצעה.');
+        return;
       }
+
+      // Fallback: Show instructions modal
+      showInstallInstructions();
+    }
+
+    function showInstallInstructions() {
+      const modal = document.createElement('div');
+      modal.style.cssText = `
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100vw;
+        height: 100vh;
+        background: rgba(0,0,0,0.8);
+        z-index: 10000;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        backdrop-filter: blur(5px);
+      `;
+
+      const content = document.createElement('div');
+      content.style.cssText = `
+        background: white;
+        border-radius: 1.5rem;
+        padding: 2rem;
+        max-width: 90vw;
+        max-height: 80vh;
+        overflow-y: auto;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+        text-align: center;
+        direction: rtl;
+      `;
+
+      const userAgent = navigator.userAgent;
+      const isAndroid = /Android/i.test(userAgent);
+      const isChrome = /Chrome/i.test(userAgent);
+      const isFirefox = /Firefox/i.test(userAgent);
+      const isSamsung = /SamsungBrowser/i.test(userAgent);
+
+      let instructions = '';
+      
+      if (isAndroid) {
+        if (isChrome) {
+          instructions = `
+            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית - Chrome</h3>
+            <div style="text-align: right; line-height: 1.6; color: #666;">
+              <p>1. לחץ על שלוש הנקודות ⋮ בפינה העליונה</p>
+              <p>2. בחר "הוסף לדף הבית" או "Add to Home screen"</p>
+              <p>3. לחץ "הוסף" כדי לאשר</p>
+              <p style="margin-top: 1rem; font-size: 0.9em; color: #888;">
+                האפליקציה תופיע בדף הבית שלך כמו אפליקציה רגילה
+              </p>
+            </div>
+          `;
+        } else if (isSamsung) {
+          instructions = `
+            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית - Samsung Internet</h3>
+            <div style="text-align: right; line-height: 1.6; color: #666;">
+              <p>1. לחץ על שלוש הקווים ≡ בתחתית</p>
+              <p>2. בחר "הוסף לדף הבית"</p>
+              <p>3. לחץ "הוסף" כדי לאשר</p>
+            </div>
+          `;
+        } else if (isFirefox) {
+          instructions = `
+            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית - Firefox</h3>
+            <div style="text-align: right; line-height: 1.6; color: #666;">
+              <p>1. לחץ על שלוש הנקודות ⋮ בפינה העליונה</p>
+              <p>2. בחר "הוסף לדף הבית"</p>
+              <p>3. לחץ "הוסף" כדי לאשר</p>
+            </div>
+          `;
+        } else {
+          instructions = `
+            <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית</h3>
+            <div style="text-align: right; line-height: 1.6; color: #666;">
+              <p>1. חפש בתפריט הדפדפן "הוסף לדף הבית"</p>
+              <p>2. או "Add to Home screen"</p>
+              <p>3. לחץ "הוסף" כדי לאשר</p>
+            </div>
+          `;
+        }
+      } else {
+        instructions = `
+          <h3 style="color: #333; margin-bottom: 1rem;">הוספה לדף הבית</h3>
+          <div style="text-align: right; line-height: 1.6; color: #666;">
+            <p>כדי להוסיף את האפליקציה לדף הבית:</p>
+            <p>1. חפש בתפריט הדפדפן "הוסף לדף הבית"</p>
+            <p>2. או "Add to Home screen"</p>
+            <p>3. לחץ "הוסף" כדי לאשר</p>
+          </div>
+        `;
+      }
+
+      content.innerHTML = `
+        ${instructions}
+        <button id="close-install-modal" style="
+          background: #4F46E5;
+          color: white;
+          border: none;
+          padding: 0.8rem 2rem;
+          border-radius: 0.5rem;
+          margin-top: 1.5rem;
+          cursor: pointer;
+          font-size: 1rem;
+        ">סגור</button>
+      `;
+
+      modal.appendChild(content);
+      document.body.appendChild(modal);
+
+      // Close modal events
+      document.getElementById('close-install-modal').addEventListener('click', () => {
+        document.body.removeChild(modal);
+      });
+
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) {
+          document.body.removeChild(modal);
+        }
+      });
     }
 
     // Render apps grid
