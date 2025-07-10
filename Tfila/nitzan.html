@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LIBRARY</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', 'Arial', sans-serif;
+            background: linear-gradient(120deg, #e0eafc, #cfdef3);
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .container {
+            background: #fff;
+            margin-top: 60px;
+            padding: 32px 24px;
+            border-radius: 18px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
+            max-width: 400px;
+            width: 100%;
+        }
+        h1 {
+            text-align: center;
+            color: #2a5298;
+            margin-bottom: 24px;
+            font-size: 2rem;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 1.1rem;
+        }
+        th, td {
+            padding: 10px 0;
+            text-align: center;
+        }
+        th {
+            color: #2a5298;
+            font-weight: 600;
+            border-bottom: 2px solid #b6c6e0;
+        }
+        tr:not(:last-child) td {
+            border-bottom: 1px solid #e3eaf7;
+        }
+        .closed {
+            color: #c0392b;
+            font-weight: bold;
+        }
+        @media (max-width: 500px) {
+            .container {
+                padding: 18px 4px;
+                margin-top: 20px;
+            }
+            h1 {
+                font-size: 1.3rem;
+            }
+            table {
+                font-size: 1rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>LIBRARY</h1>
+        <table>
+            <tr>
+                <th>יום</th>
+                <th>שעות פתיחה</th>
+            </tr>
+            <tr>
+                <td>ראשון</td>
+                <td>09:00 - 12:30</td>
+            </tr>
+            <tr>
+                <td>שני</td>
+                <td class="closed">סגור</td>
+            </tr>
+            <tr>
+                <td>שלישי</td>
+                <td>09:00 - 12:30<br>15:00 - 18:30</td>
+            </tr>
+            <tr>
+                <td>רביעי</td>
+                <td>09:00 - 12:30<br>15:00 - 18:30</td>
+            </tr>
+            <tr>
+                <td>חמישי</td>
+                <td>09:00 - 12:30</td>
+            </tr>
+            <tr>
+                <td>שישי</td>
+                <td class="closed">סגור</td>
+            </tr>
+            <tr>
+                <td>שבת</td>
+                <td class="closed">סגור</td>
+            </tr>
+        </table>
+    </div>
+</body>
+</html> 
