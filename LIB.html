@@ -17,6 +17,7 @@
             justify-content: flex-start;
             position: relative;
             overflow-x: hidden;
+            width: 100vw;
         }
         .bg-shape {
             position: absolute;
@@ -34,11 +35,12 @@
         .container {
             background: rgba(255,255,255,0.95);
             margin-top: 70px;
-            padding: 38px 28px 32px 28px;
+            padding: 38px 18px 32px 18px;
             border-radius: 22px;
             box-shadow: 0 8px 32px rgba(80, 80, 160, 0.13);
             max-width: 420px;
             width: 100%;
+            min-width: 0;
             z-index: 1;
             position: relative;
             display: flex;
@@ -67,12 +69,14 @@
         }
         table {
             width: 100%;
+            min-width: 0;
             border-collapse: collapse;
             font-size: 1.13rem;
             background: #f7f7fa;
             border-radius: 12px;
             overflow: hidden;
             box-shadow: 0 2px 12px #e0c3fc22;
+            word-break: break-word;
         }
         th, td {
             padding: 12px 0;
@@ -115,9 +119,15 @@
             box-shadow: 0 6px 20px #6a11cb33;
         }
         @media (max-width: 600px) {
+            html, body {
+                width: 100vw;
+                min-width: 0;
+                overflow-x: hidden;
+            }
             .container {
-                padding: 16px 2px 18px 2px;
+                padding: 12px 2vw 14px 2vw;
                 margin-top: 18vw;
+                max-width: 98vw;
             }
             h1 {
                 font-size: 1.3rem;
