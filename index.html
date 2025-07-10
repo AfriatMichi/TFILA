@@ -41,7 +41,9 @@
       <div class="relative z-10 flex flex-col items-center justify-center h-full px-8 pb-20">
         <!-- Time Display -->
         <div class="text-center mb-12">
+          <div id="main-clock" class="text-white text-6xl font-light mb-2"></div>
           <div id="gregorian-date" class="text-white text-lg opacity-80 mb-2"></div>
+          <div id="hebrew-date" class="text-white text-base opacity-70"></div>
         </div>
         <!-- App Icons Grid -->
         <div id="apps-grid" class="grid grid-cols-2 gap-6 mb-8"></div>
@@ -70,7 +72,7 @@
       },
       {
         id: 'torah-lessons',
-        name: 'נחלת אפרים',
+        name: 'נחלת אפרים, // changed name
         icon: icons.bookOpen,
         gradient: 'from-amber-400 to-orange-500',
         description: 'שיעורי תורה והלכה'
@@ -303,8 +305,21 @@
     }
 
     // Update clocks & dates
+    function updateClocks() {
+      const now = new Date();
+      document.getElementById('main-clock').textContent = formatTime(now);
+      document.getElementById('gregorian-date').textContent = now.toLocaleDateString('he-IL', {
+        weekday: 'long',
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric'
+      });
+      document.getElementById('hebrew-date').textContent = getHebrewDate(now);
+    }
+
     renderAppsGrid();
-    setInterval(renderAppsGrid, 1000);
+    updateClocks();
+    setInterval(updateClocks, 1000);
   </script>
   <!-- Modal for settings (prayer times) -->
   <div id="settings-modal" style="display:none; position:fixed; top:0; left:0; width:100vw; height:100vh; background:rgba(0,0,0,0.5); z-index:9999; align-items:center; justify-content:center;">
