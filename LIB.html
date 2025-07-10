@@ -3,46 +3,86 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIBRARY</title>
+    <title>ספרית ניצן</title>
     <style>
         body {
             font-family: 'Segoe UI', 'Arial', sans-serif;
-            background: linear-gradient(120deg, #e0eafc, #cfdef3);
+            background: linear-gradient(135deg, #e0c3fc 0%, #8ec5fc 100%);
             margin: 0;
             padding: 0;
             min-height: 100vh;
             display: flex;
             flex-direction: column;
             align-items: center;
+            justify-content: flex-start;
+            position: relative;
+            overflow-x: hidden;
+        }
+        .bg-shape {
+            position: absolute;
+            z-index: 0;
+            border-radius: 50%;
+            filter: blur(60px);
+            opacity: 0.5;
+        }
+        .bg1 {
+            width: 350px; height: 350px; background: #a18cd1; top: -120px; right: -120px;
+        }
+        .bg2 {
+            width: 250px; height: 250px; background: #fbc2eb; bottom: 40px; left: -100px;
         }
         .container {
-            background: #fff;
-            margin-top: 60px;
-            padding: 32px 24px;
-            border-radius: 18px;
-            box-shadow: 0 4px 24px rgba(0,0,0,0.08);
-            max-width: 400px;
+            background: rgba(255,255,255,0.95);
+            margin-top: 70px;
+            padding: 38px 28px 32px 28px;
+            border-radius: 22px;
+            box-shadow: 0 8px 32px rgba(80, 80, 160, 0.13);
+            max-width: 420px;
             width: 100%;
+            z-index: 1;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .library-icon {
+            width: 70px;
+            height: 70px;
+            margin-bottom: 10px;
+            color: #6a11cb;
+            filter: drop-shadow(0 2px 8px #b39ddb55);
         }
         h1 {
             text-align: center;
-            color: #2a5298;
-            margin-bottom: 24px;
-            font-size: 2rem;
+            color: #6a11cb;
+            margin-bottom: 10px;
+            font-size: 2.2rem;
+            letter-spacing: 1px;
+        }
+        .subtitle {
+            color: #444;
+            font-size: 1.1rem;
+            margin-bottom: 22px;
+            text-align: center;
         }
         table {
             width: 100%;
             border-collapse: collapse;
-            font-size: 1.1rem;
+            font-size: 1.13rem;
+            background: #f7f7fa;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 2px 12px #e0c3fc22;
         }
         th, td {
-            padding: 10px 0;
+            padding: 12px 0;
             text-align: center;
         }
         th {
-            color: #2a5298;
-            font-weight: 600;
+            color: #6a11cb;
+            font-weight: 700;
             border-bottom: 2px solid #b6c6e0;
+            background: #f3e9fc;
         }
         tr:not(:last-child) td {
             border-bottom: 1px solid #e3eaf7;
@@ -50,11 +90,34 @@
         .closed {
             color: #c0392b;
             font-weight: bold;
+            background: #ffeaea;
         }
-        @media (max-width: 500px) {
+        .nav-button {
+            position: fixed;
+            top: 24px;
+            left: 24px;
+            background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+            color: white;
+            border: none;
+            border-radius: 14px;
+            padding: 13px 22px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            box-shadow: 0 4px 16px rgba(106, 17, 203, 0.18);
+            transition: all 0.2s;
+            z-index: 10;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .nav-button:hover {
+            background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+            box-shadow: 0 6px 20px #6a11cb33;
+        }
+        @media (max-width: 600px) {
             .container {
-                padding: 18px 4px;
-                margin-top: 20px;
+                padding: 16px 2px 18px 2px;
+                margin-top: 18vw;
             }
             h1 {
                 font-size: 1.3rem;
@@ -62,31 +125,30 @@
             table {
                 font-size: 1rem;
             }
+            .nav-button {
+                top: 10px;
+                left: 10px;
+                padding: 9px 13px;
+                font-size: 0.95rem;
+            }
         }
-        .nav-button {
-    position: fixed;
-    top: 20px;
-    left: 20px;
-    background: #1976d2;
-    color: white;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 18px;
-    font-size: 1rem;
-    cursor: pointer;
-    box-shadow: 0 4px 12px rgba(25, 118, 210, 0.3);
-    transition: all 0.3s;
-    z-index: 100;
-  }
     </style>
-    
 </head>
 <body>
-    <button class="nav-button" onclick="window.location.href='https://tfila.zivart.xyz/'">
-        🏠 בית
-      </button>
+    <div class="bg-shape bg1"></div>
+    <div class="bg-shape bg2"></div>
+    <button class="nav-button" onclick="window.location.href='index.html'">
+        <span style="font-size:1.3em;">🏠</span> חזרה לדף הבית
+    </button>
     <div class="container">
+        <svg class="library-icon" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="8" y="16" width="48" height="36" rx="6" fill="#e0c3fc" stroke="#6a11cb" stroke-width="2"/>
+            <rect x="16" y="24" width="8" height="20" rx="2" fill="#fff" stroke="#6a11cb" stroke-width="1.5"/>
+            <rect x="28" y="24" width="8" height="20" rx="2" fill="#fff" stroke="#6a11cb" stroke-width="1.5"/>
+            <rect x="40" y="24" width="8" height="20" rx="2" fill="#fff" stroke="#6a11cb" stroke-width="1.5"/>
+        </svg>
         <h1>ספרית ניצן</h1>
+        <div class="subtitle">ברוכים הבאים לספריה! כאן תמצאו את זמני הפתיחה:</div>
         <table>
             <tr>
                 <th>יום</th>
@@ -122,5 +184,13 @@
             </tr>
         </table>
     </div>
+    <footer class="footer">
+        <a href="https://wa.me/972523503180?text=שלום%20מיכאל,%20יש%20לי%20רעיון%20מצוין%20לאפליקציה" target="_blank">
+          מיכאל אפריאט ©
+        </a> <br>
+          <a href='Tshimush.html'>
+          תנאי שימוש 
+          </a>
+        </footer>
 </body>
 </html> 
