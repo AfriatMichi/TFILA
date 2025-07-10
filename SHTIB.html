@@ -1,0 +1,466 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>מוצא חברים למנין</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .prayer-form {
+            background: rgba(240, 248, 255, 0.7);
+            padding: 25px;
+            border-radius: 15px;
+            margin-bottom: 30px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #2c3e50;
+            font-size: 1.1em;
+        }
+
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e7ff;
+            border-radius: 10px;
+            font-size: 16px;
+            transition: all 0.3s ease;
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #667eea;
+            box-shadow: 0 0 10px rgba(102, 126, 234, 0.3);
+            transform: translateY(-2px);
+        }
+
+        .btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+        }
+
+        .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .minyan-list {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 30px;
+            border: 2px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .minyan-item {
+            background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border-right: 5px solid #667eea;
+            transition: all 0.3s ease;
+        }
+
+        .minyan-item:hover {
+            transform: translateX(-5px);
+            box-shadow: 0 5px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .minyan-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 15px;
+        }
+
+        .minyan-title {
+            font-size: 1.4em;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .participants-count {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 8px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 1.1em;
+        }
+
+        .participants-count.complete {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            animation: pulse 2s infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .minyan-details {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin-bottom: 15px;
+        }
+
+        .detail-item {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 10px 15px;
+            border-radius: 8px;
+            border-right: 3px solid #667eea;
+        }
+
+        .detail-label {
+            font-weight: bold;
+            color: #4a5568;
+            font-size: 0.9em;
+        }
+
+        .detail-value {
+            color: #2d3748;
+            font-size: 1.1em;
+        }
+
+        .participants-list {
+            background: rgba(240, 248, 255, 0.5);
+            padding: 15px;
+            border-radius: 10px;
+            margin-top: 15px;
+        }
+
+        .participant-item {
+            display: inline-block;
+            background: rgba(102, 126, 234, 0.1);
+            padding: 5px 12px;
+            margin: 3px;
+            border-radius: 15px;
+            font-size: 0.9em;
+            border: 1px solid rgba(102, 126, 234, 0.2);
+        }
+
+        .join-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 10px;
+        }
+
+        .join-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .join-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .complete-notice {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 15px;
+            border-radius: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin-top: 10px;
+            animation: celebration 3s ease-in-out infinite;
+        }
+
+        @keyframes celebration {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.02); }
+        }
+
+        .empty-state {
+            text-align: center;
+            padding: 40px;
+            color: #718096;
+            font-size: 1.2em;
+        }
+
+        .time-display {
+            font-family: 'Courier New', monospace;
+            font-size: 1.1em;
+            font-weight: bold;
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                padding: 20px;
+            }
+            
+            h1 {
+                font-size: 2em;
+            }
+            
+            .minyan-details {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1> מוצא חברים למנין </h1>
+        
+        <div class="prayer-form">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">צור תפילה חדשה</h2>
+            <form id="prayerForm">
+                <div class="form-group">
+                    <label for="organizerName">שם המארגן:</label>
+                    <input type="text" id="organizerName" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prayerType">סוג תפילה:</label>
+                    <select id="prayerType" required>
+                        <option value="">בחר סוג תפילה</option>
+                        <option value="שחרית">שחרית</option>
+                        <option value="מנחה">מנחה</option>
+                        <option value="ערבית">ערבית</option>
+                        <option value="קבלת שבת">קבלת שבת</option>
+                        <option value="אחר">אחר</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prayerDate">תאריך:</label>
+                    <input type="date" id="prayerDate" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="prayerTime">שעה:</label>
+                    <input type="time" id="prayerTime" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="location">מיקום:</label>
+                    <input type="text" id="location" placeholder="כתובת או שם המקום" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="contactInfo">פרטי יצירת קשר:</label>
+                    <input type="text" id="contactInfo" placeholder="טלפון או אימייל" required>
+                </div>
+                
+                <div class="form-group">
+                    <label for="notes">הערות נוספות:</label>
+                    <textarea id="notes" rows="3" placeholder="פרטים נוספים על התפילה..."></textarea>
+                </div>
+                
+                <button type="submit" class="btn">צור תפילה</button>
+            </form>
+        </div>
+        
+        <div class="minyan-list">
+            <h2 style="margin-bottom: 20px; color: #2c3e50;">תפילות פעילות</h2>
+            <div id="minyanList"></div>
+        </div>
+    </div>
+
+    <script>
+        // אחסון המידע בזיכרון
+        let minyanList = [];
+        let nextId = 1;
+
+        // טעינת הטופס
+        document.getElementById('prayerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const formData = {
+                id: nextId++,
+                organizerName: document.getElementById('organizerName').value,
+                prayerType: document.getElementById('prayerType').value,
+                prayerDate: document.getElementById('prayerDate').value,
+                prayerTime: document.getElementById('prayerTime').value,
+                location: document.getElementById('location').value,
+                contactInfo: document.getElementById('contactInfo').value,
+                notes: document.getElementById('notes').value,
+                participants: [document.getElementById('organizerName').value],
+                createdAt: new Date().toISOString()
+            };
+            
+            minyanList.push(formData);
+            renderMinyanList();
+            
+            // איפוס הטופס
+            document.getElementById('prayerForm').reset();
+            
+            alert('התפילה נוצרה בהצלחה! אנשים יכולים עכשיו להצטרף.');
+        });
+
+        // הצגת רשימת המנינים
+        function renderMinyanList() {
+            const container = document.getElementById('minyanList');
+            
+            if (minyanList.length === 0) {
+                container.innerHTML = '<div class="empty-state">אין תפילות פעילות כרגע.<br>צור תפילה חדשה כדי להתחיל!</div>';
+                return;
+            }
+            
+            container.innerHTML = '';
+            
+            minyanList.forEach(minyan => {
+                const minyanElement = document.createElement('div');
+                minyanElement.className = 'minyan-item';
+                
+                const isComplete = minyan.participants.length >= 10;
+                const participantsCount = minyan.participants.length;
+                
+                minyanElement.innerHTML = `
+                    <div class="minyan-header">
+                        <div class="minyan-title">${minyan.prayerType}</div>
+                        <div class="participants-count ${isComplete ? 'complete' : ''}">
+                            ${participantsCount}/10
+                        </div>
+                    </div>
+                    
+                    <div class="minyan-details">
+                        <div class="detail-item">
+                            <div class="detail-label">תאריך</div>
+                            <div class="detail-value">${formatDate(minyan.prayerDate)}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">שעה</div>
+                            <div class="detail-value time-display">${minyan.prayerTime}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">מיקום</div>
+                            <div class="detail-value">${minyan.location}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">מארגן</div>
+                            <div class="detail-value">${minyan.organizerName}</div>
+                        </div>
+                        <div class="detail-item">
+                            <div class="detail-label">יצירת קשר</div>
+                            <div class="detail-value">${minyan.contactInfo}</div>
+                        </div>
+                    </div>
+                    
+                    ${minyan.notes ? `<div class="detail-item" style="margin-top: 10px;"><div class="detail-label">הערות</div><div class="detail-value">${minyan.notes}</div></div>` : ''}
+                    
+                    <div class="participants-list">
+                        <strong>משתתפים:</strong><br>
+                        ${minyan.participants.map(name => `<span class="participant-item">${name}</span>`).join('')}
+                    </div>
+                    
+                    ${isComplete ? 
+                        '<div class="complete-notice">🎉 המנין הושלם! התפילה יכולה להתקיים 🎉</div>' : 
+                        `<button class="join-btn" onclick="joinMinyan(${minyan.id})">הצטרף לתפילה</button>`
+                    }
+                `;
+                
+                container.appendChild(minyanElement);
+            });
+        }
+
+        // הצטרפות למנין
+        function joinMinyan(minyanId) {
+            const name = prompt('הזן את שמך כדי להצטרף לתפילה:');
+            if (!name || name.trim() === '') return;
+            
+            const minyan = minyanList.find(m => m.id === minyanId);
+            if (!minyan) return;
+            
+            if (minyan.participants.includes(name.trim())) {
+                alert('השם כבר רשום לתפילה זו');
+                return;
+            }
+            
+            if (minyan.participants.length >= 10) {
+                alert('התפילה כבר מלאה');
+                return;
+            }
+            
+            minyan.participants.push(name.trim());
+            renderMinyanList();
+            
+            if (minyan.participants.length === 10) {
+                alert('🎉 מזל טוב! המנין הושלם והתפילה יכולה להתקיים! 🎉');
+            } else {
+                alert(`נרשמת בהצלחה! נדרשים עוד ${10 - minyan.participants.length} אנשים.`);
+            }
+        }
+
+        // עיצוב תאריך
+        function formatDate(dateString) {
+            const date = new Date(dateString);
+            const today = new Date();
+            const tomorrow = new Date(today);
+            tomorrow.setDate(tomorrow.getDate() + 1);
+            
+            if (date.toDateString() === today.toDateString()) {
+                return 'היום';
+            } else if (date.toDateString() === tomorrow.toDateString()) {
+                return 'מחר';
+            } else {
+                return date.toLocaleDateString('he-IL');
+            }
+        }
+
+        // הגדרת תאריך מינימלי להיום
+        document.getElementById('prayerDate').min = new Date().toISOString().split('T')[0];
+        
+        // טעינה ראשונית
+        renderMinyanList();
+    </script>
+</body>
+</html>
