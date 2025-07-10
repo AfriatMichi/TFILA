@@ -39,12 +39,7 @@
       </div>
       <!-- Main Content Area -->
       <div class="relative z-10 flex flex-col items-center justify-center h-full px-8 pb-20">
-        <!-- Time Display -->
-        <div class="text-center mb-12">
-          <div id="main-clock" class="text-white text-6xl font-light mb-2"></div>
-          <div id="gregorian-date" class="text-white text-lg opacity-80 mb-2"></div>
-          <div id="hebrew-date" class="text-white text-base opacity-70"></div>
-        </div>
+        <!-- Time Display הוסר -->
         <!-- App Icons Grid -->
         <div id="apps-grid" class="grid grid-cols-2 gap-6 mb-8"></div>
       </div>
@@ -73,7 +68,7 @@
       {
         id: 'torah-lessons',
         name: 'נחלת אפרים', // changed name
-        icon: icons.book,
+        icon: `<svg class="w-10 h-10" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><path d="M12 5.00001C8 2.33333 6 2.33333 2 5.00001V21C6 18.5 8 18.5 12 21M12 5.00001V21M12 5.00001C16 2.33333 18 2.33333 22 5.00001V21C18 18.5 16 18.5 12 21" stroke="black" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>`,
         gradient: 'from-amber-400 to-orange-500',
         description: 'שיעורי תורה והלכה'
       },
@@ -92,23 +87,6 @@
         description: 'זמני היום לפי ישיבה'
       }
     ];
-
-    // Format time
-    function formatTime(date) {
-      return date.toLocaleTimeString('he-IL', {
-        hour: '2-digit',
-        minute: '2-digit',
-        hour12: false
-      });
-    }
-    // Get accurate Hebreכw date using Intl.DateTimeFormat
-    function getHebrewDate(date) {
-      return new Intl.DateTimeFormat('he-IL-u-ca-hebrew', {
-        day: 'numeric',
-        month: 'long',
-        year: 'numeric'
-      }).format(date);
-    }
 
     // Add to Home Screen (A2HS) prompt logic
     let deferredPrompt = null;
@@ -306,15 +284,16 @@
 
     // Update clocks & dates
     function updateClocks() {
-      const now = new Date();
-      document.getElementById('main-clock').textContent = formatTime(now);
-      document.getElementById('gregorian-date').textContent = now.toLocaleDateString('he-IL', {
-        weekday: 'long',
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric'
-      });
-      document.getElementById('hebrew-date').textContent = getHebrewDate(now);
+      // The following lines were removed as per the edit hint.
+      // const now = new Date();
+      // document.getElementById('main-clock').textContent = formatTime(now);
+      // document.getElementById('gregorian-date').textContent = now.toLocaleDateString('he-IL', {
+      //   weekday: 'long',
+      //   year: 'numeric',
+      //   month: 'long',
+      //   day: 'numeric'
+      // });
+      // document.getElementById('hebrew-date').textContent = getHebrewDate(now);
     }
 
     renderAppsGrid();
