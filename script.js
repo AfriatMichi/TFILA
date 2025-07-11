@@ -238,6 +238,14 @@ function getUpcomingPrayers() {
         if (prayer.name.includes("שחרית")) break;
         prayersToShow.push(prayer);
       }
+      // הוספת תפילות שחרית מתפילות החול ביום שישי
+      if (shul.prayers) {
+        for (const prayer of shul.prayers) {
+          if (prayer.name.includes("שחרית")) {
+            prayersToShow.push(prayer);
+          }
+        }
+      }
     } else {
       prayersToShow = shul.prayers || [];
     }
