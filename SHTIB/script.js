@@ -15,25 +15,23 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
-// יצירת מניין חדש
-document.getElementById('prayerForm').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const organizerName = document.getElementById('organizerName').value;
-    const prayerType = document.getElementById('prayerType').value;
-    const prayerDate = document.getElementById('prayerDate').value;
-    const prayerTime = document.getElementById('prayerTime').value;
-    const location = document.getElementById('location').value;
-    const contactInfo = document.getElementById('contactInfo').value;
-    const notes = document.getElementById('notes').value;
-    const participants = [organizerName];
-    const createdAt = new Date().toISOString();
+    // יצירת מניין חדש
+    document.getElementById('prayerForm').addEventListener('submit', async function(e) {
+        e.preventDefault();
+        const organizerName = document.getElementById('organizerName').value;
+        const prayerType = document.getElementById('prayerType').value;
+        const prayerTime = document.getElementById('prayerTime').value;
+        const location = document.getElementById('location').value;
+        const notes = document.getElementById('notes').value;
+        const participants = [organizerName];
+        const createdAt = new Date().toISOString();
 
-    await addDoc(collection(db, 'Shtib'), {
-        organizerName, prayerType, prayerDate, prayerTime, location, contactInfo, notes, participants, createdAt
+        await addDoc(collection(db, 'Shtib'), {
+            organizerName, prayerType, prayerTime, location, notes, participants, createdAt
+        });
+        document.getElementById('prayerForm').reset();
+        alert('התפילה נוצרה בהצלחה! אנשים יכולים עכשיו להצטרף.');
     });
-    document.getElementById('prayerForm').reset();
-    alert('התפילה נוצרה בהצלחה! אנשים יכולים עכשיו להצטרף.');
-});
 
 // שליפת מניינים ועדכון בזמן אמת
 function renderMinyanList() {
@@ -52,14 +50,6 @@ function renderMinyanList() {
         snapshot.forEach(docSnap => {
             const minyan = docSnap.data();
             minyan.id = docSnap.id;
-            const prayerDateTime = new Date(`${minyan.prayerDate}T${minyan.prayerTime}:00`);
-            const bufferTime = new Date(prayerDateTime.getTime() + 60 * 60 * 1000); // חיץ של שעה
-
-            // אם הזמן חלף, הוסף למחיקה
-            if (now > bufferTime) {
-                deletePromises.push(doc(db, 'Shtib', minyan.id).delete());
-                return;
-            }
 
             // המשך לרנדר מניינים שעדיין פעילים
             const isComplete = minyan.participants && minyan.participants.length >= 10;
@@ -75,10 +65,6 @@ function renderMinyanList() {
                 </div>
                 <div class="minyan-details">
                     <div class="detail-item">
-                        <div class="detail-label">תאריך</div>
-                        <div class="detail-value">${formatDate(minyan.prayerDate)}</div>
-                    </div>
-                    <div class="detail-item">
                         <div class="detail-label">שעה</div>
                         <div class="detail-value time-display">${minyan.prayerTime}</div>
                     </div>
@@ -89,10 +75,6 @@ function renderMinyanList() {
                     <div class="detail-item">
                         <div class="detail-label">מארגן</div>
                         <div class="detail-value">${minyan.organizerName}</div>
-                    </div>
-                    <div class="detail-item">
-                        <div class="detail-label">יצירת קשר</div>
-                        <div class="detail-value">${minyan.contactInfo}</div>
                     </div>
                 </div>
                 ${minyan.notes ? `<div class="detail-item" style="margin-top: 10px;"><div class="detail-label">הערות</div><div class="detail-value">${minyan.notes}</div></div>` : ''}
@@ -146,23 +128,7 @@ window.joinMinyan = async function(minyanId) {
     }
 }
 
-// עיצוב תאריך
-function formatDate(dateString) {
-    const date = new Date(dateString);
-    const today = new Date();
-    const tomorrow = new Date(today);
-    tomorrow.setDate(tomorrow.getDate() + 1);
-    if (date.toDateString() === today.toDateString()) {
-        return 'היום';
-    } else if (date.toDateString() === tomorrow.toDateString()) {
-        return 'מחר';
-    } else {
-        return date.toLocaleDateString('he-IL');
-    }
-}
 
-// הגדרת תאריך מינימלי להיום
-document.getElementById('prayerDate').min = new Date().toISOString().split('T')[0];
 
 // טעינה ראשונית ועדכון בזמן אמת
 renderMinyanList(); 
