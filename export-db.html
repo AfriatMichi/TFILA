@@ -193,8 +193,7 @@
 
             try {
                 // Get all collections
-                const collectionsSnapshot = await getDocs(collection(db, 'synagogues'));
-                collections = ['synagogues', 'Shtib']; // ידוע לנו שיש שני אוספים
+                collections = ['synagogues', 'Shtib', 'Shiurim', 'prayers']; // כל האוספים ב-DB
                 
                 let totalCollections = collections.length;
                 let completedCollections = 0;
