@@ -32,6 +32,24 @@
       background: #1565c0;
       transform: translateY(-2px);
     }
+    .reminder-box {
+      background: linear-gradient(135deg, #ff6b6b, #ee5a52);
+      color: white;
+      padding: 16px 24px;
+      border-radius: 12px;
+      margin: 8px 16px 24px 16px;
+      box-shadow: 0 4px 12px rgba(238, 90, 82, 0.3);
+      text-align: center;
+      font-size: 1.2rem;
+      font-weight: bold;
+      border: 2px solid #ff5252;
+      animation: pulse 2s infinite;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.02); }
+      100% { transform: scale(1); }
+    }
     .zman-title {
       font-size: 1.5rem;
       font-weight: bold;
@@ -47,20 +65,35 @@
       background: #EDEDED;
       margin-bottom: 32px;
     }
+    .footer {
+      margin-top: auto;
+      padding: 20px;
+      text-align: center;
+    }
+    .footer a {
+      color: #1976d2;
+      text-decoration: none;
+      font-size: 0.9rem;
+    }
+    .footer a:hover {
+      text-decoration: underline;
+    }
   </style>
 </head>
 <body>
   <button class="back-btn" onclick="window.location.href='https://tfila.zivart.xyz/'">⬅ חזרה למסך הראשי</button>
+  
+  <div class="reminder-box">
+    ⏰ לא לשכוח לכוון שעוני שבת לאחר הפסקת החשמל! ⏰
+  </div>
+  
   <div class="zman-title">לוח זמני היום - ניצן</div>
   <iframe class="zman-iframe" src="https://www.yeshiva.org.il/generalpages/yeshivatimes?bgcolor=EDEDED&place=134" width="250" height="320" SCROLLING="no" frameborder="0"></iframe>
+  
   <footer class="footer">
     <a href="https://wa.me/972523503180?text=שלום%20מיכאל,%20יש%20לי%20רעיון%20מצוין%20לאפליקציה" target="_blank">
       מיכאל אפריאט ©
-    </a> <br>
-      <a href='Tshimush.html'>
-      תנאי שימוש 
-      </a>
+    </a>
   </footer>
-  <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script>
 </body>
-</html> 
+</html>
