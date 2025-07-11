@@ -15,23 +15,29 @@ const firebaseConfig = {
 const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
+// המתן שהדף יטען לפני הוספת event listeners
+document.addEventListener('DOMContentLoaded', function() {
     // יצירת מניין חדש
-    document.getElementById('prayerForm').addEventListener('submit', async function(e) {
-        e.preventDefault();
-        const organizerName = document.getElementById('organizerName').value;
-        const prayerType = document.getElementById('prayerType').value;
-        const prayerTime = document.getElementById('prayerTime').value;
-        const location = document.getElementById('location').value;
-        const notes = document.getElementById('notes').value;
-        const participants = [organizerName];
-        const createdAt = new Date().toISOString();
+    const prayerForm = document.getElementById('prayerForm');
+    if (prayerForm) {
+        prayerForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            const organizerName = document.getElementById('organizerName').value;
+            const prayerType = document.getElementById('prayerType').value;
+            const prayerTime = document.getElementById('prayerTime').value;
+            const location = document.getElementById('location').value;
+            const notes = document.getElementById('notes').value;
+            const participants = [organizerName];
+            const createdAt = new Date().toISOString();
 
-        await addDoc(collection(db, 'Shtib'), {
-            organizerName, prayerType, prayerTime, location, notes, participants, createdAt
+            await addDoc(collection(db, 'Shtib'), {
+                organizerName, prayerType, prayerTime, location, notes, participants, createdAt
+            });
+            document.getElementById('prayerForm').reset();
+            alert('התפילה נוצרה בהצלחה! אנשים יכולים עכשיו להצטרף.');
         });
-        document.getElementById('prayerForm').reset();
-        alert('התפילה נוצרה בהצלחה! אנשים יכולים עכשיו להצטרף.');
-    });
+    }
+});
 
 // שליפת מניינים ועדכון בזמן אמת
 function renderMinyanList() {
@@ -140,7 +146,8 @@ window.joinMinyan = async function(minyanId) {
     }
 }
 
-
-
-// טעינה ראשונית ועדכון בזמן אמת
-renderMinyanList(); 
+// המתן שהדף יטען לפני הרצת הפונקציות
+document.addEventListener('DOMContentLoaded', function() {
+    // טעינה ראשונית ועדכון בזמן אמת
+    renderMinyanList();
+}); 
