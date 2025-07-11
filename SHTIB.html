@@ -258,7 +258,7 @@
 </head>
 <body>
     <div class="container">
-        <h1>🕯️ מוצא חברים למנין 🕯️</h1>
+        <h1> מוצא חברים למנין </h1>
         
         <div class="prayer-form">
             <h2 style="margin-bottom: 20px; color: #2c3e50;">צור תפילה חדשה</h2>
@@ -353,67 +353,87 @@
     });
 
     // שליפת מניינים ועדכון בזמן אמת
-    function renderMinyanList() {
-        const container = document.getElementById('minyanList');
-        container.innerHTML = '<div class="empty-state">טוען...</div>';
-        const q = query(collection(db, 'Shtib'), orderBy('createdAt', 'desc'));
-        onSnapshot(q, (snapshot) => {
-            if (snapshot.empty) {
-                container.innerHTML = '<div class="empty-state">אין תפילות פעילות כרגע.<br>צור תפילה חדשה כדי להתחיל!</div>';
+function renderMinyanList() {
+    const container = document.getElementById('minyanList');
+    container.innerHTML = '<div class="empty-state">טוען...</div>';
+    const q = query(collection(db, 'Shtib'), orderBy('createdAt', 'desc'));
+    onSnapshot(q, async (snapshot) => {
+        if (snapshot.empty) {
+            container.innerHTML = '<div class="empty-state">אין תפילות פעילות כרגע.<br>צור תפילה חדשה כדי להתחיל!</div>';
+            return;
+        }
+        container.innerHTML = '';
+        const now = new Date();
+        const deletePromises = [];
+
+        snapshot.forEach(docSnap => {
+            const minyan = docSnap.data();
+            minyan.id = docSnap.id;
+            const prayerDateTime = new Date(`${minyan.prayerDate}T${minyan.prayerTime}:00`);
+            const bufferTime = new Date(prayerDateTime.getTime() + 60 * 60 * 1000); // חיץ של שעה
+
+            // אם הזמן חלף, הוסף למחיקה
+            if (now > bufferTime) {
+                deletePromises.push(doc(db, 'Shtib', minyan.id).delete());
                 return;
             }
-            container.innerHTML = '';
-            snapshot.forEach(docSnap => {
-                const minyan = docSnap.data();
-                minyan.id = docSnap.id;
-                const isComplete = minyan.participants && minyan.participants.length >= 10;
-                const participantsCount = minyan.participants ? minyan.participants.length : 0;
-                const minyanElement = document.createElement('div');
-                minyanElement.className = 'minyan-item';
-                minyanElement.innerHTML = `
-                    <div class="minyan-header">
-                        <div class="minyan-title">${minyan.prayerType}</div>
-                        <div class="participants-count ${isComplete ? 'complete' : ''}">
-                            ${participantsCount}/10
-                        </div>
-                    </div>
-                    <div class="minyan-details">
-                        <div class="detail-item">
-                            <div class="detail-label">תאריך</div>
-                            <div class="detail-value">${formatDate(minyan.prayerDate)}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">שעה</div>
-                            <div class="detail-value time-display">${minyan.prayerTime}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">מיקום</div>
-                            <div class="detail-value">${minyan.location}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">מארגן</div>
-                            <div class="detail-value">${minyan.organizerName}</div>
-                        </div>
-                        <div class="detail-item">
-                            <div class="detail-label">יצירת קשר</div>
-                            <div class="detail-value">${minyan.contactInfo}</div>
-                        </div>
-                    </div>
-                    ${minyan.notes ? `<div class="detail-item" style="margin-top: 10px;"><div class="detail-label">הערות</div><div class="detail-value">${minyan.notes}</div></div>` : ''}
-                    <div class="participants-list">
-                        <strong>משתתפים:</strong><br>
-                        ${(minyan.participants || []).map(name => `<span class="participant-item">${name}</span>`).join('')}
-                    </div>
-                    ${isComplete ? 
-                        '<div class="complete-notice">🎉 המנין הושלם! התפילה יכולה להתקיים 🎉</div>' : 
-                        `<button class="join-btn" onclick="window.joinMinyan('${minyan.id}')">הצטרף לתפילה</button>`
-                    }
-                `;
-                container.appendChild(minyanElement);
-            });
-        });
-    }
 
+            // המשך לרנדר מניינים שעדיין פעילים
+            const isComplete = minyan.participants && minyan.participants.length >= 10;
+            const participantsCount = minyan.participants ? minyan.participants.length : 0;
+            const minyanElement = document.createElement('div');
+            minyanElement.className = 'minyan-item';
+            minyanElement.innerHTML = `
+                <div class="minyan-header">
+                    <div class="minyan-title">${minyan.prayerType}</div>
+                    <div class="participants-count ${isComplete ? 'complete' : ''}">
+                        ${participantsCount}/10
+                    </div>
+                </div>
+                <div class="minyan-details">
+                    <div class="detail-item">
+                        <div class="detail-label">תאריך</div>
+                        <div class="detail-value">${formatDate(minyan.prayerDate)}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">שעה</div>
+                        <div class="detail-value time-display">${minyan.prayerTime}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">מיקום</div>
+                        <div class="detail-value">${minyan.location}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">מארגן</div>
+                        <div class="detail-value">${minyan.organizerName}</div>
+                    </div>
+                    <div class="detail-item">
+                        <div class="detail-label">יצירת קשר</div>
+                        <div class="detail-value">${minyan.contactInfo}</div>
+                    </div>
+                </div>
+                ${minyan.notes ? `<div class="detail-item" style="margin-top: 10px;"><div class="detail-label">הערות</div><div class="detail-value">${minyan.notes}</div></div>` : ''}
+                <div class="participants-list">
+                    <strong>משתתפים:</strong><br>
+                    ${(minyan.participants || []).map(name => `<span class="participant-item">${name}</span>`).join('')}
+                </div>
+                ${isComplete ? 
+                    '<div class="complete-notice">🎉 המניין הושלם! התפילה יכולה להתקיים 🎉</div>' : 
+                    `<button class="join-btn" onclick="window.joinMinyan('${minyan.id}')">הצטרף לתפילה</button>`
+                }
+            `;
+            container.appendChild(minyanElement);
+        });
+
+        // בצע מחיקות של מניינים שפג תוקפם
+        await Promise.all(deletePromises).catch(error => {
+            console.error('שגיאה במחיקת מניינים שפג תוקפם:', error);
+        });
+    }, (error) => {
+        console.error('שגיאה בקריאת מניינים:', error);
+        container.innerHTML = '<div class="empty-state">שגיאה בטעינת התפילות: ' + error.message + '</div>';
+    });
+}
     // הצטרפות למניין
     window.joinMinyan = async function(minyanId) {
         const name = prompt('הזן את שמך כדי להצטרף לתפילה:');
