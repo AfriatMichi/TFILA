@@ -4,6 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <title>מינימרקט ניצן</title>
+    <!-- הוספת סקריפט Sienna לנגישות -->
+    <script src="https://website-widgets.pages.dev/dist/sienna.min.js" defer></script>
     <style>
         html, body {
             margin: 0;
@@ -80,30 +82,6 @@
             text-decoration: underline;
             outline: 2px solid white;
         }
-        /* סגנונות לכלי נגישות */
-        .accessibility-controls {
-            position: fixed;
-            top: 20px;
-            left: 20px;
-            background-color: #28a745;
-            padding: 10px;
-            border-radius: 5px;
-            z-index: 1000;
-        }
-        .accessibility-controls button {
-            background-color: white;
-            color: #28a745;
-            border: none;
-            padding: 8px;
-            margin: 5px;
-            cursor: pointer;
-            font-size: 1em;
-            border-radius: 4px;
-        }
-        .accessibility-controls button:hover, .accessibility-controls button:focus {
-            background-color: #e0e0e0;
-            outline: 2px solid #333;
-        }
         @media (max-width: 600px) {
             header h1 {
                 font-size: 1.5em;
@@ -124,30 +102,10 @@
             footer a {
                 font-size: 0.9em;
             }
-            .accessibility-controls {
-                top: 10px;
-                left: 10px;
-                padding: 5px;
-            }
-            .accessibility-controls button {
-                font-size: 0.9em;
-                padding: 6px;
-            }
         }
-        /* הגדרות נגישות לגודל טקסט */
-        .text-small { font-size: 80%; }
-        .text-normal { font-size: 100%; }
-        .text-large { font-size: 120%; }
     </style>
 </head>
 <body>
-    <!-- כלי נגישות -->
-    <div class="accessibility-controls" role="region" aria-label="כלי נגישות">
-        <button onclick="changeTextSize('small')" aria-label="הקטנת גודל טקסט">הקטן טקסט</button>
-        <button onclick="changeTextSize('normal')" aria-label="גודל טקסט רגיל">גודל רגיל</button>
-        <button onclick="changeTextSize('large')" aria-label="הגדלת גודל טקסט">הגדל טקסט</button>
-    </div>
-
     <header role="banner">
         <h1>מינימרקט ניצן</h1>
     </header>
@@ -175,19 +133,5 @@
     <footer role="contentinfo">
         <a href="https://tfila.zivart.xyz/" aria-label="חזרה לדף הבית של האתר">חזרה לדף הבית</a>
     </footer>
-
-    <script>
-        function changeTextSize(size) {
-            const container = document.querySelector('.container');
-            container.classList.remove('text-small', 'text-normal', 'text-large');
-            if (size === 'small') {
-                container.classList.add('text-small');
-            } else if (size === 'normal') {
-                container.classList.add('text-normal');
-            } else if (size === 'large') {
-                container.classList.add('text-large');
-            }
-        }
-    </script>
 </body>
 </html>
