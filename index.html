@@ -28,15 +28,15 @@
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
 </head>
 <body>
-  <h1 style="text-align:center; color:#fff; font-size:2.2rem; font-weight:bold; margin-top:32px; margin-bottom:18px; letter-spacing:1px; text-shadow:0 2px 12px #0007;">פורטל ניצן</h1>
-  <div class="relative w-full max-w-sm mx-auto bg-black rounded-[3rem] p-2 shadow-2xl mt-4">
-    <div class="relative h-[700px] bg-black rounded-[2.5rem] overflow-hidden">
+  <h1 style="text-align:center; color:#333; font-size:2.2rem; font-weight:bold; margin-top:32px; margin-bottom:18px; letter-spacing:1px; text-shadow:0 2px 12px rgba(0,0,0,0.1);">פורטל ניצן</h1>
+  <div class="relative w-full max-w-sm mx-auto bg-white rounded-[3rem] p-2 shadow-2xl mt-4 border border-gray-200">
+    <div class="relative h-[700px] bg-white rounded-[2.5rem] overflow-hidden">
       <!-- Wallpaper Background -->
-      <div class="absolute inset-0 bg-gradient-to-br from-blue-900 via-purple-900 to-pink-900">
-        <div class="absolute inset-0 opacity-20">
-          <div class="absolute top-20 left-10 w-32 h-32 bg-blue-500 rounded-full blur-xl animate-pulse"></div>
-          <div class="absolute top-40 right-8 w-24 h-24 bg-purple-500 rounded-full blur-xl animate-pulse" style="animation-delay:1s"></div>
-          <div class="absolute bottom-32 left-16 w-28 h-28 bg-pink-500 rounded-full blur-xl animate-pulse" style="animation-delay:2s"></div>
+      <div class="absolute inset-0 bg-gradient-to-br from-blue-50 via-purple-50 to-pink-50">
+        <div class="absolute inset-0 opacity-30">
+          <div class="absolute top-20 left-10 w-32 h-32 bg-blue-200 rounded-full blur-xl animate-pulse"></div>
+          <div class="absolute top-40 right-8 w-24 h-24 bg-purple-200 rounded-full blur-xl animate-pulse" style="animation-delay:1s"></div>
+          <div class="absolute bottom-32 left-16 w-28 h-28 bg-pink-200 rounded-full blur-xl animate-pulse" style="animation-delay:2s"></div>
         </div>
       </div>
       <!-- Main Content Area -->
@@ -46,7 +46,7 @@
         <div id="apps-grid" class="grid grid-cols-2 gap-6 mb-8"></div>
       </div>
       <!-- Home Indicator -->
-      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-36 h-1 bg-white rounded-full opacity-60"></div>
+      <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-36 h-1 bg-gray-400 rounded-full opacity-60"></div>
     </div>
   </div>
   <script>
@@ -251,7 +251,7 @@
           <div class="w-20 h-20 rounded-2xl bg-gradient-to-br ${app.gradient} flex items-center justify-center shadow-lg group-hover:shadow-xl transition-shadow duration-300">
             ${app.icon}
           </div>
-          <div class="text-white text-sm text-center mt-2 font-medium">${app.name}</div>
+          <div class="text-gray-700 text-sm text-center mt-2 font-medium">${app.name}</div>
           <div class="tooltip absolute -top-12 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity duration-300" style="pointer-events:none;">
             <div class="bg-black bg-opacity-80 text-white text-xs px-3 py-1 rounded-lg whitespace-nowrap">${app.description}</div>
           </div>
@@ -323,23 +323,25 @@
       <iframe src="https://www.yeshiva.org.il/generalpages/yeshivatimes?bgcolor=EDEDED&place=134" width="250" height="320" SCROLLING="no" frameborder="0" style="border-radius:1rem; border:none;"></iframe>
     </div>
   </div>
-  <!-- Modal close logic (ensure runs after modal exists) -->
-  (function() {
-    const modal = document.getElementById('settings-modal');
-    const closeBtn = document.getElementById('close-settings-modal');
-    if (closeBtn) {
-      closeBtn.addEventListener('click', function() {
-        modal.style.display = 'none';
-      });
-    }
-    // Optional: close modal when clicking outside the content
-    if (modal) {
-      modal.addEventListener('click', function(e) {
-        if (e.target === modal) {
+  <script>
+    // Modal close logic
+    document.addEventListener('DOMContentLoaded', function() {
+      const modal = document.getElementById('settings-modal');
+      const closeBtn = document.getElementById('close-settings-modal');
+      if (closeBtn) {
+        closeBtn.addEventListener('click', function() {
           modal.style.display = 'none';
-        }
-      });
-    }
-  })();
+        });
+      }
+      // Optional: close modal when clicking outside the content
+      if (modal) {
+        modal.addEventListener('click', function(e) {
+          if (e.target === modal) {
+            modal.style.display = 'none';
+          }
+        });
+      }
+    });
+  </script>
 </body>
 </html>
