@@ -51,6 +51,18 @@ function renderMinyanList() {
             const minyan = docSnap.data();
             minyan.id = docSnap.id;
 
+            // בדיקה אם המניין עבר זמנו (שעה אחרי זמן התפילה)
+            const now = new Date();
+            const today = now.toISOString().split('T')[0]; // תאריך היום
+            const prayerDateTime = new Date(`${today}T${minyan.prayerTime}:00`);
+            const bufferTime = new Date(prayerDateTime.getTime() + 60 * 60 * 1000); // חיץ של שעה
+
+            // אם הזמן חלף, הוסף למחיקה
+            if (now > bufferTime) {
+                deletePromises.push(doc(db, 'Shtib', minyan.id).delete());
+                return;
+            }
+
             // המשך לרנדר מניינים שעדיין פעילים
             const isComplete = minyan.participants && minyan.participants.length >= 10;
             const participantsCount = minyan.participants ? minyan.participants.length : 0;
