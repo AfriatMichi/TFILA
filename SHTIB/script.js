@@ -59,12 +59,19 @@ function renderMinyanList() {
 
             // בדיקה אם המניין עבר זמנו (שעה אחרי זמן התפילה)
             const now = new Date();
-            const today = now.toISOString().split('T')[0]; // תאריך היום
-            const prayerDateTime = new Date(`${today}T${minyan.prayerTime}:00`);
+            const prayerTime = minyan.prayerTime;
+            
+            // חישוב זמן התפילה להיום
+            const today = now.toISOString().split('T')[0];
+            const prayerDateTime = new Date(`${today}T${prayerTime}:00`);
             const bufferTime = new Date(prayerDateTime.getTime() + 60 * 60 * 1000); // חיץ של שעה
-
-            // אם הזמן חלף, הוסף למחיקה
-            if (now > bufferTime) {
+            
+            // בדיקה אם המניין נוצר היום ועבר זמנו
+            const createdAt = new Date(minyan.createdAt);
+            const isToday = createdAt.toISOString().split('T')[0] === today;
+            
+            // אם המניין נוצר היום ועבר זמנו, מחק אותו
+            if (isToday && now > bufferTime) {
                 deletePromises.push(doc(db, 'Shtib', minyan.id).delete());
                 return;
             }
