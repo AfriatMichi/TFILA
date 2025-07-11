@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="he" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ייצוא נתוני DB</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            margin: 0;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: 20px;
+            padding: 30px;
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #2c3e50;
+            margin-bottom: 30px;
+            font-size: 2.5em;
+        }
+
+        .export-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 25px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.3);
+            display: block;
+            margin: 0 auto 20px;
+        }
+
+        .export-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 25px rgba(102, 126, 234, 0.4);
+        }
+
+        .export-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .status {
+            margin: 20px 0;
+            padding: 15px;
+            border-radius: 10px;
+            font-weight: bold;
+            text-align: center;
+        }
+
+        .status.success {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+        }
+
+        .status.error {
+            background: linear-gradient(135deg, #f56565 0%, #e53e3e 100%);
+            color: white;
+        }
+
+        .status.loading {
+            background: linear-gradient(135deg, #ed8936 0%, #dd6b20 100%);
+            color: white;
+        }
+
+        .progress {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 10px;
+            padding: 15px;
+            margin: 20px 0;
+        }
+
+        .progress-bar {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            height: 20px;
+            border-radius: 10px;
+            transition: width 0.3s ease;
+            width: 0%;
+        }
+
+        .collections-list {
+            background: rgba(240, 248, 255, 0.7);
+            border-radius: 15px;
+            padding: 20px;
+            margin-top: 20px;
+        }
+
+        .collection-item {
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 15px;
+            margin: 5px 0;
+            border-radius: 8px;
+            border-right: 3px solid #667eea;
+        }
+
+        .download-btn {
+            background: linear-gradient(135deg, #48bb78 0%, #38a169 100%);
+            color: white;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 20px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: block;
+            margin: 20px auto 0;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(72, 187, 120, 0.3);
+        }
+
+        .download-btn:disabled {
+            background: #a0aec0;
+            cursor: not-allowed;
+            transform: none;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ייצוא נתוני DB</h1>
+        
+        <button id="exportBtn" class="export-btn" onclick="exportDatabase()">ייצא את כל הנתונים</button>
+        
+        <div id="status"></div>
+        <div id="progress" class="progress" style="display: none;">
+            <div class="progress-bar" id="progressBar"></div>
+        </div>
+        
+        <div id="collectionsList" class="collections-list" style="display: none;">
+            <h3>אוספים שנמצאו:</h3>
+            <div id="collectionsItems"></div>
+        </div>
+        
+        <button id="downloadBtn" class="download-btn" onclick="downloadJSON()" style="display: none;">הורד קובץ JSON</button>
+    </div>
+
+    <script type="module">
+        import { initializeApp, getApps } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-app.js";
+        import { getFirestore, collection, getDocs } from "https://www.gstatic.com/firebasejs/11.9.1/firebase-firestore.js";
+
+        // Firebase configuration
+        const firebaseConfig = {
+            apiKey: "AIzaSyA_4RAbPHGRut7kLK5TorqBkGbUIg1qfiI",
+            authDomain: "tfila-772ad.firebaseapp.com",
+            projectId: "tfila-772ad",
+            storageBucket: "tfila-772ad.firebasestorage.app",
+            messagingSenderId: "1041334561919",
+            appId: "1:1041334561919:web:c5222a28a5de705439a34a"
+        };
+
+        // Initialize Firebase
+        const app = getApps().length ? getApps()[0] : initializeApp(firebaseConfig);
+        const db = getFirestore(app);
+
+        let allData = {};
+        let collections = [];
+
+        window.exportDatabase = async function() {
+            const btn = document.getElementById('exportBtn');
+            const status = document.getElementById('status');
+            const progress = document.getElementById('progress');
+            const progressBar = document.getElementById('progressBar');
+            const collectionsList = document.getElementById('collectionsList');
+            const collectionsItems = document.getElementById('collectionsItems');
+            const downloadBtn = document.getElementById('downloadBtn');
+
+            btn.disabled = true;
+            status.innerHTML = 'מתחיל ייצוא נתונים...';
+            status.className = 'status loading';
+            progress.style.display = 'block';
+            collectionsList.style.display = 'none';
+            downloadBtn.style.display = 'none';
+
+            try {
+                // Get all collections
+                const collectionsSnapshot = await getDocs(collection(db, 'synagogues'));
+                collections = ['synagogues', 'Shtib']; // ידוע לנו שיש שני אוספים
+                
+                let totalCollections = collections.length;
+                let completedCollections = 0;
+
+                for (const collectionName of collections) {
+                    status.innerHTML = `מייצא אוסף: ${collectionName}...`;
+                    progressBar.style.width = `${(completedCollections / totalCollections) * 100}%`;
+
+                    const querySnapshot = await getDocs(collection(db, collectionName));
+                    const collectionData = [];
+                    
+                    querySnapshot.forEach((doc) => {
+                        collectionData.push({
+                            id: doc.id,
+                            ...doc.data()
+                        });
+                    });
+
+                    allData[collectionName] = collectionData;
+                    completedCollections++;
+                }
+
+                progressBar.style.width = '100%';
+                status.innerHTML = '✅ הייצוא הושלם בהצלחה!';
+                status.className = 'status success';
+
+                // הצג את האוספים שנמצאו
+                collectionsItems.innerHTML = collections.map(col => 
+                    `<div class="collection-item">📁 ${col}: ${allData[col].length} מסמכים</div>`
+                ).join('');
+                collectionsList.style.display = 'block';
+                downloadBtn.style.display = 'block';
+
+            } catch (error) {
+                status.innerHTML = `❌ שגיאה בייצוא: ${error.message}`;
+                status.className = 'status error';
+                console.error('Export error:', error);
+            } finally {
+                btn.disabled = false;
+            }
+        };
+
+        window.downloadJSON = function() {
+            const dataStr = JSON.stringify(allData, null, 2);
+            const dataBlob = new Blob([dataStr], {type: 'application/json'});
+            const url = URL.createObjectURL(dataBlob);
+            const link = document.createElement('a');
+            link.href = url;
+            link.download = `firebase-backup-${new Date().toISOString().split('T')[0]}.json`;
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            URL.revokeObjectURL(url);
+        };
+    </script>
+</body>
+</html> 
